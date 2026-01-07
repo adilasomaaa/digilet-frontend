@@ -9,6 +9,8 @@ import StudyProgramPage from './pages/dashboard/study-program/StudyProgramPage'
 import OfficialPage from './pages/dashboard/official/OfficialPage'
 import PersonnelPage from './pages/dashboard/personnel/PersonnelPage'
 import StudentPage from './pages/dashboard/student/StudentPage'
+import LetterPage from './pages/dashboard/letter/LetterPage'
+import HeaderPage from './pages/dashboard/header/HeaderPage'
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/dashboard/official" element={<OfficialPage />} />
           <Route path="/dashboard/personnel" element={<PersonnelPage />} />
           <Route path="/dashboard/student" element={<StudentPage />} />
+          <Route path="/dashboard/letter" element={<LetterPage />} />
+          <Route path="/dashboard/header" element={<HeaderPage />} />
         </Route>
     </Routes>
   )

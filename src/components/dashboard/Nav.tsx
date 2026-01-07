@@ -28,8 +28,20 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Data Master",
     icon: <LayoutDashboard className="h-4 w-4" />,
     children: [
-      { key: "study_program", label: "Program Studi", to: "/dashboard/study-program", icon: <ClipboardList className="h-4 w-4" /> },
+    { key: "study_program", label: "Program Studi", to: "/dashboard/study-program", icon: <ClipboardList className="h-4 w-4" /> },
       { key: "official", label: "Pimpinan", to: "/dashboard/official", icon: <Store className="h-4 w-4" /> },
+      { key: "personnel", label: "Personil", to: "/dashboard/personnel", icon: <Users className="h-4 w-4" /> },
+      { key: "student", label: "Mahasiswa", to: "/dashboard/student", icon: <TagIcon className="h-4 w-4" /> },
+    ],
+    roles: ["admin"],
+  },
+  {
+    key: "letter",
+    label: "Kelola Surat",
+    icon: <LayoutDashboard className="h-4 w-4" />,
+    children: [
+      { key: "letter", label: "Jenis Surat", to: "/dashboard/letter", icon: <ClipboardList className="h-4 w-4" /> },
+      { key: "header", label: "Kop Surat", to: "/dashboard/header", icon: <Store className="h-4 w-4" /> },
       { key: "personnel", label: "Personil", to: "/dashboard/personnel", icon: <Users className="h-4 w-4" /> },
       { key: "student", label: "Mahasiswa", to: "/dashboard/student", icon: <TagIcon className="h-4 w-4" /> },
     ],
@@ -41,7 +53,6 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Toko",
     icon: <LayoutDashboard className="h-4 w-4" />,
     children: [
-      // { key: "toko", label: "Toko", to: "/dashboard/manage-my-shop", icon: <Users className="h-4 w-4" /> },
       { key: "cabang_toko", label: "Cabang Toko", to: "/dashboard/manage-branch", icon: <Split className="h-4 w-4" /> },
       { key: "produk", label: "Produk", to: "/dashboard/manage-product", icon: <FolderOpen className="h-4 w-4" /> },
       { key: "faq", label: "FAQ", to: "/dashboard/manage-faq", icon: <CircleQuestionMark className="h-4 w-4" /> },

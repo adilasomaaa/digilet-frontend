@@ -22,7 +22,7 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, title, message, isLoading }: 
               {title}
             </ModalHeader>
             <ModalBody>
-              <p>{message}</p>
+              <div dangerouslySetInnerHTML={{ __html: message }} />
             </ModalBody>
             <ModalFooter>
               <Button color="default" variant="flat" onPress={onClose}>

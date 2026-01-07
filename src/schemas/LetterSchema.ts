@@ -1,0 +1,12 @@
+import { z } from "zod";
+
+export const letterSchema = z.object({
+  letterName: z.string(),
+  referenceNumber: z.string(),
+  expiredDate: z.any(),
+  letterNumberingStart: z.any(),
+  category: z.string(),
+  signatureType: z.string(),
+});
+
+export type LetterSchema = z.infer<typeof letterSchema>;

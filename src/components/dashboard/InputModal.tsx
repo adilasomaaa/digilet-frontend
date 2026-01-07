@@ -114,7 +114,7 @@ const InputModal = ({ isOpen,
                           key={fieldKey}
                           label={field.label}
                           placeholder={field.placeholder}
-                          
+                          variant='bordered'
                           {...autocompletePropsFinal}
                       >
                          {(item: any) => { 
@@ -135,6 +135,7 @@ const InputModal = ({ isOpen,
                         isRequired={field.isRequired}
                         key={field.key}
                         label={field.label}
+                        variant='bordered'
                         placeholder={field.placeholder}
                         selectedKeys={watch(field.key) ? [String(watch(field.key))] : []}
                         onSelectionChange={(keys) => {
@@ -159,6 +160,7 @@ const InputModal = ({ isOpen,
                         label={field.label}
                         placeholder={field.placeholder}
                         selectionMode="multiple"
+                        variant='bordered'
                         selectedKeys={(watch(field.key) || []).map(String)}
                         onSelectionChange={(keys: Set<string>) => {
                           const numericValues = Array.from(keys).map(key => Number(key));
@@ -182,6 +184,7 @@ const InputModal = ({ isOpen,
                           showMonthAndYearPickers
                           isRequired={field.isRequired}
                           label={field.label} 
+                          variant='bordered'
                           value={watch(field.key)} 
                           onChange={(date) => {
                             setValue(field.key, date, { shouldValidate: true });
@@ -196,6 +199,7 @@ const InputModal = ({ isOpen,
                         <Textarea 
                           isRequired={field.isRequired}
                           label={field.label} 
+                          variant='bordered'
                           placeholder={field.placeholder}
                           {...register(field.key)}
                           isInvalid={!!errors[field.key]}
@@ -205,13 +209,16 @@ const InputModal = ({ isOpen,
                   case 'number':
                     return (
                       <div key={field.key}>
-                        <NumberInput 
+                        <Input 
+                          type="number"
+                          variant='bordered'
                           isRequired={field.isRequired}
                           label={field.label} 
                           placeholder={field.placeholder}
-                          {...register(field.key)}
+                          {...register(field.key, { valueAsNumber: true })}
                           isInvalid={!!errors[field.key]}
-                          errorMessage={errors[field.key]?.message as string} />
+                          errorMessage={errors[field.key]?.message as string} 
+                        />
                       </div>
                     );
                   default:
@@ -221,6 +228,7 @@ const InputModal = ({ isOpen,
                           isRequired={field.isRequired}
                           type={field.type}
                           label={field.label}
+                          variant='bordered'
                           placeholder={field.placeholder}
                           {...register(field.key)}
                           isInvalid={!!errors[field.key]}
