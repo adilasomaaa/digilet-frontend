@@ -7,6 +7,7 @@ import type { SortDescriptor } from "@heroui/react";
 import type { Official } from "@/models";
 
 export const useOfficial = () => {
+  const [allItems, setAllItems] = useState<any[]>([]);
   const [items, setItems] = useState<Official[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,10 +52,31 @@ export const useOfficial = () => {
     }
   }, [paginationInfo.page, paginationInfo.limit, filterValue]);
 
+  const fetchAllItems = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await officialService.index({
+        page: 1,
+        limit: 100,
+      });
+      const options = response.data.map((official) => ({
+        label: official.name,
+        value: official.id,
+      }));
+      setAllItems(options);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(fetchItems, 500);
     return () => clearTimeout(timer);
   }, [fetchItems]);
+
+  useEffect(() => {
+    fetchAllItems();
+  }, [fetchAllItems]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);
@@ -112,5 +134,7 @@ export const useOfficial = () => {
     onSubmit,
     fetchItems,
     handleConfirmDelete,
+    fetchAllItems,
+    allItems,
   };
 };

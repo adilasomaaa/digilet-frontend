@@ -1,6 +1,6 @@
 interface SelectOption {
   label: string;
-  value: string | number;
+  value: string | number | boolean;
 }
 
 interface BaseField {

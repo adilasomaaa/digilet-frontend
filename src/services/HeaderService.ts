@@ -8,7 +8,7 @@ import type {
 
 export const headerService = {
   async index(params?: any) {
-    return await http<HeaderPaginatedResponse>("header", {
+    return await http<HeaderPaginatedResponse>("letterhead", {
       method: "GET",
       query: params,
       auth: true,
@@ -43,7 +43,7 @@ export const headerService = {
         formData.append(key, String(value));
       }
     }
-    return await http<{ data: Header }>("header", {
+    return await http<{ data: Header }>("letterhead", {
       method: "POST",
       auth: true,
       body: formData,
@@ -51,7 +51,7 @@ export const headerService = {
   },
 
   async show(id: number) {
-    return await http<{ data: Header }>(`header/${id}`, {
+    return await http<{ data: Header }>(`letterhead/${id}`, {
       method: "GET",
       auth: true,
     });
@@ -85,7 +85,7 @@ export const headerService = {
         formData.append(key, String(value));
       }
     }
-    return await http<{ data: Header }>(`header/${id}`, {
+    return await http<{ data: Header }>(`letterhead/${id}`, {
       method: "PATCH",
       auth: true,
       body: formData,
@@ -93,7 +93,7 @@ export const headerService = {
   },
 
   async delete(id: number) {
-    return await http<{ data: Header }>(`header/${id}`, {
+    return await http<{ data: Header }>(`letterhead/${id}`, {
       method: "DELETE",
       auth: true,
     });

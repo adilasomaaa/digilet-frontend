@@ -7,6 +7,7 @@ import type { SortDescriptor } from "@heroui/react";
 import type { Header } from "@/models";
 
 export const useHeader = () => {
+  const [allItems, setAllItems] = useState<any[]>([]);
   const [items, setItems] = useState<Header[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,7 +26,10 @@ export const useHeader = () => {
     direction: "ascending",
   });
   const [paginationInfo, setPaginationInfo] = useState({
-    page: 1, limit: 10, totalData: 0, totalPages: 1,
+    page: 1,
+    limit: 10,
+    totalData: 0,
+    totalPages: 1,
   });
 
   const form = useForm({
@@ -47,6 +51,27 @@ export const useHeader = () => {
       setIsLoading(false);
     }
   }, [paginationInfo.page, paginationInfo.limit, filterValue]);
+
+  const fetchAllItems = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await headerService.index({
+        page: 1,
+        limit: 100,
+      });
+      const options = response.data.map((header) => ({
+        label: header.name,
+        value: header.id,
+      }));
+      setAllItems(options);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAllItems();
+  }, [fetchAllItems]);
 
   useEffect(() => {
     const timer = setTimeout(fetchItems, 500);
@@ -82,12 +107,34 @@ export const useHeader = () => {
   };
 
   return {
-    items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
-    sortDescriptor, setSortDescriptor,
-    isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
-    isDeleteModalOpen, setIsDeleteModalOpen,
-    editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
-    form, onSubmit, fetchItems, handleConfirmDelete,
+    items,
+    isLoading,
+    isSubmitting,
+    paginationInfo,
+    setPaginationInfo,
+    filterValue,
+    setFilterValue,
+    filterState,
+    setFilterState,
+    sortDescriptor,
+    setSortDescriptor,
+    isModalOpen,
+    setIsModalOpen,
+    isViewModalOpen,
+    setIsViewModalOpen,
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    editingItem,
+    setEditingItem,
+    viewingItem,
+    setViewingItem,
+    deletingItem,
+    setDeletingItem,
+    form,
+    onSubmit,
+    fetchItems,
+    handleConfirmDelete,
+    fetchAllItems,
+    allItems,
   };
 };

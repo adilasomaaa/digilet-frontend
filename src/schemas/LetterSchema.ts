@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const letterSchema = z.object({
   letterName: z.string(),
+  letterHeadId: z.any(),
   referenceNumber: z.string(),
   expiredDate: z.any(),
   letterNumberingStart: z.any(),

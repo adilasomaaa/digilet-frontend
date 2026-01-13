@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 export const letterSignatureTemplateSchema = z.object({
-  name: z.string(),
+  officialId: z.any(),
+  position: z.string(),
 });
 
-export type LetterSignatureTemplateSchema = z.infer<typeof letterSignatureTemplateSchema>;
+export type LetterSignatureTemplateSchema = z.infer<
+  typeof letterSignatureTemplateSchema
+>;

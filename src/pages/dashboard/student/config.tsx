@@ -3,7 +3,7 @@ import type { DisplayFieldConfig, FormFieldConfig } from "@/types";
 
 export const studentColumns: Column<any>[] = [
   { name: "Nama", uid: "fullname", sortable: true, defaultVisible: true },
-  { name: "Program Studi", uid: "studyProgram.name", sortable: true, defaultVisible: true },
+  { name: "Program Studi", uid: "institution.name", sortable: true, defaultVisible: true },
   { name: "NIM", uid: "nim", sortable: true, defaultVisible: true },
   { name: "Angkatan", uid: "classYear", sortable: true, defaultVisible: true },
   { name: "L/P", uid: "gender", sortable: true, defaultVisible: false},
@@ -12,7 +12,7 @@ export const studentColumns: Column<any>[] = [
 
 export const studentFormFields: FormFieldConfig[] = [
   { key: "fullname", label: "Nama", type: "text", placeholder: "Masukkan nama...", isRequired: true },
-  { key: "studyProgramId", label: "Program Studi", type: "select", placeholder: "Pilih program studi...", options: [], isRequired: true },
+  { key: "institutionId", label: "Program Studi", type: "select", placeholder: "Pilih program studi...", options: [], isRequired: true },
   {
     key: "email",
     label: "Email",
@@ -68,7 +68,7 @@ export const studentFormFields: FormFieldConfig[] = [
     type: "select",
     placeholder: "Pilih jenis kelamin...",
     options: [
-      { label: "Laki-laki", value: "Laki-Laki" },
+      { label: "Laki-laki", value: "Laki-laki" },
       { label: "Perempuan", value: "Perempuan" },
     ],
     isRequired: true,
@@ -77,7 +77,7 @@ export const studentFormFields: FormFieldConfig[] = [
 
 export const studentDisplayFields: DisplayFieldConfig<any>[] = [
   { key: "fullname", label: "Nama" },
-  { key: "studyProgram.name", label: "Program Studi" },
+  { key: "institution.name", label: "Program Studi" },
   { key: "nim", label: "NIM" },
   { key: "classYear", label: "Angkatan" },
   { key: "user.email", label: "Email" },

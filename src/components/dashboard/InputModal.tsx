@@ -161,10 +161,16 @@ const InputModal = ({ isOpen,
                         placeholder={field.placeholder}
                         selectionMode="multiple"
                         variant='bordered'
-                        selectedKeys={(watch(field.key) || []).map(String)}
-                        onSelectionChange={(keys: Set<string>) => {
-                          const numericValues = Array.from(keys).map(key => Number(key));
-                          setValue(field.key, numericValues, { shouldValidate: true });
+                        selectedKeys={watch(field.key) !== undefined ? [String(watch(field.key))] : []}
+                        onSelectionChange={(keys) => {
+                          const rawValue = Array.from(keys)[0] as string;
+                          
+                          let finalValue: any = rawValue;
+                          if (rawValue === "true") finalValue = true;
+                          else if (rawValue === "false") finalValue = false;
+                          else if (!isNaN(Number(rawValue)) && rawValue.trim() !== "") finalValue = Number(rawValue);
+                          
+                          setValue(field.key, finalValue, { shouldValidate: true });
                         }}
                         isInvalid={!!errors[field.key]}
                         errorMessage={errors[field.key]?.message as string}

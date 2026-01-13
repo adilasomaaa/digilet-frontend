@@ -1,11 +1,11 @@
 import type { UserResponse } from "./auth";
-import type { StudyProgram } from "./study_program";
+import type { Institution } from "./institution";
 
 export type Student = {
   id: number;
   fullname: string;
-  studyProgramId: number;
-  studyProgram: StudyProgram;
+  institutionId: number;
+  institution: Institution;
   userId: number;
   user: UserResponse;
   address: string;
@@ -21,7 +21,7 @@ export type Student = {
 
 export type StudentCreatePayload = {
   fullname: string;
-  studyProgramId: number;
+  institutionId: number;
   email: string;
   address: string;
   nim: string;
@@ -34,7 +34,7 @@ export type StudentCreatePayload = {
 
 export type StudentUpdatePayload = {
   fullname: string;
-  studyProgramId: number;
+  institutionId: number;
   email: string;
   address: string;
   nim: string;

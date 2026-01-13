@@ -35,10 +35,10 @@ export const useStudent = () => {
     }
   };
 
-  const handleImport = async (file: File, studyProgramId: number) => {
+  const handleImport = async (file: File, institutionId: number) => {
     setIsImportLoading(true);
     try {
-      await studentService.import(file, studyProgramId);
+      await studentService.import(file, institutionId);
       setIsImportModalOpen(false);
       fetchItems();
     } finally {
@@ -56,7 +56,7 @@ export const useStudent = () => {
   const [filterValue, setFilterValue] = useState("");
   const [filterState, setFilterState] = useState<Record<string, any>>({});
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "name",
+    column: "fullname",
     direction: "ascending",
   });
   const [paginationInfo, setPaginationInfo] = useState({

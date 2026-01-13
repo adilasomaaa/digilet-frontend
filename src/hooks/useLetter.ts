@@ -6,10 +6,12 @@ import { letterService } from "@/services/LetterService";
 import type { SortDescriptor } from "@heroui/react";
 import type { Letter } from "@/models";
 
-export const useLetter = () => {
+export const useLetter = (id?: string) => {
   const [items, setItems] = useState<Letter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [item, setItem] = useState<Letter | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -25,13 +27,29 @@ export const useLetter = () => {
     direction: "ascending",
   });
   const [paginationInfo, setPaginationInfo] = useState({
-    page: 1, limit: 10, totalData: 0, totalPages: 1,
+    page: 1,
+    limit: 10,
+    totalData: 0,
+    totalPages: 1,
   });
 
   const form = useForm({
     resolver: zodResolver(letterSchema),
     mode: "onChange",
   });
+
+  const fetchItemById = useCallback(async () => {
+    if (!id) return;
+    setIsLoading(true);
+    try {
+      const response = await letterService.show(Number(id));
+      setItem(response.data); // Asumsi response memiliki properti data
+    } catch (error) {
+      console.error("Gagal mengambil data surat:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id]);
 
   const fetchItems = useCallback(async () => {
     setIsLoading(true);
@@ -52,6 +70,12 @@ export const useLetter = () => {
     const timer = setTimeout(fetchItems, 500);
     return () => clearTimeout(timer);
   }, [fetchItems]);
+
+  useEffect(() => {
+    if (id) {
+      fetchItemById();
+    }
+  }, [id, fetchItemById]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);
@@ -82,12 +106,34 @@ export const useLetter = () => {
   };
 
   return {
-    items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
-    sortDescriptor, setSortDescriptor,
-    isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
-    isDeleteModalOpen, setIsDeleteModalOpen,
-    editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
-    form, onSubmit, fetchItems, handleConfirmDelete,
+    items,
+    isLoading,
+    isSubmitting,
+    paginationInfo,
+    setPaginationInfo,
+    filterValue,
+    setFilterValue,
+    filterState,
+    setFilterState,
+    sortDescriptor,
+    setSortDescriptor,
+    isModalOpen,
+    setIsModalOpen,
+    isViewModalOpen,
+    setIsViewModalOpen,
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    editingItem,
+    setEditingItem,
+    viewingItem,
+    setViewingItem,
+    deletingItem,
+    setDeletingItem,
+    form,
+    onSubmit,
+    fetchItems,
+    handleConfirmDelete,
+    fetchItemById,
+    item,
   };
 };

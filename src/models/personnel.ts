@@ -1,13 +1,13 @@
 import type { UserResponse } from "./auth";
-import type { StudyProgram } from "./study_program";
+import type { Institution } from "./institution";
 
 export type Personnel = {
   id: number;
   name: string;
   position: string;
-  studyProgramId: number;
+  institutionId: number;
   userId: number;
-  studyProgram: StudyProgram;
+  institution: Institution;
   user: UserResponse;
   createdAt: string;
   updatedAt: string;
@@ -17,14 +17,14 @@ export type PersonnelCreatePayload = {
   name: string;
   email: string;
   position: string;
-  studyProgramId: number;
+  institutionId: number;
 };
 
 export type PersonnelUpdatePayload = {
   name: string;
   email: string;
   position: string;
-  studyProgramId: number;
+  institutionId: number;
 };
 
 export interface PersonnelPaginatedResponse {

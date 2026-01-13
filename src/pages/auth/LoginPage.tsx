@@ -21,8 +21,9 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (user && token) {
-            if (user.userRoles?.name === "admin") navigate("/dashboard", { replace: true });
-            else navigate("/dashboard/manage-my-shop", { replace: true });
+            // if (user.userRoles?.name === "admin") navigate("/dashboard", { replace: true });
+            // else navigate("/dashboard/manage-my-shop", { replace: true });
+            navigate("/dashboard", { replace: true });
         }
     }, [user, token, navigate]);
 

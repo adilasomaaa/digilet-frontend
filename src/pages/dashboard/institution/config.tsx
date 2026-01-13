@@ -1,6 +1,5 @@
 import type { Column } from "@/components/dashboard/DataTable";
 import type { DisplayFieldConfig, FormFieldConfig } from "@/types";
-import { Chip } from "@heroui/react";
 
 export const studyProgramColumns: Column<any>[] = [
   {
@@ -12,6 +11,12 @@ export const studyProgramColumns: Column<any>[] = [
   {
     uid: "address",
     name: "Alamat",
+    sortable: true,
+    defaultVisible: true,
+  },
+  {
+    uid: "type",
+    name: "Tipe",
     sortable: true,
     defaultVisible: true,
   },

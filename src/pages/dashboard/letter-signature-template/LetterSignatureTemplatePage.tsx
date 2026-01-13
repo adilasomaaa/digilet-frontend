@@ -9,8 +9,15 @@ import DataTable from "@/components/dashboard/DataTable";
 import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
+import { useOfficial } from "@/hooks/useOfficial";
+import { useMemo, useState } from "react";
+import { useParams } from "react-router";
+import ShareModal from "@/components/dashboard/ShareModal";
+import { env } from "@/lib/env";
 
 const LetterSignatureTemplatePage = () => {
+  const {letterId} = useParams()
+
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
     filterValue, setFilterValue, filterState, setFilterState,
@@ -19,17 +26,38 @@ const LetterSignatureTemplatePage = () => {
     isDeleteModalOpen, setIsDeleteModalOpen,
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
     handleConfirmDelete, form, onSubmit
-  } = useLetterSignatureTemplate();
+  } = useLetterSignatureTemplate(letterId);
+
+  const { allItems } = useOfficial();
+
+  const dynamicFormFields = useMemo(() => {
+    return letterSignatureTemplateFormFields.map((field) => {
+      if (field.key === "officialId") {
+        return { ...field, options: allItems };
+      }
+      return field;
+    });
+  }, [allItems, editingItem]);
+
+  const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
+  const [selectedItemForToken, setSelectedItemForToken] = useState<any>(null);
+
+  const handleOpenToken = (item: any) => {
+    setSelectedItemForToken(item);
+    setIsTokenModalOpen(true);
+  };
+
+  const columns = useMemo(() => letterSignatureTemplateColumns(handleOpenToken), []);
 
   return (
     <div>
       <DashboardBreadcrumbs />
-      <h1 className="text-2xl font-semibold my-4">Kelola Letter-Signature-Template</h1>
+      <h1 className="text-2xl font-semibold my-4">Kelola Template Tanda Tangan</h1>
       
       <DataTable
         data={items}
         isLoading={isLoading}
-        columns={ letterSignatureTemplateColumns }
+        columns={ columns }
         paginationInfo={paginationInfo}
         setPaginationInfo={setPaginationInfo}
         filterValue={filterValue}
@@ -45,8 +73,8 @@ const LetterSignatureTemplatePage = () => {
       <InputModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingItem ? "Edit Letter-Signature-Template" : "Tambah Letter-Signature-Template"}
-        fields={ letterSignatureTemplateFormFields }
+        title={editingItem ? "Edit Template Tanda Tangan" : "Tambah Template Tanda Tangan"}
+        fields={ dynamicFormFields }
         register={form.register}
         onSubmit={form.handleSubmit(onSubmit)}
         errors={form.formState.errors}
@@ -55,10 +83,18 @@ const LetterSignatureTemplatePage = () => {
         isLoading={isSubmitting}
       />
 
+      <ShareModal
+        isOpen={isTokenModalOpen}
+        onClose={() => setIsTokenModalOpen(false)}
+        title="Bagikan Tautan Penandatangan"
+        description={`Gunakan tautan di bawah ini untuk mengakses token bagi ${selectedItemForToken?.official?.name}`}
+        shareLink={env.baseUrl+ '/signature-token/' + selectedItemForToken?.token} // Sesuaikan route Anda
+      />
+
       <ShowModal
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
-        title="Detail Letter-Signature-Template"
+        title="Detail Template Tanda Tangan"
         data={viewingItem}
         fields={ letterSignatureTemplateDisplayFields}
       />
@@ -67,8 +103,8 @@ const LetterSignatureTemplatePage = () => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="Hapus Letter-Signature-Template"
-        message={`Apakah Anda yakin ingin menghapus "${deletingItem?.name}"?`}
+        title="Hapus Template Tanda Tangan"
+        message={`Apakah Anda yakin ingin menghapus "${deletingItem?.official.name}"?`}
         isLoading={isSubmitting}
       />
     </div>

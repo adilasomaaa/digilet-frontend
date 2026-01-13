@@ -53,14 +53,14 @@ return (
                 <AccordionItem
                   key={`${item.key}-acc`}
                   aria-label={item.label}
-                  className="shadow-none border border-gray-200"
+                  className="shadow-none"
                   title={
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 cursor-pointer">
                       <span className="[&>*]:h-6 [&>*]:w-6 text-primary-600">{item.icon}</span>
                       <span className="truncate">{item.label}</span>
                     </div>
                   }
-                  indicator={<ChevronDown className="h-4 w-4" />}
+                  indicator={<ChevronDown className="h-4 w-4 " />}
                 >
                   <div className="flex flex-col gap-1">
                     {item.children

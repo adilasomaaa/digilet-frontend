@@ -9,8 +9,8 @@ import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
 import DataTable from "@/components/dashboard/DataTable";
-import { useStudyProgram } from "@/hooks/useStudyProgram";
 import { useMemo } from "react";
+import { useInstitution } from "@/hooks/useInstitution";
 
 const OfficialPage = () => {
   const {
@@ -23,11 +23,11 @@ const OfficialPage = () => {
     handleConfirmDelete, form, onSubmit
   } = useOfficial();
 
-  const { allItems } = useStudyProgram()
+  const { allItems } = useInstitution()
 
   const dynamicFormFields = useMemo(() => {
     return officialFormFields.map((field) => {
-      if (field.key === "studyProgramId") {
+      if (field.key === "institutionId") {
         return { ...field, options: allItems };
       }
       return field;
@@ -52,9 +52,9 @@ const OfficialPage = () => {
         onAddNew={() => { 
           form.reset({
             name: "",
+            institutionId: undefined,
             occupation: "",
             nip: "",
-            studyProgramId: undefined,
           });
           setEditingItem(null); 
           setIsModalOpen(true); 

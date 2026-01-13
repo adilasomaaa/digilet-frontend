@@ -24,16 +24,16 @@ export const studentService = {
     });
   },
 
-  async import(file: File, studyProgramId: number) {
+  async import(file: File, institutionId: number) {
     const formData = new FormData();
-    formData.append("file", file); // ✨ Nama 'file' sesuai controller
+    formData.append("file", file);
 
     return await http<any>("student/import", {
       method: "POST",
       auth: true,
-      contentType: "formData", // ✨ Beritahu fetcher untuk tidak mengirim JSON
+      contentType: "formData",
       body: formData,
-      query: { studyProgramId }, // ✨ Kirim prodiId sebagai query
+      query: { institutionId },
     });
   },
 

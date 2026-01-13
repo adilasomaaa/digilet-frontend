@@ -1,30 +1,29 @@
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { studyProgramSchema } from "@/schemas/StudyProgramSchema";
-import { studyProgramService } from "@/services/StudyProgramService";
+import { letterAttributeSchema } from "@/schemas/LetterAttributeSchema";
+import { letterAttributeService } from "@/services/LetterAttributeService";
 import type { SortDescriptor } from "@heroui/react";
-import type { StudyProgram } from "@/models";
+import type { LetterAttribute } from "@/models";
 
-export const useStudyProgram = () => {
-  const [allItems, setAllItems] = useState<any[]>([]);
-  const [items, setItems] = useState<StudyProgram[]>([]);
+export const useLetterAttribute = (letterId?: string) => {
+  const [items, setItems] = useState<LetterAttribute[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<StudyProgram | null>(null);
-  const [viewingItem, setViewingItem] = useState<StudyProgram | null>(null);
-  const [deletingItem, setDeletingItem] = useState<StudyProgram | null>(null);
+  const [editingItem, setEditingItem] = useState<LetterAttribute | null>(null);
+  const [viewingItem, setViewingItem] = useState<LetterAttribute | null>(null);
+  const [deletingItem, setDeletingItem] = useState<LetterAttribute | null>(
+    null
+  );
 
   const [filterValue, setFilterValue] = useState("");
-  const [filterState, setFilterState] = useState<
-    Record<string, Selection | string>
-  >({});
+  const [filterState, setFilterState] = useState<Record<string, any>>({});
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "nama_program_studi",
+    column: "name",
     direction: "ascending",
   });
   const [paginationInfo, setPaginationInfo] = useState({
@@ -35,64 +34,42 @@ export const useStudyProgram = () => {
   });
 
   const form = useForm({
-    resolver: zodResolver(studyProgramSchema),
+    resolver: zodResolver(letterAttributeSchema),
     mode: "onChange",
   });
 
   const fetchItems = useCallback(async () => {
     setIsLoading(true);
     try {
-      const tipeValue =
-        filterState.tipe instanceof Set && filterState.tipe.size > 0
-          ? Array.from(filterState.tipe).join(",")
-          : undefined;
-
-      const response = await studyProgramService.index({
+      const response = await letterAttributeService.index({
         page: paginationInfo.page,
         limit: paginationInfo.limit,
         search: filterValue,
-        tipe: tipeValue,
+        letterId: letterId ?? undefined,
       });
       setItems(response.data);
       setPaginationInfo(response.meta!);
     } finally {
       setIsLoading(false);
     }
-  }, [paginationInfo.page, paginationInfo.limit, filterValue, filterState]);
-
-  const fetchAllItems = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await studyProgramService.index({
-        page: 1,
-        limit: 100,
-      });
-      const options = response.data.map((prodi) => ({
-        label: prodi.name,
-        value: prodi.id,
-      }));
-      setAllItems(options);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  }, [paginationInfo.page, paginationInfo.limit, filterValue]);
 
   useEffect(() => {
     const timer = setTimeout(fetchItems, 500);
     return () => clearTimeout(timer);
   }, [fetchItems]);
 
-  useEffect(() => {
-    fetchAllItems();
-  }, [fetchAllItems]);
-
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);
     try {
+      const payload = {
+        ...formData,
+        letterId: letterId,
+      };
       if (editingItem) {
-        await studyProgramService.update(Number(editingItem.id), formData);
+        await letterAttributeService.update(Number(editingItem.id), payload);
       } else {
-        await studyProgramService.create(formData);
+        await letterAttributeService.create(payload);
       }
       setIsModalOpen(false);
       fetchItems();
@@ -103,17 +80,12 @@ export const useStudyProgram = () => {
 
   const handleConfirmDelete = async () => {
     if (!deletingItem) return;
-
     setIsSubmitting(true);
     try {
-      await studyProgramService.delete(deletingItem.id);
-
+      await letterAttributeService.delete(deletingItem.id);
       setIsDeleteModalOpen(false);
       setDeletingItem(null);
-
       fetchItems();
-    } catch (error) {
-      console.error("Gagal menghapus data:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -147,7 +119,5 @@ export const useStudyProgram = () => {
     onSubmit,
     fetchItems,
     handleConfirmDelete,
-    fetchAllItems,
-    allItems,
   };
 };

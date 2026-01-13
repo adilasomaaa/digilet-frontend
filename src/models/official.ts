@@ -1,26 +1,26 @@
-import type { StudyProgram } from "./study_program";
+import type { Institution } from "./institution";
 
 export type Official = {
   id: number;
   name: string;
-  studyProgramId?: number;
+  institutionId?: number;
   occupation: string;
   nip: string;
-  studyProgram?: StudyProgram | null;
+  institution?: Institution | null;
   createdAt: string;
   updatedAt: string;
 };
 
 export type OfficialCreatePayload = {
   name: string;
-  studyProgramId?: number;
+  institutionId?: number;
   occupation: string;
   nip: string;
 };
 
 export type OfficialUpdatePayload = {
   name: string;
-  studyProgramId?: number;
+  institutionId?: number;
   occupation: string;
   nip: string;
 };

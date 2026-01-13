@@ -9,6 +9,8 @@ import DataTable from "@/components/dashboard/DataTable";
 import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
+import { useHeader } from "@/hooks/useHeader";
+import { useMemo } from "react";
 
 const LetterPage = () => {
   const {
@@ -20,6 +22,17 @@ const LetterPage = () => {
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
     handleConfirmDelete, form, onSubmit
   } = useLetter();
+
+  const {allItems} = useHeader();
+
+  const dynamicFormFields = useMemo(() => {
+    return letterFormFields.map((field) => {
+      if (field.key === "letterHeadId") {
+        return { ...field, options: allItems };
+      }
+      return field;
+    });
+  }, [allItems]);
 
   return (
     <div>
@@ -57,7 +70,7 @@ const LetterPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingItem ? "Edit Surat" : "Tambah Surat"}
-        fields={ letterFormFields }
+        fields={ dynamicFormFields }
         register={form.register}
         onSubmit={form.handleSubmit(onSubmit)}
         errors={form.formState.errors}

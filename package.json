@@ -11,9 +11,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "^11.0.1",
     "@heroui/react": "^2.8.7",
     "@hookform/resolvers": "^5.2.2",
     "@tailwindcss/vite": "^4.1.18",
+    "ckeditor5": "^47.3.0",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.562.0",
     "plop": "^4.0.4",

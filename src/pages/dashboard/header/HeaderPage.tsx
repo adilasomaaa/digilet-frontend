@@ -9,9 +9,6 @@ import DataTable from "@/components/dashboard/DataTable";
 import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
-import { useStudyProgram } from "@/hooks/useStudyProgram";
-import { useMemo } from "react";
-import { env } from "@/lib/env";
 
 const HeaderPage = () => {
   const {
@@ -24,25 +21,6 @@ const HeaderPage = () => {
     handleConfirmDelete, form, onSubmit
   } = useHeader();
 
-  const { allItems } = useStudyProgram()
-  
-  const dynamicFormFields = useMemo(() => {
-    return headerFormFields.map((field) => {
-      if (field.key === "studyProgramId") {
-        return { ...field, options: allItems };
-      }
-      if (field.key === "logo") {
-      return { 
-        ...field, 
-        previewUrl: editingItem?.logo 
-          ? `${env.baseUrl}/${editingItem.logo}` 
-          : "" 
-      };
-    }
-      
-      return field;
-    });
-  }, [allItems, editingItem]);
 
   return (
     <div>
@@ -59,7 +37,17 @@ const HeaderPage = () => {
         setFilterValue={setFilterValue}
          sortDescriptor={sortDescriptor}
         setSortDescriptor={setSortDescriptor}
-        onAddNew={() => { form.reset(); setEditingItem(null); setIsModalOpen(true); }}
+        onAddNew={() => { 
+          form.reset({
+            name: "",
+            logo: "",
+            header: "",
+            subheader: "",
+            address: "",
+          }); 
+          setEditingItem(null); 
+          setIsModalOpen(true); 
+        }}
         onEditItem={(item) => { setEditingItem(item); form.reset(item); setIsModalOpen(true); }}
         onViewItem={(item) => { setViewingItem(item); setIsViewModalOpen(true); }}
         onDeleteItem={(item) => { setDeletingItem(item); setIsDeleteModalOpen(true); }}
@@ -69,7 +57,7 @@ const HeaderPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingItem ? "Edit Kop Surat" : "Tambah Kop Surat"}
-        fields={ dynamicFormFields }
+        fields={ headerFormFields }
         register={form.register}
         onSubmit={form.handleSubmit(onSubmit)}
         errors={form.formState.errors}

@@ -1,20 +1,20 @@
-import type { StudyProgram } from "./study_program";
+import type { Institution } from "./institution";
 
 export type Header = {
   id: number;
-  studyProgramId: number;
+  institutionId: number;
   name: string;
   header: string;
   subheader: string;
   address: string;
   logo: string;
-  studyProgram: StudyProgram;
+  institution: Institution;
   createdAt: string;
   updatedAt: string;
 };
 
 export type HeaderCreatePayload = {
-  studyProgramId: number;
+  institutionId: number;
   name: string;
   header: string;
   subheader: string;
@@ -23,7 +23,7 @@ export type HeaderCreatePayload = {
 };
 
 export type HeaderUpdatePayload = {
-  studyProgramId: number;
+  institutionId: number;
   name: string;
   header: string;
   subheader: string;

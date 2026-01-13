@@ -1,16 +1,18 @@
-import { useStudyProgram } from "@/hooks/useStudyProgram";
+import { useLetterAttribute } from "@/hooks/useLetterAttribute";
 import { 
-  studyProgramColumns, 
-  studyProgramFormFields, 
-  studyProgramDisplayFields 
+  letterAttributeColumns, 
+  letterAttributeFormFields, 
+  letterAttributeDisplayFields 
 } from "./config";
 import DashboardBreadcrumbs from "@/components/dashboard/Breadcrumbs";
 import DataTable from "@/components/dashboard/DataTable";
 import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
+import { useParams } from "react-router";
 
-const StudyProgramPage = () => {
+const LetterAttributePage = () => {
+  const {letterId} = useParams()
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
     filterValue, setFilterValue, filterState, setFilterState,
@@ -18,28 +20,35 @@ const StudyProgramPage = () => {
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
-    handleConfirmDelete,
-    form, onSubmit
-  } = useStudyProgram();
+    handleConfirmDelete, form, onSubmit
+  } = useLetterAttribute(letterId);
 
   return (
     <div>
       <DashboardBreadcrumbs />
-      <h1 className="text-2xl font-semibold my-4">Kelola Program Studi</h1>
+      <h1 className="text-2xl font-semibold my-4">Kelola Atribut Surat</h1>
       
       <DataTable
         data={items}
         isLoading={isLoading}
-        columns={studyProgramColumns}
+        columns={ letterAttributeColumns }
         paginationInfo={paginationInfo}
         setPaginationInfo={setPaginationInfo}
         filterValue={filterValue}
         setFilterValue={setFilterValue}
-        filterState={filterState}
-        setFilterState={setFilterState}
-        sortDescriptor={sortDescriptor}
+         sortDescriptor={sortDescriptor}
         setSortDescriptor={setSortDescriptor}
-        onAddNew={() => { form.reset({ name: "", address:"" }); setEditingItem(null); setIsModalOpen(true); }}
+        onAddNew={() => { form.reset({
+            attributeName: "",
+            placeholder:"",
+            label:"",
+            isRequired: false,
+            isVisible: false,
+            isEditable: false
+          }); 
+          setEditingItem(null); 
+          setIsModalOpen(true); 
+        }}
         onEditItem={(item) => { setEditingItem(item); form.reset(item); setIsModalOpen(true); }}
         onViewItem={(item) => { setViewingItem(item); setIsViewModalOpen(true); }}
         onDeleteItem={(item) => { setDeletingItem(item); setIsDeleteModalOpen(true); }}
@@ -48,8 +57,8 @@ const StudyProgramPage = () => {
       <InputModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingItem ? "Edit Program Studi" : "Tambah Program Studi"}
-        fields={studyProgramFormFields}
+        title={editingItem ? "Edit Atribut Surat" : "Tambah Atribut Surat"}
+        fields={ letterAttributeFormFields }
         register={form.register}
         onSubmit={form.handleSubmit(onSubmit)}
         errors={form.formState.errors}
@@ -61,21 +70,21 @@ const StudyProgramPage = () => {
       <ShowModal
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
-        title="Detail Program Studi"
+        title="Detail Atribut Surat"
         data={viewingItem}
-        fields={studyProgramDisplayFields}
+        fields={ letterAttributeDisplayFields}
       />
 
       <DeleteModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="Hapus Program Studi"
-        message={`Apakah Anda yakin ingin menghapus "${deletingItem?.name}"? Aksi ini tidak dapat dibatalkan.`}
+        title="Hapus Atribut Surat"
+        message={`Apakah Anda yakin ingin menghapus "${deletingItem?.attributeName}"?`}
         isLoading={isSubmitting}
       />
     </div>
   );
 };
 
-export default StudyProgramPage;
+export default LetterAttributePage;

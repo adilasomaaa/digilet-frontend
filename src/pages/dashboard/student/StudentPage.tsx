@@ -9,11 +9,11 @@ import DataTable from "@/components/dashboard/DataTable";
 import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
-import { useStudyProgram } from "@/hooks/useStudyProgram";
 import { useMemo, useState } from "react";
 import { parseDate } from "@internationalized/date";
 import ImportModal from "@/components/dashboard/ImportModal";
 import TemplateMahasiswa from "@/assets/templates/import-mahasiswa.xlsx?url";
+import { useInstitution } from "@/hooks/useInstitution";
 
 const StudentPage = () => {
   const {
@@ -27,11 +27,11 @@ const StudentPage = () => {
     setIsImportModalOpen, isImportModalOpen, isImportLoading, handleImport
   } = useStudent();
 
-  const { allItems } = useStudyProgram()
+  const { allItems } = useInstitution()
     
   const dynamicFormFields = useMemo(() => {
     return studentFormFields.map((field) => {
-      if (field.key === "studyProgramId") {
+      if (field.key === "institutionId") {
         return { ...field, options: allItems };
       }
       return field;
