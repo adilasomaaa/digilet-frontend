@@ -6,9 +6,11 @@ import {
   ModalBody, 
   ModalFooter, 
   Button, 
-  Input 
+  Input, 
+  InputOtp,
+  Divider
 } from '@heroui/react';
-import { Copy, CheckCircle2 } from 'lucide-react';
+import { Copy, CheckCircle2, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 interface ShareModalProps {
@@ -17,9 +19,10 @@ interface ShareModalProps {
   title: string;
   description?: string;
   shareLink: string;
+  code: string;
 }
 
-const ShareModal = ({ isOpen, onClose, title, description, shareLink }: ShareModalProps) => {
+const ShareModal = ({ isOpen, onClose, title, description, shareLink, code }: ShareModalProps) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -27,6 +30,19 @@ const ShareModal = ({ isOpen, onClose, title, description, shareLink }: ShareMod
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const handleWhatsAppShare = () => {
+    const formattedCode = code.padStart(6, '0');
+    const message = `Halo, mohon bantuannya untuk menandatangani dokumen berikut secara digital.\n\n` +
+                    `*Detail Verifikasi*:\n` +
+                    `🔗 Tautan: ${shareLink}\n` +
+                    `🔑 Kode Verifikasi: *${formattedCode}*\n\n` +
+                    `_Silakan klik tautan di atas dan masukkan kode verifikasi untuk memproses tanda tangan. Terima kasih._`;
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onClose} placement="center" backdrop="blur">
@@ -56,6 +72,28 @@ const ShareModal = ({ isOpen, onClose, title, description, shareLink }: ShareMod
                     </Button>
                   }
                 />
+                <div className="flex flex-col gap-2">
+                  <p className="text-sm text-default-500">Kode Tanda Tangan</p>
+                  <InputOtp
+                    isReadOnly
+                    variant="bordered"
+                    value={code.padStart(6, '0')}
+                    length={6}
+                  />
+                </div>
+
+                <Divider className="my-2" />
+                
+                {/* Tombol Berbagi WhatsApp */}
+                <Button 
+                  color="success" 
+                  variant="flat" 
+                  className="w-full font-semibold"
+                  startContent={<MessageCircle size={20} />}
+                  onPress={handleWhatsAppShare}
+                >
+                  Bagikan ke WhatsApp
+                </Button>
               </div>
             </ModalBody>
             <ModalFooter>

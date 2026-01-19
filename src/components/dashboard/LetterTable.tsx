@@ -20,7 +20,6 @@ const LetterTable = ({item, isLoading}: LetterTableProps) => {
                 <TableColumn>NAMA SURAT</TableColumn>
                 <TableColumn>KATEGORI</TableColumn>
                 <TableColumn>NOMOR REFERENSI</TableColumn>
-                <TableColumn>TIPE TANDA TANGAN</TableColumn>
             </TableHeader>
             <TableBody emptyContent={"Data tidak ditemukan"} isLoading={isLoading} loadingContent={<Spinner />}>
                 <TableRow key="1">
@@ -31,11 +30,7 @@ const LetterTable = ({item, isLoading}: LetterTableProps) => {
                         </Chip>
                     </TableCell>
                     <TableCell>{item?.referenceNumber || "-"}</TableCell>
-                    <TableCell>
-                        <Chip size="sm" variant="dot" color={item?.signatureType === 'digital' ? 'success' : 'warning'}>
-                            {item?.signatureType || "-"}
-                        </Chip>
-                    </TableCell>
+                    
                 </TableRow>
             </TableBody>
         </Table>

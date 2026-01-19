@@ -26,5 +26,5 @@ export const headerDisplayFields: DisplayFieldConfig<any>[] = [
   { key: "header", label: "Judul Kop Utama" },
   { key: "subheader", label: "Judul Kop Sekunder" },
   { key: "address", label: "Alamat Kop" },
-  { key: "logo", label: "Logo Kop", render: (item: Header) => <img src={env.baseUrl + item.logo} width={100} height={100} /> },
+  { key: "logo", label: "Logo Kop", render: (item: Header) => <img src={env.apiBaseUrl + item.logo} width={100} height={100} /> },
 ];

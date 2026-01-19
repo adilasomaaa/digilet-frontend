@@ -21,8 +21,6 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (user && token) {
-            // if (user.userRoles?.name === "admin") navigate("/dashboard", { replace: true });
-            // else navigate("/dashboard/manage-my-shop", { replace: true });
             navigate("/dashboard", { replace: true });
         }
     }, [user, token, navigate]);
@@ -31,11 +29,10 @@ const LoginPage = () => {
         try {
             const res = await authService.login(values);
             if (res.token) {
-                login(res.token); // cukup simpan token
+                login(res.token);
             }
         } catch (e) {
             console.error(e);
-            // tampilkan toast error
         }
     };
   return (

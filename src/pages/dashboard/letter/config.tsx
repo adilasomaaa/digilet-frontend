@@ -1,6 +1,6 @@
 import type { Column } from "@/components/dashboard/DataTable";
 import type { DisplayFieldConfig, FormFieldConfig } from "@/types";
-import { Link } from "@heroui/react";
+import { Chip, Link } from "@heroui/react";
 
 export const letterColumns: Column<any>[] = [
   { 
@@ -13,11 +13,32 @@ export const letterColumns: Column<any>[] = [
       <Link isBlock showAnchorIcon color="primary"  href={`/dashboard/${item.id}/letter-signature-template`} className="cursor-pointer">{item.letterName}</Link>
     </> 
   },
-  { name: "Instansi", uid: "institution.name", sortable: true, defaultVisible: true },
+  { 
+    name: "Lembaga / Prodi", 
+    uid: "institution.name", 
+    sortable: true, 
+    defaultVisible: true,
+    renderCell: (item) => 
+      <>
+        <Chip size="sm" variant="solid" color="primary">
+          {item?.institution?.name || "-"}
+        </Chip>
+      </>
+  },
   { name: "Kop Surat", uid: "letterHead.name", sortable: true, defaultVisible: true },
   { name: "Kode Surat", uid: "referenceNumber", sortable: true, defaultVisible: true },
-  { name: "Kategori", uid: "category", sortable: true, defaultVisible: true },
-  { name: "Tanda Tangan", uid: "signatureType", sortable: true, defaultVisible: false },
+  { 
+    name: "Kategori", 
+    uid: "category", 
+    sortable: true, 
+    defaultVisible: true, 
+    renderCell: (item) => 
+      <>
+        <Chip size="sm" variant="flat" color="primary">
+          {item?.category || "-"}
+        </Chip>
+      </>
+  },
   { name: "Dibuat pada", uid: "createdAt", sortable: true, defaultVisible: false, renderCell: (item) => new Date(item.createdAt).toLocaleString() },
   { name: "ACTIONS", uid: "actions", defaultVisible: true },
 ];
@@ -33,17 +54,6 @@ export const letterFormFields: FormFieldConfig[] = [
     { label: "Fakultas", value: "faculty" },
     { label: "Universitas", value: "university" },
   ] },
-  { key: "signatureType", label: "Tanda Tangan", type: "select", placeholder: "Pilih tanda tangan...", isRequired: true, options: [
-    {
-      label: "Barcode",
-      value: "barcode",
-    },
-    {
-      label: "Digital",
-      value: "digital",
-    }
-  ]}
-  
 ];
 
 export const letterDisplayFields: DisplayFieldConfig<any>[] = [
@@ -53,7 +63,6 @@ export const letterDisplayFields: DisplayFieldConfig<any>[] = [
   { key: "letterNumberingStart", label: "Nomor Surat Awal" },
   { key: "expiredDate", label: "Waktu Kadaluwarsa", render: (item) => `${item.expiredDate} Hari` },
   { key: "category", label: "Kategori" },
-  { key: "signatureType", label: "Tanda Tangan" },
   { key: "user.name", label: "Pembuat" },
   { key: "institution.name", label: "Lembaga / Prodi" },
 ];

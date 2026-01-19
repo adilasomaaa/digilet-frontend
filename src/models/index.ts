@@ -9,3 +9,6 @@ export * from "./letter_signature_template";
 export * from "./letter_attribute";
 export * from "./letter_document";
 export * from "./letter_template";
+export * from "./general_letter";
+export * from "./letter_attribute_submission";
+export * from "./student_letter";

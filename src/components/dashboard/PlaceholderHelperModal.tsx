@@ -11,7 +11,6 @@ interface Props {
 const PlaceholderHelperModal = ({ isOpen, onClose, dynamicAttributes }: Props) => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    // Tambahkan notifikasi toast jika diperlukan
   };
 
   const allGroups = [

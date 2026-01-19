@@ -261,7 +261,7 @@ const DataTable = <T extends { id: React.Key; [key: string]: any }>({
           <Input
             isClearable
             className="w-full sm:max-w-[40%]"
-            placeholder="Search..."
+            placeholder="Cari..."
             startContent={<SearchIcon className="w-4 h-4" />}
             value={filterValue}
             onClear={onClear}
@@ -338,7 +338,7 @@ const DataTable = <T extends { id: React.Key; [key: string]: any }>({
             <Dropdown>
               <DropdownTrigger>
                 <Button endContent={<ChevronDownIcon className="w-4 h-4" />} variant="flat">
-                  Columns
+                  Kolom
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -377,7 +377,7 @@ const DataTable = <T extends { id: React.Key; [key: string]: any }>({
             )}
             {onAddNew && (
               <Button color="primary" endContent={<PlusIcon className="w-4 h-4" />} onPress={onAddNew}>
-                Add New
+                Tambah Data
               </Button>
             )}
           </div>

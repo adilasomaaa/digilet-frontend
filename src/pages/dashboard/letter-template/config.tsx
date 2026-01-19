@@ -36,7 +36,7 @@ export const getDynamicPlaceholders = (attributes: any[]) => {
     group: "Atribut Kustom (Input User)",
     variables: attributes?.map((attr) => ({
       label: attr.attributeName,
-      code: `[${attr.attributeName.toLowerCase()}]`, // Placeholder kustom dari admin
+      code: `[${attr.attributeName}]`, // Placeholder kustom dari admin
       desc: `Input manual untuk: ${attr.label}`,
     })) || []
   };

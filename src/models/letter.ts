@@ -14,7 +14,6 @@ export type Letter = {
   expiredDate: number;
   letterNumberingStart: number;
   category: string;
-  signatureType: string;
   user: UserResponse;
   letterHead: Header;
   letterAttributes?: LetterAttribute[];
@@ -29,7 +28,6 @@ export type LetterCreatePayload = {
   expiredDate: number;
   letterNumberingStart: number;
   category: string;
-  signatureType: string;
 };
 
 export type LetterUpdatePayload = {
@@ -39,7 +37,6 @@ export type LetterUpdatePayload = {
   expiredDate: number;
   letterNumberingStart: number;
   category: string;
-  signatureType: string;
 };
 
 export interface LetterPaginatedResponse {

@@ -7,7 +7,6 @@ export const letterSchema = z.object({
   expiredDate: z.any(),
   letterNumberingStart: z.any(),
   category: z.string(),
-  signatureType: z.string(),
 });
 
 export type LetterSchema = z.infer<typeof letterSchema>;

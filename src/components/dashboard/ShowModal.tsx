@@ -38,7 +38,7 @@ const ShowModal = <T,> ({isOpen, onClose, title, data, fields} : ShowModalProps<
                 </ModalBody>
                 <ModalFooter>
                     <Button color="danger" variant="light" onPress={onClose}>
-                    Close
+                    Tutup
                     </Button>
                 </ModalFooter>
                 </>
