@@ -1,8 +1,7 @@
-import type { UserResponse } from "./auth";
+import type { DocumentSubmission } from "./document_submission";
 import type { Institution } from "./institution";
 import type { Letter } from "./letter";
 import type { LetterAttributeSubmission } from "./letter_attribute_submission";
-import type { LetterDocument } from "./letter_document";
 import type { Student } from "./student";
 
 export type StudentLetter = {
@@ -19,7 +18,7 @@ export type StudentLetter = {
   student: Student;
   letter: Letter;
   institution: Institution;
-  letterDocument: LetterDocument[];
+  documentSubmissions: DocumentSubmission[];
   letterAttributeSubmissions: LetterAttributeSubmission[];
   createdAt: string;
   updatedAt: string;

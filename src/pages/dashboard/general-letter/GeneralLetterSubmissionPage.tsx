@@ -1,9 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { 
   Card, CardBody, Input, Button, 
   Skeleton, CardHeader, Select, SelectItem,
+  DatePicker,
 } from "@heroui/react";
 import { Save, ArrowLeft, FileText } from "lucide-react";
 
@@ -22,7 +23,7 @@ const GeneralLetterSubmissionPage = () => {
   
   const { item: letter, isLoading: isLoadingAttr } = useLetter(selectedLetterId);
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, control, formState: { errors }, reset } = useForm();
 
   const handleLetterChange = (id: string) => {
     setSelectedLetterId(id);
@@ -37,11 +38,13 @@ const GeneralLetterSubmissionPage = () => {
         content: data[`attr_${attr.id}`]
       })) || [];
 
+      const letterDate = data.letterDate ? data.letterDate.toString() : "";
+
       const payload = {
         letterId: Number(selectedLetterId),
         letterNumber: data.letterNumber,
         name: data.name,
-        letterDate: data.letterDate,
+        letterDate: letterDate, 
         signatureType: data.signatureType,
         attributes: attributesPayload
       };
@@ -106,14 +109,22 @@ const GeneralLetterSubmissionPage = () => {
                     variant="bordered"
                     isRequired
                   />
-                  <Input
-                    {...register("letterDate", { required: "Tanggal wajib diisi" })}
-                    type="date"
-                    label="Tanggal Surat"
-                    variant="bordered"
-                    isRequired
-                    isInvalid={!!errors.letterDate}
-                    errorMessage={errors.letterDate?.message as string}
+                  <Controller
+                    control={control}
+                    name="letterDate"
+                    rules={{ required: "Tanggal wajib diisi" }}
+                    render={({ field }) => (
+                      <DatePicker
+                        label="Tanggal Surat"
+                        variant="bordered"
+                        showMonthAndYearPickers
+                        isRequired
+                        value={field.value}
+                        onChange={field.onChange}
+                        isInvalid={!!errors.letterDate}
+                        errorMessage={errors.letterDate?.message as string}
+                      />
+                    )}
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

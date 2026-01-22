@@ -5,11 +5,15 @@ import { studentLetterSchema } from "@/schemas/StudentLetterSchema";
 import { studentLetterService } from "@/services/StudentLetterService";
 import type { SortDescriptor } from "@heroui/react";
 import type { StudentLetter } from "@/models";
+import { useNavigate, useParams } from "react-router";
 
 export const useStudentLetter = () => {
   const [items, setItems] = useState<StudentLetter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [item, setItem] = useState<StudentLetter | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -81,6 +85,51 @@ export const useStudentLetter = () => {
     }
   };
 
+  const fetchItem = useCallback(async () => {
+    if (!id) return;
+    setIsLoading(true);
+    try {
+      const response = await studentLetterService.show(Number(id));
+      setItem(response.data);
+    } catch (error) {
+      console.error("Gagal mengambil data surat");
+      navigate("/dashboard/student-letter/history");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id, navigate]);
+
+  useEffect(() => {
+    fetchItem();
+  }, [fetchItem]);
+
+  const onUpdate = async (formData: any) => {
+    if (!id) return;
+    setIsSubmitting(true);
+    try {
+      await studentLetterService.update(Number(id), formData);
+      console.log("Berhasil memperbarui surat");
+      navigate("/dashboard/student-letter/history");
+    } catch (error) {
+      console.error("Gagal memperbarui surat");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const onVerify = async (formData: any) => {
+      if (!id) return;
+      setIsSubmitting(true);
+      try {
+          await studentLetterService.verify(Number(id), formData);
+          navigate("/dashboard/student-letter");
+      } catch (error) {
+          console.error("Gagal memverifikasi surat");
+      } finally {
+          setIsSubmitting(false);
+      }
+  }
+
   return {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
     filterValue, setFilterValue, filterState, setFilterState,
@@ -88,6 +137,9 @@ export const useStudentLetter = () => {
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
-    form, onSubmit, fetchItems, handleConfirmDelete,
+    form, onSubmit, fetchItems, handleConfirmDelete, item,
+    onUpdate,
+    onVerify,
+    refresh: fetchItems
   };
 };

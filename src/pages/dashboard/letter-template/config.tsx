@@ -28,6 +28,7 @@ export const letterPlaceholders = [
   { group: "Data Transaksi (Submission)", variables: [
     { label: "Nomor Surat", code: "[nomor_surat]", desc: "Nomor surat yang digenerate sistem" },
     { label: "Tanggal Surat", code: "[tanggal_surat]", desc: "Tanggal surat dibuat (Format: 13 Januari 2026)" },
+    { label: "Tanggal Surat Hijriah", code: "[tanggal_hijriah]", desc: "Tanggal surat dibuat dalam kalender islam" },
   ]}
 ];
 

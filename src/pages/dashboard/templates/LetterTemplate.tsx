@@ -1,5 +1,5 @@
-import { Button, Card, CardBody, Chip, Listbox, ListboxItem, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react'
-import { ArrowLeftCircle, BookIcon, Icon } from 'lucide-react';
+import { Button, Card, CardBody, Listbox, ListboxItem } from '@heroui/react'
+import { ArrowLeftCircle } from 'lucide-react';
 import React from 'react'
 import { Link, Outlet, useLocation, useParams } from 'react-router'
 import { navColumn } from './nav';
@@ -58,7 +58,7 @@ const LetterTemplate = () => {
                 </ListboxWrapper>
         </div>
         <div className='col-span-4 flex flex-col gap-4'>
-            <Card>
+            <Card className='shadow-sm border-none'>
                 <CardBody>
                     {item &&
                         <LetterTable

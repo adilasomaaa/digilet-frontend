@@ -14,7 +14,6 @@ const LoginPage = () => {
     const toggleVisibility = () => setIsVisible(!isVisible);
     const { user, token, login } = useAuth();
     const navigate = useNavigate();
-    const { isLoading } = useAuth();
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
     });
@@ -49,7 +48,7 @@ const LoginPage = () => {
             <CardBody className="flex flex-col gap-4">
                 <Input
                     label="Email"
-                    type="email"
+                    type="text"
                     variant="bordered"
                     isInvalid={!!errors.email}
                     errorMessage={errors.email?.message}
@@ -96,13 +95,6 @@ const LoginPage = () => {
                 >
                 Masuk
                 </Button>
-
-                <p className="text-center text-sm text-foreground-500">
-                Belum punya akun?{" "}
-                <Link to="/register" className='text-primary'>
-                    Daftar
-                </Link>
-                </p>
             </CardFooter>
             </form>
         </Card>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   Modal, 
   ModalContent, 
@@ -19,7 +18,7 @@ interface ShareModalProps {
   title: string;
   description?: string;
   shareLink: string;
-  code: string;
+  code?: string;
 }
 
 const ShareModal = ({ isOpen, onClose, title, description, shareLink, code }: ShareModalProps) => {
@@ -32,7 +31,7 @@ const ShareModal = ({ isOpen, onClose, title, description, shareLink, code }: Sh
   };
 
   const handleWhatsAppShare = () => {
-    const formattedCode = code.padStart(6, '0');
+    const formattedCode = code?.padStart(6, '0');
     const message = `Halo, mohon bantuannya untuk menandatangani dokumen berikut secara digital.\n\n` +
                     `*Detail Verifikasi*:\n` +
                     `🔗 Tautan: ${shareLink}\n` +
@@ -72,6 +71,7 @@ const ShareModal = ({ isOpen, onClose, title, description, shareLink, code }: Sh
                     </Button>
                   }
                 />
+                {code && (
                 <div className="flex flex-col gap-2">
                   <p className="text-sm text-default-500">Kode Tanda Tangan</p>
                   <InputOtp
@@ -81,6 +81,7 @@ const ShareModal = ({ isOpen, onClose, title, description, shareLink, code }: Sh
                     length={6}
                   />
                 </div>
+                )}
 
                 <Divider className="my-2" />
                 

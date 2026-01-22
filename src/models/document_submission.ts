@@ -1,34 +1,29 @@
-import type { Institution } from "./institution";
+
+import type { LetterDocument } from "./letter_document";
+import type { StudentLetter } from "./student_letter";
 
 export type DocumentSubmission = {
   id: number;
   studentLetterSubmissionId: number;
-  name: string;
-  header: string;
-  subheader: string;
-  address: string;
-  logo: string;
-  institution: Institution;
+  letterDocumentId: number;
+  file: string;
+  filePath: string;
+  studentLetterSubmission: StudentLetter;
+  letterDocument: LetterDocument;
   createdAt: string;
   updatedAt: string;
 };
 
 export type DocumentSubmissionCreatePayload = {
-  institutionId: number;
-  name: string;
-  header: string;
-  subheader: string;
-  address: string;
-  logo: string;
+  studentLetterSubmissionId: number;
+  letterDocumentId: number;
+  file: string;
 };
 
 export type DocumentSubmissionUpdatePayload = {
-  institutionId: number;
-  name: string;
-  header: string;
-  subheader: string;
-  address: string;
-  logo: string;
+  studentLetterSubmissionId: number;
+  letterDocumentId: number;
+  file: string;
 };
 
 export interface DocumentSubmissionPaginatedResponse {

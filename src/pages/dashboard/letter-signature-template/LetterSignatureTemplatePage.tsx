@@ -10,17 +10,15 @@ import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
 import { useOfficial } from "@/hooks/useOfficial";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useParams } from "react-router";
-import ShareModal from "@/components/dashboard/ShareModal";
-import { env } from "@/lib/env";
 
 const LetterSignatureTemplatePage = () => {
   const {letterId} = useParams()
 
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
+    filterValue, setFilterValue,
     sortDescriptor, setSortDescriptor,
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,
@@ -39,16 +37,6 @@ const LetterSignatureTemplatePage = () => {
     });
   }, [allItems, editingItem]);
 
-  const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
-  const [selectedItemForToken, setSelectedItemForToken] = useState<any>(null);
-
-  const handleOpenToken = (item: any) => {
-    setSelectedItemForToken(item);
-    setIsTokenModalOpen(true);
-  };
-
-  const columns = useMemo(() => letterSignatureTemplateColumns(handleOpenToken), []);
-
   return (
     <div>
       <DashboardBreadcrumbs />
@@ -57,7 +45,7 @@ const LetterSignatureTemplatePage = () => {
       <DataTable
         data={items}
         isLoading={isLoading}
-        columns={ columns }
+        columns={ letterSignatureTemplateColumns }
         paginationInfo={paginationInfo}
         setPaginationInfo={setPaginationInfo}
         filterValue={filterValue}
@@ -81,14 +69,6 @@ const LetterSignatureTemplatePage = () => {
         setValue={form.setValue}
         watch={form.watch}
         isLoading={isSubmitting}
-      />
-
-      <ShareModal
-        isOpen={isTokenModalOpen}
-        onClose={() => setIsTokenModalOpen(false)}
-        title="Bagikan Tautan Penandatangan"
-        description={`Gunakan tautan di bawah ini untuk mengakses token bagi ${selectedItemForToken?.official?.name}`}
-        shareLink={env.baseUrl+ '/signature-token/' + selectedItemForToken?.token} // Sesuaikan route Anda
       />
 
       <ShowModal

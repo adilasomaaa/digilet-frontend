@@ -42,8 +42,8 @@ export const NAV_ITEMS: NavItem[] = [
     children: [
       { key: "letter", label: "Jenis Surat", to: "/dashboard/letter", icon: <Mail className="h-4 w-4" /> },
       { key: "header", label: "Kop Surat", to: "/dashboard/header", icon: <TextInitial className="h-4 w-4" /> },
-      { key: "general_submission", label: "Surat Umum", to: "/dashboard/personnel", icon: <Mails className="h-4 w-4" /> },
-      { key: "student_submission", label: "Surat Mahasiswa", to: "/dashboard/student", icon: <MailOpen className="h-4 w-4" /> },
+      { key: "general_submission", label: "Surat Umum", to: "/dashboard/general-letter", icon: <Mails className="h-4 w-4" /> },
+      { key: "student_submission", label: "Surat Mahasiswa", to: "/dashboard/student-letter", icon: <MailOpen className="h-4 w-4" /> },
     ],
     roles: ["admin"],
   },
@@ -85,7 +85,7 @@ export const NAV_ITEMS: NavItem[] = [
     icon: <LayoutDashboard className="h-4 w-4" />,
     children: [
       { key: "student", label: "Pengajuan Surat", to: "/dashboard/student-letter/submission", icon: <Users className="h-4 w-4" /> },
-      { key: "letter", label: "Riwayat Pengajuan", to: "/dashboard/student-letter", icon: <Mail className="h-4 w-4" /> },
+      { key: "letter", label: "Riwayat Pengajuan", to: "/dashboard/student-letter/history", icon: <Mail className="h-4 w-4" /> },
     ],
     roles: ["student"],
   },

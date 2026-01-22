@@ -1,7 +1,7 @@
 import type { Column } from "@/components/dashboard/DataTable";
 import type { DisplayFieldConfig, FormFieldConfig } from "@/types";
 import { Button, Tooltip } from "@heroui/react";
-import { EyeIcon, PencilIcon, PenToolIcon, PrinterIcon, Trash2Icon } from "lucide-react";
+import { EyeIcon, FileSignature, PencilIcon, PrinterIcon, Trash2Icon } from "lucide-react";
 
 export const generalLetterColumns = (
   onView: (item: any) => void,
@@ -37,7 +37,7 @@ export const generalLetterColumns = (
         </Tooltip>
         <Tooltip content="Status Tanda Tangan">
           <Button isIconOnly size="sm" variant="light" color="secondary" onPress={() => onSignature(item)}>
-            <PenToolIcon className="w-4 h-4" />
+            <FileSignature className="w-4 h-4" />
           </Button>
         </Tooltip>
         <Tooltip content="Hapus">

@@ -2,6 +2,7 @@ import type { UserResponse } from "./auth";
 import type { Header } from "./header";
 import type { Institution } from "./institution";
 import type { LetterAttribute } from "./letter_attribute";
+import type { LetterDocument } from "./letter_document";
 
 export type Letter = {
   id: number;
@@ -17,6 +18,7 @@ export type Letter = {
   user: UserResponse;
   letterHead: Header;
   letterAttributes?: LetterAttribute[];
+  letterDocuments?: LetterDocument[];
   createdAt: string;
   updatedAt: string;
 };

@@ -11,6 +11,7 @@ import { CheckCircle2, PenTool, Printer, ArrowLeft, RotateCcw, Lock, KeyRound } 
 import { letterSignatureService } from "@/services/LetterSignatureService";
 import type { LetterSignature } from "@/models/letter_signature";
 import Logo from '@/assets/logo.png'
+import { env } from "@/lib/env";
 
 const VerifySignaturePage = () => {
   const { token } = useParams();
@@ -23,6 +24,11 @@ const VerifySignaturePage = () => {
   const [otpValue, setOtpValue] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [otpError, setOtpError] = useState(false);
+
+  const qrCodeValue = `${env.baseUrl}signature/detail/${token}`;
+
+  console.log(qrCodeValue);
+  
 
   const qrRef = useRef<HTMLDivElement>(null);
 
@@ -260,7 +266,7 @@ const VerifySignaturePage = () => {
                     {sigType !== 'digital' ? (
                       <div className="flex flex-col items-center">
                           <div ref={qrRef} className="p-4 border-2 border-dashed border-default-300 rounded-2xl bg-white mb-6">
-                              <QRCodeSVG value={window.location.href} size={200} level="H" />
+                              <QRCodeSVG value={qrCodeValue} size={200} level="H" />
                           </div>
                           <Button 
                             fullWidth 

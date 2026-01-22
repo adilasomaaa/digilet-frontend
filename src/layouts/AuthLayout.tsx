@@ -1,6 +1,5 @@
 import { Button, Image } from '@heroui/react'
-import React, { useEffect, useState } from 'react'
-import { Link, Outlet, useLocation } from 'react-router'
+import { Link, Outlet } from 'react-router'
 import LoginImage from '@/assets/login.jpg'
 import { ArrowLeft } from 'lucide-react'
 import Logo from '@/assets/logo-invert.png'
