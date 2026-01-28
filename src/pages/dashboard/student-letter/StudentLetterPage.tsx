@@ -134,6 +134,7 @@ const StudentLetterPage = () => {
             return (
                 <Chip
                 color={statusMap[status].color}
+                variant="flat"
                 className="text-xs font-medium"
                 >
                 {statusMap[status].label}

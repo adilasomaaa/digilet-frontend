@@ -15,7 +15,7 @@ const LetterAttributePage = () => {
   const {letterId} = useParams()
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
+    filterValue, setFilterValue, 
     sortDescriptor, setSortDescriptor,
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,

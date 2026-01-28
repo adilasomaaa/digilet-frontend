@@ -13,7 +13,7 @@ import DeleteModal from "@/components/dashboard/DeleteModal";
 const HeaderPage = () => {
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
+    filterValue, setFilterValue,
     sortDescriptor, setSortDescriptor,
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,

@@ -81,7 +81,7 @@ const ImportModal = ({
               }}
             >
               {field.options.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>
+                <SelectItem key={opt.value}>
                   {opt.label}
                 </SelectItem>
               ))}

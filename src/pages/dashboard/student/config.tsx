@@ -16,7 +16,7 @@ export const studentFormFields: FormFieldConfig[] = [
   {
     key: "email",
     label: "Email",
-    type: "email",
+    type: "text",
     placeholder: "Masukkan email...",
     isRequired: true,
   },

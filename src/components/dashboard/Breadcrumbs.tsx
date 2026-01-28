@@ -1,4 +1,3 @@
-import React from 'react';
 import { Breadcrumbs, BreadcrumbItem } from "@heroui/breadcrumbs";
 import { Link, useLocation } from 'react-router';
 

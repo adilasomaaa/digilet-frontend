@@ -9,9 +9,9 @@ import {
   Chip
 } from "@heroui/react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { env } from "@/lib/env";
-import { SaveIcon } from "lucide-react";
+import { ArrowLeft, SaveIcon } from "lucide-react";
 import { useStudentLetter } from "@/hooks/useStudentLetter";
 
 const statusMap: Record<string, { color: "warning" | "primary" | "success" | "danger" | "secondary"; label: string }> = { 
@@ -22,6 +22,7 @@ const statusMap: Record<string, { color: "warning" | "primary" | "success" | "da
                 }
 
 const StudentLetterEditPage = () => {
+  const navigate = useNavigate();
   const { item, isLoading, isSubmitting, onUpdate } = useStudentLetter();
   const { register, handleSubmit } = useForm();
 
@@ -81,12 +82,17 @@ const StudentLetterEditPage = () => {
 
   return (
     <div className="p-6">
-        <div className="flex flex-col py-4">
+      <div className="flex flex-row py-4 gap-4 items-center">
+        <Button isIconOnly variant="flat" onPress={() => navigate(-1)}>
+          <ArrowLeft size={20} />
+        </Button>
+        <div className="flex flex-col">
           <h1 className="text-xl font-bold">Perbarui Pengajuan Surat</h1>
           <p className="text-small text-default-500">
             Perbarui formulir untuk memperbarui pengajuan surat
           </p>
         </div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left Column: Letter Info */}
         <Card className="border-none shadow-sm">

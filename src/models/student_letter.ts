@@ -17,6 +17,7 @@ export type StudentLetter = {
   signatureType: string;
   student: Student;
   letter: Letter;
+  carbonCopy: string;
   institution: Institution;
   documentSubmissions: DocumentSubmission[];
   letterAttributeSubmissions: LetterAttributeSubmission[];
@@ -31,6 +32,10 @@ export type StudentLetterCreatePayload = {
 export type StudentLetterUpdatePayload = {
   name: string;
 };
+
+export type StudentLetterCarbonCopyPayload = {
+  carbonCopy: string;
+}
 
 export interface StudentLetterPaginatedResponse {
   data: StudentLetter[];

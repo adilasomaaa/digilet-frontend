@@ -1,5 +1,4 @@
-import { Button, Image } from "@heroui/react";
-import MailImage from "@/assets/mail.jpg";
+import { Button } from "@heroui/react";
 
 const HeroSection = () => {
   return (

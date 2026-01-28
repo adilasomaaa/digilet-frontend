@@ -1,4 +1,4 @@
-interface SelectOption {
+export interface SelectOption {
   label: string;
   value: string | number | boolean;
 }
@@ -13,7 +13,7 @@ interface BaseField {
 
 // Tipe spesifik untuk berbagai jenis input
 interface TextField extends BaseField {
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "wysiwyg";
 }
 interface NumberField extends BaseField {
   type: "number";

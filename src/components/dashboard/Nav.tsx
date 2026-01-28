@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { LayoutDashboard, Users, Settings, Home, TagIcon, Split, FolderOpen, CircleQuestionMark, CircleFadingPlus, Store, ClipboardList, UserRoundCheck, UserPen, Mail, TextInitial, Mails, MailsIcon, MailOpen } from "lucide-react";
+import { LayoutDashboard, Users, Settings, Home, ClipboardList, UserRoundCheck, UserPen, Mail, TextInitial, Mails, MailOpen } from "lucide-react";
 
 export type Role = "admin" | "client" | string;
 
@@ -78,17 +78,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
     roles: ["client"]
   },
-  { key: "home",    label: "Overview", to: "/dashboard", icon: <Home className="h-4 w-4" />, exact: true, roles: ["student"] },
-  {
-    key: "master",
-    label: "Data Master",
-    icon: <LayoutDashboard className="h-4 w-4" />,
-    children: [
-      { key: "student", label: "Pengajuan Surat", to: "/dashboard/student-letter/submission", icon: <Users className="h-4 w-4" /> },
-      { key: "letter", label: "Riwayat Pengajuan", to: "/dashboard/student-letter/history", icon: <Mail className="h-4 w-4" /> },
-    ],
-    roles: ["student"],
-  },
+  { key: "home",    label: "Overview", to: "/dashboard-student", icon: <Home className="h-4 w-4" />, exact: true, roles: ["student"] },
   { key: "settings",label: "Settings", to: "/settings",  icon: <Settings className="h-4 w-4" /> },
 ];
 

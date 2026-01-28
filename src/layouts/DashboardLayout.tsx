@@ -1,7 +1,8 @@
+import Footer from '@/components/dashboard/Footer';
 import Header from '../components/dashboard/Header';
 import Sidebar from '../components/dashboard/Sidebar';
 import { useLocalStorage } from '@/context/LocalStorageContext';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -9,6 +10,7 @@ const DashboardLayout = () => {
   const [openMobile, setOpenMobile] = useState(false);
 
   return (
+    <>
         <div className="min-h-dvh w-full flex bg-background">
         <Sidebar
             collapsed={collapsed}
@@ -20,6 +22,7 @@ const DashboardLayout = () => {
             <main className="p-4">
                 <Outlet />
             </main>
+            <Footer />
         </div>
 
         {openMobile && (
@@ -36,6 +39,8 @@ const DashboardLayout = () => {
             </div>
             )}
         </div>
+        
+    </>
   );
 }
 

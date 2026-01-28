@@ -15,7 +15,7 @@ import { useInstitution } from "@/hooks/useInstitution";
 const OfficialPage = () => {
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
+    filterValue, setFilterValue,
     sortDescriptor, setSortDescriptor,
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,

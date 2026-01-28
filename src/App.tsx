@@ -28,6 +28,16 @@ import StudentLetterHistoryPage from './pages/dashboard/student-letter/StudentLe
 import StudentLetterEditPage from './pages/dashboard/student-letter/StudentLetterEditPage'
 import LandingPage from './pages/landing/LandingPage'
 import StudentLetterVerifyPage from './pages/dashboard/student-letter/StudentLetterVerifyPage'
+import GeneralLetterTemplate from './pages/dashboard/templates/GeneralLetterTemplate'
+import GeneralLetterDetailPage from './pages/dashboard/general-letter/GeneralLetterDetailPage'
+import GeneralLetterSignaturePage from './pages/dashboard/general-letter/GeneralLetterSignaturePage'
+import StudentLetterTemplate from './pages/dashboard/templates/StudentLetterTemplate'
+import StudentLetterDetailPage from './pages/dashboard/student-letter/StudentLetterDetailPage'
+import GeneralLetterAttachmentPage from './pages/dashboard/general-letter/GeneralLetterAttachmentPage'
+import StudentLetterSignaturePage from './pages/dashboard/student-letter/StudentLetterSignaturePage'
+import StudentDashboardPage from './pages/dashboard/StudentDashboardPage'
+import StudentLetterAttachment from './pages/dashboard/student-letter/StudentLetterAttachment'
+
 
 function App() {
   const navigate = useNavigate();
@@ -44,7 +54,7 @@ function App() {
         </Route>
         <Route
           element={
-            <ProtectedRoute roles={["student","personnel","admin"]} redirectTo="/">
+            <ProtectedRoute roles={["personnel","admin"]} redirectTo="/">
               <DashboardLayout />
             </ProtectedRoute>
           }
@@ -63,7 +73,6 @@ function App() {
           <Route path="/dashboard/header" element={<HeaderPage />} />
           <Route path="/dashboard/general-letter" element={<GeneralLetterPage />} />
           <Route path="/dashboard/general-letter/:id" element={<GeneralLetterSubmissionPage />} />
-          <Route path="/dashboard/general-letter/edit/:id" element={<GeneralLetterEditPage />} />
           <Route
             element={
                 <LetterTemplate />
@@ -73,6 +82,29 @@ function App() {
             <Route path="/dashboard/:letterId/letter-attribute" element={<LetterAttributePage />} />
             <Route path="/dashboard/:letterId/letter-document" element={<LetterDocumentPage />} />
             <Route path="/dashboard/:letterId/letter-template" element={<LetterTemplatePage />} />
+          </Route>
+          <Route
+            element={
+                <GeneralLetterTemplate />
+            }
+          >
+            <Route path="/dashboard/general-letter/:generalLetterId/detail" element={<GeneralLetterDetailPage />} />
+            <Route path="/dashboard/general-letter/:generalLetterId/edit" element={<GeneralLetterEditPage />} />
+            <Route path="/dashboard/general-letter/:generalLetterId/signature" element={<GeneralLetterSignaturePage />} />
+            <Route path="/dashboard/general-letter/:generalLetterId/attachment" element={<GeneralLetterAttachmentPage />} />
+            
+          </Route>
+          <Route
+            element={
+                <StudentLetterTemplate />
+            }
+          >
+            <Route path="/dashboard/student-letter/:studentLetterId/detail" element={<StudentLetterDetailPage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/edit" element={<StudentLetterVerifyPage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/signature" element={<StudentLetterSignaturePage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/edit" element={<StudentLetterVerifyPage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/attachment" element={<StudentLetterAttachment />} />
+            
           </Route>
         </Route>
         <Route
@@ -87,7 +119,6 @@ function App() {
           <Route path="/dashboard/official" element={<OfficialPage />} />
           <Route path="/dashboard/personnel" element={<PersonnelPage />} />
           <Route path="/dashboard/student" element={<StudentPage />} />
-          <Route path="/dashboard/general-letter" element={<GeneralLetterPage />} />
         </Route>
         <Route
           element={
@@ -96,6 +127,7 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="/dashboard-student" element={<StudentDashboardPage />} />
           <Route path="/dashboard/student-letter/submission" element={<StudentLetterSubmissionPage />} />
           <Route path="/dashboard/student-letter/history" element={<StudentLetterHistoryPage />} />
           <Route path="/dashboard/student-letter/edit/:id" element={<StudentLetterEditPage />} />

@@ -13,6 +13,7 @@ export type GeneralLetter = {
   name: string;
   letterDate: string;
   signatureType: string;
+  carbonCopy: string;
   user: UserResponse;
   letter: Letter;
   institution: Institution;
@@ -42,7 +43,12 @@ export type GeneralLetterUpdatePayload = {
     attributeId: number;
     content: string;
   }[];
+  carbonCopy?: string;
 };
+
+export type GeneralLetterCarbonCopyPayload = {
+  carbonCopy: string;
+}
 
 export interface GeneralLetterPaginatedResponse {
   data: GeneralLetter[];

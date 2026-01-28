@@ -20,7 +20,11 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (user && token) {
-            navigate("/dashboard", { replace: true });
+            if(user.userRoles.name == 'student') {
+                navigate("/dashboard-student", { replace: true });
+            } else {
+                navigate("/dashboard", { replace: true });
+            }
         }
     }, [user, token, navigate]);
 

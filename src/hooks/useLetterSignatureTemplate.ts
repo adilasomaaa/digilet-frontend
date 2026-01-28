@@ -5,7 +5,6 @@ import { letterSignatureTemplateSchema } from "@/schemas/LetterSignatureTemplate
 import { letterSignatureTemplateService } from "@/services/LetterSignatureTemplateService";
 import type { SortDescriptor } from "@heroui/react";
 import type { LetterSignatureTemplate } from "@/models";
-import { useParams } from "react-router";
 
 export const useLetterSignatureTemplate = (letterId?: string) => {
   const [items, setItems] = useState<LetterSignatureTemplate[]>([]);

@@ -12,14 +12,14 @@ export const useStudent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [isImportLoading, setIsImportLoading] = useState(false);
-  const [isExportLoading, setIsExportLoading] = useState(false);
+  const [isExportLoading] = useState(false);
 
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const handleExport = async (studyProgramId?: string) => {
     try {
       const blob = await studentService.export({ studyProgramId });
-      const url = window.URL.createObjectURL(blob); // Pastikan ini Blob dari fetcher.ts
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute(

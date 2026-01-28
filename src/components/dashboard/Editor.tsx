@@ -40,9 +40,10 @@ import 'ckeditor5/ckeditor5.css';
 interface EditorProps {
   value: string;
   onChange: (data: string) => void;
+  disabled?: boolean;
 }
 
-const Editor = ({ value, onChange }: EditorProps) => {
+const Editor = ({ value, onChange, disabled = false }: EditorProps) => {
   return (
     <Card className="w-full shadow-sm border-default-200">
       <CardBody className="p-0">
@@ -64,10 +65,11 @@ const Editor = ({ value, onChange }: EditorProps) => {
           .ck-content h4 { font-size: 1.1em; font-weight: bold; }
         `}</style>
           <CKEditor
+            disabled={disabled}
             editor={ClassicEditor}
             data={value}
             config={{
-                licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NjkyMTI3OTksImp0aSI6ImEzMmFjYmE4LTVlZjQtNGI3Yi1iMzk4LWM5Y2NkNDI5NDA1MiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjI2MTkyYzQ2In0.x1nFS3dBZwR_1in2COz0Z92mQA-HByoQMQz4lD9b2NoaCOkAqtVxR6KHDdvwDjxZRlgd-c3f4J4psNJJMyEzhw',
+                licenseKey: 'GPL',
                 plugins: [ 
                   Bold,
                   Italic,
@@ -149,6 +151,7 @@ const Editor = ({ value, onChange }: EditorProps) => {
                 }
             }}
             onChange={(event, editor) => {
+              console.log(event, editor);
                 onChange(editor.getData());
             }}
         />

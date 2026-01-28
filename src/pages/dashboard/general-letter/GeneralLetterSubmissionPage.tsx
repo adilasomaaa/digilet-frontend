@@ -49,7 +49,7 @@ const GeneralLetterSubmissionPage = () => {
         attributes: attributesPayload
       };
 
-      generalLetterService.create(payload);
+      await generalLetterService.create(payload);
       navigate("/dashboard/general-letter");
 
     } catch (error) {

@@ -3,7 +3,7 @@ import { z } from "zod";
 export const studentSchema = z.object({
   fullname: z.string(),
   institutionId: z.any(),
-  email: z.string().email(),
+  email: z.string(),
   address: z.string(),
   nim: z.string(),
   phoneNumber: z.string().optional(),

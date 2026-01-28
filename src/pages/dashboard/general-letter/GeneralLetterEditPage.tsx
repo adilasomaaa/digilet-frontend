@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useOutletContext, useParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { 
   Card, CardBody, Input, Button, 
-  Skeleton, CardHeader, Divider,
+  Skeleton, CardHeader,
   Select,
   SelectItem
 } from "@heroui/react";
@@ -12,13 +12,14 @@ import { Save, ArrowLeft, Loader2 } from "lucide-react";
 import { useLetter } from "@/hooks/useLetter"; 
 import DashboardBreadcrumbs from "@/components/dashboard/Breadcrumbs";
 import { generalLetterService } from "@/services/GeneralLetterService";
+import type { GeneralLetter } from "@/models";
 
 const GeneralLetterEditPage = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); 
+  const { generalLetterId } = useParams(); 
+  const { item: data, isLoading: isLoadingData, refresh } = useOutletContext<{ item: GeneralLetter | null, isLoading: boolean, refresh: () => void }>();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoadingData, setIsLoadingData] = useState(true);
   const [letterId, setLetterId] = useState<number | null>(null);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -26,10 +27,7 @@ const GeneralLetterEditPage = () => {
   const { item: letter, isLoading: isLoadingAttr } = useLetter(letterId?.toString() || "");
 
   useEffect(() => {
-    const fetchSubmissionData = async () => {
-      try {
-        const response = await generalLetterService.show(Number(id));
-        const data = response.data
+    if (data) {
         setLetterId(data.letterId);
 
         const attributeValues: any = {};
@@ -41,18 +39,11 @@ const GeneralLetterEditPage = () => {
           letterNumber: data.letterNumber,
           name: data.name,
           signatureType: data.signatureType,
-          letterDate: data.letterDate ? data.letterDate.split('T')[0] : "", // Format YYYY-MM-DD
+          letterDate: data.letterDate ? data.letterDate.split('T')[0] : "",
           ...attributeValues
         });
-      } catch (error) {
-        console.error("Gagal mengambil data surat:", error);
-      } finally {
-        setIsLoadingData(false);
-      }
-    };
-
-    if (id) fetchSubmissionData();
-  }, [id, reset]);
+    }
+  }, [data, reset]);
 
   const onFormSubmit = async (data: any) => {
     setIsSubmitting(true);
@@ -70,8 +61,9 @@ const GeneralLetterEditPage = () => {
         attributes: attributesPayload
       };
 
-      await generalLetterService.update(Number(id), payload);
-      navigate("/dashboard/general-letter");
+      await generalLetterService.update(Number(generalLetterId), payload);
+      navigate(`/dashboard/general-letter/${generalLetterId}/detail`);
+      refresh();
     } catch (error) {
       console.error("Gagal memperbarui surat:", error);
     } finally {
@@ -89,7 +81,7 @@ const GeneralLetterEditPage = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto pb-10">
+    <div className="pb-10">
       <DashboardBreadcrumbs />
       
       <div className="flex items-center gap-4 my-6">

@@ -2,7 +2,7 @@ import { Button, Card, CardBody, Listbox, ListboxItem } from '@heroui/react'
 import { ArrowLeftCircle } from 'lucide-react';
 import React from 'react'
 import { Link, Outlet, useLocation, useParams } from 'react-router'
-import { navColumn } from './nav';
+import { letterNavColumn } from './nav';
 import * as LucideIcons from "lucide-react";
 import { useLetter } from '@/hooks/useLetter';
 import LetterTable from '@/components/dashboard/LetterTable';
@@ -25,7 +25,7 @@ const IconWrapper = ({ name, className }: { name: string; className?: string }) 
 
 const LetterTemplate = () => {
     const { letterId } = useParams<{ letterId: string }>();
-    const navItems = navColumn(letterId)
+    const navItems = letterNavColumn(letterId)
     const location = useLocation();
     const {item, isLoading} = useLetter(letterId);
 
@@ -36,26 +36,24 @@ const LetterTemplate = () => {
                 <ArrowLeftCircle></ArrowLeftCircle> Kembali
             </Button>
             <ListboxWrapper>
-                <Listbox aria-label="Listbox menu with descriptions" variant="flat">
-                    {navItems.map((item) => {
-                        const isActive = location.pathname === item.to;
-                        return (
-                            <ListboxItem key={item.key}
-                                as={Link}
-                                to={item.to}
-                                color={isActive ? "primary" : "default"}
-                                variant={isActive ? "solid" : "flat"}
-                                className={isActive ? "text-white bg-primary" : ""}
-                                startContent={
-                                item.icon && <IconWrapper name={item.icon as string} className={isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary"} />
-                                }>
-                                {item.label}
-                            </ListboxItem>
-                        );
-                    })}
-                    
-                </Listbox>
-                </ListboxWrapper>
+              <Listbox aria-label="Listbox menu with descriptions" variant="flat">
+                  {navItems.map((item) => {
+                      const isActive = location.pathname === item.to;
+                      return (
+                          <ListboxItem key={item.key}
+                              href={item.to}
+                              color={isActive ? "primary" : "default"}
+                              variant={isActive ? "solid" : "flat"}
+                              className={isActive ? "text-white bg-primary" : ""}
+                              startContent={
+                              item.icon && <IconWrapper name={item.icon as string} className={isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary"} />
+                              }>
+                              {item.label}
+                          </ListboxItem>
+                      );
+                  })}
+              </Listbox>
+            </ListboxWrapper>
         </div>
         <div className='col-span-4 flex flex-col gap-4'>
             <Card className='shadow-sm border-none'>

@@ -19,7 +19,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  // ketika refresh, kalau ada token → ambil /me
   useEffect(() => {
     const fetchUser = async () => {
       if (!token) {

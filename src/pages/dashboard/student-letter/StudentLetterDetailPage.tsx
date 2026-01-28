@@ -1,0 +1,150 @@
+import { Button, Card, CardBody, CardHeader, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
+import { Edit2, Loader2, Redo2Icon } from "lucide-react";
+import { Link, useOutletContext, useParams } from "react-router"
+import type { StudentLetter, StudentLetterCarbonCopyPayload } from "@/models";
+import InputModal from "@/components/dashboard/InputModal";
+import { useForm } from "react-hook-form";
+import { carbonCopyFormFields } from "./config";
+import { useStudentLetter } from "@/hooks/useStudentLetter";
+
+const StudentLetterDetailPage = () => {
+    const { studentLetterId } = useParams<{ studentLetterId: string }>();
+    const { item, isLoading, refresh } = useOutletContext<{ item: StudentLetter | null, isLoading: boolean, refresh: () => void }>();
+
+    const { isModalOpen, setIsModalOpen, isSubmitting, onSubmitCarbonCopy } = useStudentLetter();
+
+    const copyForm = useForm<StudentLetterCarbonCopyPayload>({
+        defaultValues: {
+            carbonCopy: item?.carbonCopy || ''
+        }
+    });
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px]">
+                <Loader2 className="animate-spin text-primary" size={40} />
+                <p className="mt-4 text-default-500">Memuat detail surat...</p>
+            </div>
+        );
+    }
+
+    if (!item) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px] text-default-500">
+                Data tidak ditemukan
+            </div>
+        );
+    }
+
+    return (
+        <>
+        <Card shadow="sm" className="border-none">
+            <CardHeader className="flex justify-between items-center px-6 pt-6 mb-4">
+                <div className="flex flex-col">
+                    <h3 className="font-semibold text-lg">Detail Surat</h3>
+                    <span className="text-tiny text-default-400">Perbarui surat dengan mengklik tombol di kanan</span>
+                </div>
+                <div className="flex gap-2">
+                    <Button 
+                        color="secondary" 
+                        variant="flat"
+                        startContent={<Redo2Icon size={18} />}
+                        onPress={() => {
+                            copyForm.reset({ carbonCopy: item?.carbonCopy || '' });
+                            setIsModalOpen(true);
+                        }}
+                    >
+                        Tembusan
+                    </Button>
+                    <Button 
+                        as={Link} 
+                        to={`/dashboard/student-letter/${studentLetterId}/edit`} 
+                        color="warning" 
+                        variant="flat"
+                        startContent={<Edit2 size={18} />}
+                    >
+                        Verifikasi Surat
+                    </Button>
+                </div>
+            </CardHeader>
+            <CardBody className="px-6 pb-6 pt-0">
+                <Table hideHeader removeWrapper aria-label="Detail Surat Table">
+                    <TableHeader>
+                        <TableColumn>LABEL</TableColumn>
+                        <TableColumn>VALUE</TableColumn>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow key="name">
+                            <TableCell className="font-medium w-1/3 text-default-600">Nama Pengajuan</TableCell>
+                            <TableCell>{item.name}</TableCell>
+                        </TableRow>
+                        <TableRow key="letterNumber">
+                            <TableCell className="font-medium text-default-600">Nomor Surat</TableCell>
+                            <TableCell>{item.letterNumber}</TableCell>
+                        </TableRow>
+                        <TableRow key="letterDate">
+                            <TableCell className="font-medium text-default-600">Tanggal Surat</TableCell>
+                            <TableCell>{new Date(item.letterDate).toLocaleDateString('id-ID', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            })}</TableCell>
+                        </TableRow>
+                        <TableRow key="signatureType">
+                            <TableCell className="font-medium text-default-600">Tipe Tanda Tangan</TableCell>
+                            <TableCell className="capitalize">{item.signatureType}</TableCell>
+                        </TableRow>
+                        <TableRow key="institution">
+                            <TableCell className="font-medium text-default-600">Lembaga / Prodi</TableCell>
+                            <TableCell>{item.letter.institution.name}</TableCell>
+                        </TableRow>
+
+                        <TableRow key="createdAt">
+                            <TableCell className="font-medium text-default-600">Dibuat Pada</TableCell>
+                            <TableCell>{new Date(item.createdAt).toLocaleString('id-ID')}</TableCell>
+                        </TableRow>
+                        <TableRow key="updatedAt">
+                            <TableCell className="font-medium text-default-600">Terakhir Diupdate</TableCell>
+                            <TableCell>{new Date(item.updatedAt).toLocaleString('id-ID')}</TableCell>
+                        </TableRow>
+
+                        <TableRow key="divider-attributes">
+                            <TableCell colSpan={2} className="bg-default-100/50 font-bold text-default-700 py-2 my-4">
+                                Detail Pengajuan
+                            </TableCell>
+                        </TableRow>
+
+                        {/* Dynamic Attributes */}
+                        <>
+                            {(item.letterAttributeSubmissions ?? []).map((attr) => (
+                                <TableRow key={`attr-${attr.id}`}>
+                                    <TableCell className="font-medium text-default-600">
+                                        {attr.letterAttribute?.label || "Atribut Tambahan"}
+                                    </TableCell>
+                                    <TableCell>{attr.content}</TableCell>
+                                </TableRow>
+                            ))}
+                        </>
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+
+        <InputModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            title="Perbarui Tembusan"
+            isLoading={isSubmitting}
+            onSubmit={copyForm.handleSubmit((data) => onSubmitCarbonCopy(+studentLetterId!, data, refresh))}
+            register={copyForm.register}
+            errors={copyForm.formState.errors}
+            setValue={copyForm.setValue}
+            watch={copyForm.watch}
+            fields={carbonCopyFormFields}
+        />
+        </>
+    )
+}
+
+export default StudentLetterDetailPage

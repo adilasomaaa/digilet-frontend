@@ -15,7 +15,7 @@ import { useMemo } from "react";
 const LetterPage = () => {
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
+    filterValue, setFilterValue,
     sortDescriptor, setSortDescriptor,
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,

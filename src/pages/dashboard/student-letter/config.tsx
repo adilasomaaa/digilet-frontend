@@ -1,7 +1,7 @@
 import type { Column } from "@/components/dashboard/DataTable";
 import type { DisplayFieldConfig, FormFieldConfig } from "@/types";
-import { Chip, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
-import { Badge, EyeIcon, PencilIcon, Trash2Icon, PrinterIcon, FileSignature, MoreVerticalIcon, BadgeCheck } from "lucide-react";
+import { Chip, Button, Link, Tooltip } from "@heroui/react";
+import { EyeIcon, PencilIcon, Trash2Icon, PrinterIcon, FileSignature, BadgeCheck } from "lucide-react";
 
 export const studentLetterColumns = (
   onView?: (item: any) => void,
@@ -12,7 +12,8 @@ export const studentLetterColumns = (
   onDelete?: (item: any) => void,
   role: 'student' | 'personnel' = 'student'
 ): Column<any>[] => [
-  { name: "Nama", uid: "name", sortable: true, defaultVisible: true },
+  { name: "Nama", uid: "name", sortable: true, defaultVisible: true, renderCell: (item) => 
+  <Link isBlock showAnchorIcon color="primary"  href={`/dashboard/student-letter/${item.id}/detail`} className="cursor-pointer">{item.name}</Link> },
   { name: "Lembaga", uid: "letter.institution.name", sortable: true, defaultVisible: true },
   { name: "Jenis Surat", uid: "letter.letterName", sortable: true, defaultVisible: false },
   {
@@ -30,8 +31,9 @@ export const studentLetterColumns = (
       const status = item.status || "pending";
       return (
         <Chip
-          color={statusMap[status].color}
-          className="text-xs font-medium"
+            variant="flat"
+            color={statusMap[status].color}
+            className="text-xs font-medium"
         >
           {statusMap[status].label}
         </Chip>
@@ -48,56 +50,42 @@ export const studentLetterColumns = (
           return (
               <div className="flex items-center gap-2">
                   {onView && (
+                    <Tooltip content="Lihat Detail">
                       <Button isIconOnly size="sm" variant="light" onPress={() => onView(item)}>
                           <EyeIcon className="w-4 h-4 text-default-500" />
                       </Button>
+                    </Tooltip>
                   )}
                   
                   {role === 'personnel' && (
                       <>
-                          {/* Edit (Verify) */}
-                          {onEdit && (
-                              <Button isIconOnly size="sm" variant="light" onPress={() => onEdit(item)}>
-                                  <PencilIcon className="w-4 h-4 text-warning" />
+
+                          {/* Verify - only if pending */}
+                          {item.status === 'pending' && onVerify && (
+                            <Tooltip content="Verifikasi">
+                              <Button isIconOnly size="sm" variant="light" color="primary" onPress={() => onVerify(item)}>
+                                  <BadgeCheck className="w-4 h-4" />
                               </Button>
-                          )}
-                          
-                          {/* Verifikasi (Change Status) */}
-                          {onVerify && (
-                              <Button isIconOnly size="sm" variant="light" onPress={() => onVerify(item)}>
-                                   <BadgeCheck className="w-4 h-4 text-success" />
-                              </Button>
+                            </Tooltip>
                           )}
 
-                          {/* Signature & Print & Delete */}
-                          <Dropdown>
-                              <DropdownTrigger>
-                                  <Button isIconOnly size="sm" variant="light">
-                                      <MoreVerticalIcon className="w-4 h-4 text-default-500" />
-                                  </Button>
-                              </DropdownTrigger>
-                              <DropdownMenu aria-label="More Actions">
-                                  {/* Signature - if not pending */}
-                                  {item.status !== 'pending' && onSignature ? (
-                                      <DropdownItem key="signature" startContent={<FileSignature className="w-4 h-4" />} onPress={() => onSignature(item)}>
-                                          Tanda Tangan
-                                      </DropdownItem>
-                                  ) : null as any}
-                                  
-                                  {/* Print - if not pending */}
-                                  {item.status !== 'pending' && onPrint ? (
-                                      <DropdownItem key="print" startContent={<PrinterIcon className="w-4 h-4" />} onPress={() => onPrint(item)}>
-                                          Cetak
-                                      </DropdownItem>
-                                  ) : null as any}
+                          {/* Signature - if not pending */}
+                          {item.status !== 'pending' && onSignature && (
+                            <Tooltip content="Tanda Tangan">
+                              <Button isIconOnly size="sm" variant="light" onPress={() => onSignature(item)}>
+                                  <FileSignature className="w-4 h-4 text-default-500" />
+                              </Button>
+                            </Tooltip>
+                          )}
 
-                                  {onDelete && (
-                                       <DropdownItem key="delete" className="text-danger" color="danger" startContent={<Trash2Icon className="w-4 h-4" />} onPress={() => onDelete(item)}>
-                                          Hapus
-                                       </DropdownItem>
-                                  )}
-                              </DropdownMenu>
-                          </Dropdown>
+                          {/* Print - only if approved */}
+                          {item.status === 'approved' && onPrint && (
+                            <Tooltip content="Cetak">
+                              <Button isIconOnly size="sm" variant="light" onPress={() => onPrint(item)}>
+                                  <PrinterIcon className="w-4 h-4 text-default-500" />
+                              </Button>
+                            </Tooltip>
+                          )}
                       </>
                   )}
 
@@ -105,23 +93,29 @@ export const studentLetterColumns = (
                       <>
                            {/* Edit - only if pending */}
                            {onEdit && (
+                            <Tooltip content="Edit">
                               <Button isIconOnly size="sm" variant="light" isDisabled={item.status !== 'pending' && item.status !== 'rejected'} onPress={() => onEdit(item)}>
                                   <PencilIcon className="w-4 h-4 text-default-500" />
                               </Button>
+                            </Tooltip>
                            )}
 
                            {/* Print - only if approved */}
                             {item.status === 'approved' && onPrint && (
+                               <Tooltip content="Cetak">
                                <Button isIconOnly size="sm" variant="light" onPress={() => onPrint(item)}>
                                    <PrinterIcon className="w-4 h-4 text-default-500" />
                                </Button>
+                               </Tooltip>
                            )}
 
                            {/* Delete - only if pending */}
                            {item.status === 'pending' && onDelete && (
+                               <Tooltip color="danger" content="Hapus">
                                <Button isIconOnly size="sm" variant="light" color="danger" onPress={() => onDelete(item)}>
                                    <Trash2Icon className="w-4 h-4" />
                                </Button>
+                               </Tooltip>
                            )}
                       </>
                   )}
@@ -137,4 +131,14 @@ export const studentLetterFormFields: FormFieldConfig[] = [
 
 export const studentLetterDisplayFields: DisplayFieldConfig<any>[] = [
   { key: "name", label: "Nama" },
+];
+
+export const carbonCopyFormFields: FormFieldConfig[] = [
+  {
+    key: "carbonCopy",
+    label: "Tembusan",
+    type: "wysiwyg",
+    placeholder: "Masukkan tembusan surat...",
+    isRequired: false,
+  },
 ];

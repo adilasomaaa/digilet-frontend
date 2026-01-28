@@ -1,12 +1,9 @@
 import { useLetterTemplate } from "@/hooks/useLetterTemplate";
 import { 
-  letterTemplateColumns, 
-  letterTemplateFormFields, 
   letterTemplateDisplayFields 
 } from "./config";
 import DashboardBreadcrumbs from "@/components/dashboard/Breadcrumbs";
 import ShowModal from "@/components/dashboard/ShowModal";
-import DataTable from "@/components/dashboard/DataTable";
 import { useParams } from "react-router";
 import Editor from "@/components/dashboard/Editor";
 import { useEffect, useState } from "react";

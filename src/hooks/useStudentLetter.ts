@@ -7,12 +7,14 @@ import type { SortDescriptor } from "@heroui/react";
 import type { StudentLetter } from "@/models";
 import { useNavigate, useParams } from "react-router";
 
-export const useStudentLetter = () => {
+export const useStudentLetter = (studentLetterId?: number | string) => {
   const [items, setItems] = useState<StudentLetter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const params = useParams();
+  const id = studentLetterId || params.id || params.studentLetterId;
+  
   const [item, setItem] = useState<StudentLetter | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,9 +55,10 @@ export const useStudentLetter = () => {
   }, [paginationInfo.page, paginationInfo.limit, filterValue]);
 
   useEffect(() => {
+    if (id) return;
     const timer = setTimeout(fetchItems, 500);
     return () => clearTimeout(timer);
-  }, [fetchItems]);
+  }, [fetchItems, id]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);
@@ -71,6 +74,23 @@ export const useStudentLetter = () => {
       setIsSubmitting(false);
     }
   };
+
+  const onSubmitCarbonCopy = async (id: number, formData: any, onSuccess?: () => void) => {
+      setIsSubmitting(true);
+      try {
+        await studentLetterService.updateCarbonCopy(id, formData);
+        setIsModalOpen(false);
+        if (onSuccess) {
+          onSuccess();
+        } else {
+          fetchItems();
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    };
 
   const handleConfirmDelete = async () => {
     if (!deletingItem) return;
@@ -93,7 +113,7 @@ export const useStudentLetter = () => {
       setItem(response.data);
     } catch (error) {
       console.error("Gagal mengambil data surat");
-      navigate("/dashboard/student-letter/history");
+      // navigate("/dashboard/student-letter/history");
     } finally {
       setIsLoading(false);
     }
@@ -122,7 +142,7 @@ export const useStudentLetter = () => {
       setIsSubmitting(true);
       try {
           await studentLetterService.verify(Number(id), formData);
-          navigate("/dashboard/student-letter");
+          navigate(-1);
       } catch (error) {
           console.error("Gagal memverifikasi surat");
       } finally {
@@ -140,6 +160,8 @@ export const useStudentLetter = () => {
     form, onSubmit, fetchItems, handleConfirmDelete, item,
     onUpdate,
     onVerify,
-    refresh: fetchItems
+    refresh: id ? fetchItem : fetchItems,
+    fetchItem,
+    onSubmitCarbonCopy
   };
 };

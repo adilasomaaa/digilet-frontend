@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams } from "react-router";
 import { 
   Card, CardBody, CardHeader, Button, Divider, 
   Chip, Skeleton, Alert,
@@ -7,7 +7,7 @@ import {
 } from "@heroui/react";
 import { QRCodeSVG } from "qrcode.react";
 import SignatureCanvas from "react-signature-canvas";
-import { CheckCircle2, PenTool, Printer, ArrowLeft, RotateCcw, Lock, KeyRound } from "lucide-react";
+import { CheckCircle2, RotateCcw, Lock, KeyRound } from "lucide-react";
 import { letterSignatureService } from "@/services/LetterSignatureService";
 import type { LetterSignature } from "@/models/letter_signature";
 import Logo from '@/assets/logo.png'
@@ -121,7 +121,6 @@ const VerifySignaturePage = () => {
   if (isLoading) return <Skeleton className="h-96 w-full rounded-lg" />;
   if (!data) return <Alert color="danger" title="Data tidak ditemukan atau token tidak valid" />;
   
-  const signatureType = data.generalLetterSubmission?.signatureType || data.studentLetterSubmission?.signatureType;
 
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">

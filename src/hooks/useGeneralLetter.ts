@@ -6,7 +6,8 @@ import { generalLetterService } from "@/services/GeneralLetterService";
 import type { SortDescriptor } from "@heroui/react";
 import type { GeneralLetter } from "@/models";
 
-export const useGeneralLetter = () => {
+export const useGeneralLetter = (generalLetterId?: number) => {
+  const [item, setItem] = useState<GeneralLetter | null>(null);
   const [items, setItems] = useState<GeneralLetter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,9 +53,25 @@ export const useGeneralLetter = () => {
   }, [paginationInfo.page, paginationInfo.limit, filterValue]);
 
   useEffect(() => {
+    if (generalLetterId) return;
     const timer = setTimeout(fetchItems, 500);
     return () => clearTimeout(timer);
-  }, [fetchItems]);
+  }, [fetchItems, generalLetterId]);
+
+  const fetchItem = useCallback(async () => {
+    if (!generalLetterId) return;
+    setIsLoading(true);
+    try {
+      const response = await generalLetterService.show(generalLetterId);
+      setItem(response.data);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [generalLetterId]);
+
+  useEffect(() => {
+    fetchItem();
+  }, [fetchItem]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);
@@ -66,6 +83,23 @@ export const useGeneralLetter = () => {
       }
       setIsModalOpen(false);
       fetchItems();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const onSubmitCarbonCopy = async (id: number, formData: any, onSuccess?: () => void) => {
+    setIsSubmitting(true);
+    try {
+      await generalLetterService.updateCarbonCopy(id, formData);
+      setIsModalOpen(false);
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        fetchItems();
+      }
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -112,6 +146,9 @@ export const useGeneralLetter = () => {
     onSubmit,
     fetchItems,
     handleConfirmDelete,
-    refresh: fetchItems,
+    refresh: () => generalLetterId ? fetchItem() : fetchItems(),
+    item,
+    fetchItem,
+    onSubmitCarbonCopy
   };
 };

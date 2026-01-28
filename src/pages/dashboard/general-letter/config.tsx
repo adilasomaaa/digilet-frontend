@@ -1,16 +1,17 @@
 import type { Column } from "@/components/dashboard/DataTable";
 import type { DisplayFieldConfig, FormFieldConfig } from "@/types";
-import { Button, Tooltip } from "@heroui/react";
-import { EyeIcon, FileSignature, PencilIcon, PrinterIcon, Trash2Icon } from "lucide-react";
+import { Button, Link, Tooltip } from "@heroui/react";
+import { EyeIcon, FileSignature, PrinterIcon, Trash2Icon } from "lucide-react";
 
 export const generalLetterColumns = (
   onView: (item: any) => void,
   onPrint: (item: any) => void,
   onSignature: (item: any) => void,
-  onEdit: (item:any) => void,
   onDelete: (item: any) => void
 ): Column<any>[] => [
-  { name: "Nama", uid: "name", sortable: true, defaultVisible: true },
+  { name: "Nama", uid: "name", sortable: true, defaultVisible: true, renderCell: (item) => 
+  <Link isBlock showAnchorIcon color="primary"  href={`/dashboard/general-letter/${item.id}/detail`} className="cursor-pointer">{item.name}</Link> },
+  { name: "Nomor Surat", uid: "letterNumber", sortable: true, defaultVisible: true },
   { name: "Jenis Surat", uid: "letter.letterName", sortable: true, defaultVisible: true },
   { name: "Dibuat oleh", uid: "user.name", sortable: true, defaultVisible: true },
   { name: "Dibuat pada", uid: "createdAt", sortable: true, defaultVisible: true, renderCell: (item) => new Date(item.createdAt).toLocaleString() },
@@ -23,11 +24,6 @@ export const generalLetterColumns = (
         <Tooltip content="Lihat Detail">
           <Button isIconOnly size="sm" variant="light" onPress={() => onView(item)}>
             <EyeIcon className="w-4 h-4 text-default-400" />
-          </Button>
-        </Tooltip>
-        <Tooltip content="Edit Surat">
-          <Button isIconOnly size="sm" variant="light" color="warning" onPress={() => onEdit(item)}>
-            <PencilIcon className="w-4 h-4 text-warning-400" />
           </Button>
         </Tooltip>
         <Tooltip content="Cetak Surat">
@@ -56,4 +52,14 @@ export const generalLetterFormFields: FormFieldConfig[] = [
 
 export const generalLetterDisplayFields: DisplayFieldConfig<any>[] = [
   { key: "name", label: "Nama" },
+];
+
+export const carbonCopyFormFields: FormFieldConfig[] = [
+  {
+    key: "carbonCopy",
+    label: "Tembusan",
+    type: "wysiwyg",
+    placeholder: "Masukkan tembusan surat...",
+    isRequired: false,
+  },
 ];

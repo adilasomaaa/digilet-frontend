@@ -10,11 +10,13 @@ import {
   SelectItem,
 } from "@heroui/react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
-import { SaveIcon } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { ArrowLeft, SaveIcon } from "lucide-react";
 import { useStudentLetter } from "@/hooks/useStudentLetter";
+import { env } from "@/lib/env";
 
 const StudentLetterVerifyPage = () => {
+  const navigate = useNavigate();
   const { item, isLoading, isSubmitting, onVerify } = useStudentLetter();
   const { register, handleSubmit } = useForm();
 
@@ -61,13 +63,13 @@ const StudentLetterVerifyPage = () => {
   }
 
   return (
-    <div className="p-6">
-        <div className="flex flex-col py-4">
-          <h1 className="text-xl font-bold">Verifikasi Pengajuan Surat</h1>
-          <p className="text-small text-default-500">
-            Verifikasi formulir untuk memverifikasi pengajuan surat
-          </p>
-        </div>
+    <div>
+        <div className="flex items-center gap-4 my-6">
+        <Button isIconOnly variant="flat" onPress={() => navigate(-1)}>
+          <ArrowLeft size={20} />
+        </Button>
+        <h1 className="text-2xl font-bold">Verifikasi Surat: {item?.letter.letterName}</h1>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="border-none shadow-sm">
           <CardHeader className="flex flex-col gap-2 items-start">
@@ -96,7 +98,7 @@ const StudentLetterVerifyPage = () => {
                     {item.documentSubmissions.map(doc => (
                         <li key={doc.id}>
                             <span className="font-medium">{doc.letterDocument.documentName}:</span>{" "}
-                             <a href={`${import.meta.env.VITE_API_URL}/${doc.filePath}`} target="_blank" className="text-blue-500 hover:underline">Download</a>
+                             <a href={`${env.apiBaseUrl}/${doc.filePath}`} target="_blank" className="text-blue-500 hover:underline">Download</a>
                         </li>
                     ))}
                 </ul>

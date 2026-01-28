@@ -1,6 +1,7 @@
 import { http } from "../lib/fetcher";
 import type {
   GeneralLetter,
+  GeneralLetterCarbonCopyPayload,
   GeneralLetterCreatePayload,
   GeneralLetterPaginatedResponse,
   GeneralLetterUpdatePayload,
@@ -39,6 +40,17 @@ export const generalLetterService = {
   async update(id: number, payload: GeneralLetterUpdatePayload) {
     return await http<{ data: GeneralLetter }>(
       `general-letter-submission/${id}`,
+      {
+        method: "PATCH",
+        auth: true,
+        body: payload,
+      }
+    );
+  },
+
+  async updateCarbonCopy(id: number, payload: GeneralLetterCarbonCopyPayload) {
+    return await http<{ data: GeneralLetter }>(
+      `general-letter-submission/${id}/carbon-copy`,
       {
         method: "PATCH",
         auth: true,

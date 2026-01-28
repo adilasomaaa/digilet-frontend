@@ -1,8 +1,7 @@
 import { useGeneralLetter } from "@/hooks/useGeneralLetter";
 import { 
   generalLetterColumns, 
-  generalLetterFormFields, 
-  generalLetterDisplayFields 
+  generalLetterFormFields,  
 } from "./config";
 import DashboardBreadcrumbs from "@/components/dashboard/Breadcrumbs";
 import DataTable from "@/components/dashboard/DataTable";
@@ -12,16 +11,15 @@ import DeleteModal from "@/components/dashboard/DeleteModal";
 import { useNavigate } from "react-router";
 import { useMemo, useState } from "react";
 import { Button, Chip, Tooltip } from "@heroui/react";
-import { CopyIcon, RotateCcw, Undo2Icon } from "lucide-react";
+import { CopyIcon, RotateCcw } from "lucide-react";
 import ShareModal from "@/components/dashboard/ShareModal";
 import { env } from "@/lib/env";
-import { set } from "react-hook-form";
 import { letterSignatureService } from "@/services/LetterSignatureService";
 
 const GeneralLetterPage = () => {
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
+    filterValue, setFilterValue,
     sortDescriptor, setSortDescriptor,
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,
@@ -52,10 +50,6 @@ const GeneralLetterPage = () => {
     setIsSignatureModalOpen(true);
   };
 
-  const handleEdit = (item: any) => {
-    navigate(`/dashboard/general-letter/edit/${item.id}`);
-  };
-
   const handleResetSignature = async (item: any) => {
     try {
       await letterSignatureService.reset(item);
@@ -72,7 +66,6 @@ const GeneralLetterPage = () => {
     (item) => { setViewingItem(item); setIsViewModalOpen(true); },
     handlePrint,
     handleSignatureStatus,
-    handleEdit,
     (item) => { setDeletingItem(item); setIsDeleteModalOpen(true); }
   ), []);
 
@@ -132,7 +125,7 @@ const GeneralLetterPage = () => {
         onClose={() => setIsSignatureModalOpen(false)}
         title="Status & Akses Tanda Tangan"
         data={selectedLetterForSig}
-        fields={selectedLetterForSig?.letterSignatures?.map((sig: any, index: number) => ({
+        fields={selectedLetterForSig?.letterSignatures?.map((sig: any) => ({
           label: `${sig.letterSignatureTemplate.official.name}`,
           render: () => (
             <>

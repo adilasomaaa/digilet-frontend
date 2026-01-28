@@ -20,8 +20,6 @@ type FetcherOptions = {
 
 const BASE_URL = env.apiUrl;
 
-const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
 export async function http<T>(
   path: string,
   {

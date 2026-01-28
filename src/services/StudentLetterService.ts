@@ -31,6 +31,14 @@ export const studentLetterService = {
     });
   },
 
+  async updateCarbonCopy(id: number, payload: any) {
+    return await http<{ data: StudentLetter }>(`student-letter-submission/${id}/carbon-copy`, {
+      method: "PATCH",
+      auth: true,
+      body: payload,
+    });
+  },
+
   async update(id: number, payload: any) {
     return await http<{ data: StudentLetter }>(`student-letter-submission/${id}`, {
       method: "PATCH",

@@ -9,7 +9,7 @@ import DataTable from "@/components/dashboard/DataTable";
 import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { parseDate } from "@internationalized/date";
 import ImportModal from "@/components/dashboard/ImportModal";
 import TemplateMahasiswa from "@/assets/templates/import-mahasiswa.xlsx?url";
@@ -18,7 +18,7 @@ import { useInstitution } from "@/hooks/useInstitution";
 const StudentPage = () => {
   const {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
-    filterValue, setFilterValue, filterState, setFilterState,
+    filterValue, setFilterValue,
     sortDescriptor, setSortDescriptor,
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,

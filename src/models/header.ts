@@ -19,7 +19,7 @@ export type HeaderCreatePayload = {
   header: string;
   subheader: string;
   address: string;
-  logo: string;
+  logo: string | FileList;
 };
 
 export type HeaderUpdatePayload = {
@@ -28,7 +28,7 @@ export type HeaderUpdatePayload = {
   header: string;
   subheader: string;
   address: string;
-  logo: string;
+  logo: string | FileList;
 };
 
 export interface HeaderPaginatedResponse {

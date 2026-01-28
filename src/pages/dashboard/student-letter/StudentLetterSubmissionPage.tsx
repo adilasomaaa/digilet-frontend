@@ -4,17 +4,15 @@ import { useNavigate } from "react-router";
 import {
   Card,
   CardFooter,
-  CardHeader,
   CardBody,
   Input,
   Button,
   Select,
   SelectItem,
-  addToast,
 } from "@heroui/react";
 import { letterService } from "@/services/LetterService";
 import type { Letter } from "@/models";
-import { Save } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { studentLetterService } from "@/services/StudentLetterService";
 
 type SubmissionForm = {
@@ -26,7 +24,6 @@ type SubmissionForm = {
 
 const StudentLetterSubmissionPage = () => {
   const navigate = useNavigate();
-  // const { user } = useAuth(); // removed unused
   const [letters, setLetters] = useState<Letter[]>([]);
   const [selectedLetter, setSelectedLetter] = useState<Letter | null>(null);
   const [isLoadingLetters, setIsLoadingLetters] = useState(false);
@@ -83,7 +80,6 @@ const StudentLetterSubmissionPage = () => {
     formData.append("letterId", String(data.letterId));
     formData.append("signatureType", data.signatureType);
     
-    // Process Attributes
     const attributes = selectedLetter.letterAttributes?.map((attr) => {
        const submittedAttr = data.attributes?.find(a => Number(a.attributeId) === attr.id);
        return {
@@ -122,12 +118,17 @@ const StudentLetterSubmissionPage = () => {
 
   return (
     <div className="p-6">
-        <div className="flex flex-col py-4">
+      <div className="flex flex-row py-4 gap-4 items-center">
+        <Button isIconOnly variant="flat" onPress={() => navigate(-1)}>
+          <ArrowLeft size={20} />
+        </Button>
+        <div className="flex flex-col">
           <h1 className="text-xl font-bold">Buat Pengajuan Surat</h1>
           <p className="text-small text-default-500">
             Isi formulir untuk mengajukan surat baru
           </p>
         </div>
+      </div>
        <Card className="border-none shadow-sm">
         <CardBody className="p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -222,7 +223,6 @@ const StudentLetterSubmissionPage = () => {
               <Button 
                 color="primary" 
                 type="submit" 
-                size="lg"
                 isLoading={isSubmitting}
                 startContent={!isSubmitting && <Save size={20} />}
               >

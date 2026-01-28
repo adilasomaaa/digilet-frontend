@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem, Textarea, NumberInput, Autocomplete, AutocompleteItem, DatePicker } from '@heroui/react';
+import React from 'react';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem, Textarea, Autocomplete, AutocompleteItem, DatePicker } from '@heroui/react';
 import ImageUploadField from './ImageUploadField'
 import type { UploadFieldProps } from './ImageUploadField';
-import type { FormFieldConfig } from '@/types';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor, Bold, Essentials, Italic, Paragraph, List, Link, Heading, BlockQuote, Undo } from 'ckeditor5';
+
+import type { FormFieldConfig, SelectOption } from '@/types';
 
 interface InputModalProps {
   isOpen: boolean;
@@ -24,9 +27,9 @@ interface InputModalProps {
     }>;
 }
 
-const getValueByDotNotation = (obj: Record<string, any>, path: string) => {
-  return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-};
+// const getValueByDotNotation = (obj: Record<string, any>, path: string) => {
+//   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+// };
 
 const isUploadField = (field: FormFieldConfig): field is UploadFieldProps => field.type === 'upload';
 
@@ -137,16 +140,20 @@ const InputModal = ({ isOpen,
                         label={field.label}
                         variant='bordered'
                         placeholder={field.placeholder}
-                        selectedKeys={watch(field.key) ? [String(watch(field.key))] : []}
+                        selectedKeys={watch(field.key) !== undefined && watch(field.key) !== null ? [String(watch(field.key))] : []}
                         onSelectionChange={(keys) => {
-                          const value = Array.from(keys)[0];
-                          setValue(field.key, value, { shouldValidate: true });
+                          const rawValue = Array.from(keys)[0] as string;
+                          let finalValue: any = rawValue;
+                          if (rawValue === "true") finalValue = true;
+                          else if (rawValue === "false") finalValue = false;
+                          else if (!isNaN(Number(rawValue)) && rawValue && rawValue.trim() !== "") finalValue = Number(rawValue);
+                          setValue(field.key, finalValue, { shouldValidate: true });
                         }}
                         isInvalid={!!errors[field.key]}
                         errorMessage={errors[field.key]?.message as string}
                       >
                         {field.options?.map((option) => (
-                          <SelectItem key={option.value}>
+                          <SelectItem key={String(option.value)}>
                             {option.label}
                           </SelectItem>
                         ))}
@@ -226,6 +233,33 @@ const InputModal = ({ isOpen,
                           errorMessage={errors[field.key]?.message as string} 
                         />
                       </div>
+                    );
+                  case 'wysiwyg':
+                    return (
+                        <div key={field.key}>
+                            <p className="mb-2 text-small">{field.label} {field.isRequired && <span className="text-danger">*</span>}</p>
+                            <CKEditor
+                                editor={ClassicEditor}
+                                data={watch(field.key) || ""}
+                                onChange={(event, editor) => {
+                                  console.log(event);
+                                    const data = editor.getData();
+                                    setValue(field.key, data, { shouldValidate: true });
+                                }}
+                                config={{
+                                  licenseKey: 'GPL',
+                                    plugins: [ Essentials, Bold, Italic, Paragraph, List, Link, Heading, BlockQuote, Undo ],
+                                    toolbar: [
+                                        'heading', '|',
+                                        'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                                        'undo', 'redo'
+                                    ]
+                                }}
+                            />
+                            {errors[field.key] && (
+                                <p className="text-tiny text-danger mt-1">{errors[field.key]?.message as string}</p>
+                            )}
+                        </div>
                     );
                   default:
                     return (
