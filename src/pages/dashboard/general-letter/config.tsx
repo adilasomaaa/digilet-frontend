@@ -46,8 +46,47 @@ export const generalLetterColumns = (
   },
 ];
 
-export const generalLetterFormFields: FormFieldConfig[] = [
-  { key: "name", label: "Nama", type: "text", placeholder: "Masukkan nama..." },
+export const generalLetterSignatureFormFields: FormFieldConfig[] = [
+  { key: "officialId", label: "Nama Penanda Tangan", type: "select", placeholder: "Pilih nama penanda tangan...", options: [], isRequired: true },
+  { key: "position", label: "Posisi", type: "select", placeholder: "Masukkan posisi...", isRequired: true, options: [
+    {
+      label: "Kiri Atas",
+      value: "kiri-atas",
+    }, 
+    {
+      label: "Kanan Atas",
+      value: "kanan-atas",
+    }, 
+    {
+      label: "Kiri Bawah",
+      value: "kiri-bawah",
+    }, 
+    {
+      label: "Kanan Bawah",
+      value: "kanan-bawah",
+    },
+    {
+      label: "Tengah Bawah",
+      value: "tengah-bawah",
+    },
+    {
+      label: "Tengah Atas",
+      value: "tengah-atas",
+    }
+  ]},
+  { key: "occupation", label: "Jabatan", type: "text", placeholder: "Masukkan jabatan...", isRequired: true },
+  { key: "uniqueCode", label: "NIP/NBM", type: "text", placeholder: "Masukkan NIP/NBM...", isRequired: true },
+  { key: "isAcknowledged", label: "Tambahkan kata mengetahui?", type: "select", placeholder: "Apakah pejabat ini mengetahui surat ini?", isRequired: true, options: [
+    {
+      label: "Ya",
+      value: true,
+    }, 
+    {
+      label: "Tidak",
+      value: false,
+    }
+  ]},
+  
 ];
 
 export const generalLetterDisplayFields: DisplayFieldConfig<any>[] = [

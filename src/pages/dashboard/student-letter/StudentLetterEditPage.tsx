@@ -118,6 +118,7 @@ const StudentLetterEditPage = () => {
             <div className="flex gap-2 flex-col">
                 <label className="text-sm font-semibold text-gray-500">Status</label>
                     <Chip
+                    variant="flat"
                     color={statusMap[item.status].color}
                     className="text-xs font-medium"
                     >
@@ -126,15 +127,19 @@ const StudentLetterEditPage = () => {
             </div>
             <Divider />
             <div>
-               <h3 className="font-semibold mb-2">Dokumen Saat Ini</h3>
-                <ul className="list-disc list-inside">
-                    {item.documentSubmissions.map(doc => (
-                        <li key={doc.id}>
-                            <span className="font-medium">{doc.letterDocument.documentName}:</span>{" "}
-                             <a href={`${env.apiBaseUrl}${doc.filePath}`} target="_blank" className="text-blue-500 hover:underline">Download</a>
-                        </li>
-                    ))}
-                </ul>
+              {item.documentSubmissions && item.documentSubmissions.length > 0 && (
+                <>
+                <h3 className="font-semibold mb-2">Dokumen Saat Ini</h3>
+                  <ul className="list-disc list-inside">
+                      {item.documentSubmissions.map(doc => (
+                          <li key={doc.id}>
+                              <span className="font-medium">{doc.letterDocument.documentName}:</span>{" "}
+                              <a href={`${env.apiBaseUrl}${doc.filePath}`} target="_blank" className="text-blue-500 hover:underline">Download</a>
+                          </li>
+                      ))}
+                  </ul>
+                </>
+              )}
             </div>
           </CardBody>
         </Card>

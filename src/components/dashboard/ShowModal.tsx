@@ -15,7 +15,24 @@ interface ShowModalProps<T> {
 
 
 const ShowModal = <T,> ({isOpen, onClose, title, data, fields} : ShowModalProps<T>) => {
-    if(!data) return null;
+    if (!data) return (
+        <Modal isOpen={isOpen} onOpenChange={onClose} placement="center">
+            <ModalContent>
+                <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
+                <ModalBody>
+                    <p className="text-center text-gray-500 py-4">Data {title} masih kosong</p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="danger" variant="light" onPress={onClose}>
+                        Tutup
+                    </Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    );
+
+    console.log(data);
+    
     
   return (
     <>

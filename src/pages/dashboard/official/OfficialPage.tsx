@@ -21,9 +21,9 @@ const OfficialPage = () => {
     isDeleteModalOpen, setIsDeleteModalOpen,
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
     handleConfirmDelete, form, onSubmit
-  } = useOfficial();
+  } = useOfficial({ fetchTable: true, fetchDropdown: false });
 
-  const { allItems } = useInstitution()
+  const { allItems } = useInstitution({ fetchTable: false, fetchDropdown: true });
 
   const dynamicFormFields = useMemo(() => {
     return officialFormFields.map((field) => {
@@ -37,7 +37,7 @@ const OfficialPage = () => {
   return (
     <div>
       <DashboardBreadcrumbs />
-      <h1 className="text-2xl font-semibold my-4">Kelola Pimpinan</h1>
+      <h1 className="text-2xl font-semibold my-4">Kelola Dosen</h1>
       
       <DataTable
         data={items}

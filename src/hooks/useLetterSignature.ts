@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { letterSignatureTemplateSchema } from "@/schemas/LetterSignatureTemplateSchema";
 import type { SortDescriptor } from "@heroui/react";
 import type { LetterSignature } from "@/models";
 import { letterSignatureService } from "@/services/LetterSignatureService";
+import { letterSignatureSchema } from "@/schemas/LetterSignatureSchema";
 
 export const useLetterSignature = (studentLetterSubmissionId?: string, generalLetterSubmissionId?: string) => {
   const [items, setItems] = useState<LetterSignature[]>([]);
@@ -35,7 +35,7 @@ export const useLetterSignature = (studentLetterSubmissionId?: string, generalLe
   });
 
   const form = useForm({
-    resolver: zodResolver(letterSignatureTemplateSchema),
+    resolver: zodResolver(letterSignatureSchema),
     mode: "onChange",
   });
 
@@ -66,6 +66,8 @@ export const useLetterSignature = (studentLetterSubmissionId?: string, generalLe
     try {
       const payload = {
         ...formData,
+        generalLetterSubmissionId: generalLetterSubmissionId ?? undefined,
+        studentLetterSubmissionId: studentLetterSubmissionId ?? undefined,
       };
       if (editingItem) {
         await letterSignatureService.update(

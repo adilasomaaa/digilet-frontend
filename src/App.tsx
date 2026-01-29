@@ -5,7 +5,8 @@ import DashboardPage from './pages/dashboard/DashboardPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import DashboardLayout from './layouts/DashboardLayout'
 import OfficialPage from './pages/dashboard/official/OfficialPage'
-import PersonnelPage from './pages/dashboard/personnel/PersonnelPage'
+import ProfilePage from './pages/dashboard/profile/ProfilePage';
+import PersonnelPage from './pages/dashboard/personnel/PersonnelPage';
 import StudentPage from './pages/dashboard/student/StudentPage'
 import LetterPage from './pages/dashboard/letter/LetterPage'
 import HeaderPage from './pages/dashboard/header/HeaderPage'
@@ -63,11 +64,21 @@ function App() {
         </Route>
         <Route
           element={
+            <ProtectedRoute roles={["personnel","admin","student"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard/profile" element={<ProfilePage />} />
+        </Route>
+        <Route
+          element={
             <ProtectedRoute roles={["personnel",'admin']} redirectTo="/">
               <DashboardLayout />
             </ProtectedRoute>
           }
         >
+          <Route path="/dashboard/official" element={<OfficialPage />} />
           <Route path="/dashboard/student" element={<StudentPage />} />
           <Route path="/dashboard/letter" element={<LetterPage />} />
           <Route path="/dashboard/header" element={<HeaderPage />} />
@@ -116,7 +127,6 @@ function App() {
         >
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/dashboard/study-program" element={<InstitutionPage />} />
-          <Route path="/dashboard/official" element={<OfficialPage />} />
           <Route path="/dashboard/personnel" element={<PersonnelPage />} />
           <Route path="/dashboard/student" element={<StudentPage />} />
         </Route>

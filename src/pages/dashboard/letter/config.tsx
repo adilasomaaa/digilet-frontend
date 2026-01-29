@@ -10,7 +10,7 @@ export const letterColumns: Column<any>[] = [
     defaultVisible: true, 
     renderCell: (item) => 
     <>
-      <Link isBlock showAnchorIcon color="primary"  href={`/dashboard/${item.id}/letter-signature-template`} className="cursor-pointer">{item.letterName}</Link>
+      <Link isBlock showAnchorIcon color="primary"  href={`/dashboard/${item.id}/letter-attribute`} className="cursor-pointer">{item.letterName}</Link>
     </> 
   },
   { 
@@ -38,6 +38,18 @@ export const letterColumns: Column<any>[] = [
         </Chip>
       </>
   },
+  { 
+    name: "Status", 
+    uid: "status", 
+    sortable: true, 
+    defaultVisible: true, 
+    renderCell: (item) => 
+      <>
+        <Chip size="sm" variant="flat" color="primary">
+          {item?.status || "-"}
+        </Chip>
+      </>
+  },
   { name: "Dibuat pada", uid: "createdAt", sortable: true, defaultVisible: false, renderCell: (item) => new Date(item.createdAt).toLocaleString() },
   { name: "ACTIONS", uid: "actions", defaultVisible: true },
 ];
@@ -49,6 +61,10 @@ export const letterFormFields: FormFieldConfig[] = [
     { label: "Program Studi", value: "study_program" },
     { label: "Fakultas", value: "faculty" },
     { label: "Universitas", value: "university" },
+  ] },
+  { key: "status", label: "Status", type: "select", placeholder: "Pilih status...", isRequired: true, options:[
+    { label: "Publik", value: "public" },
+    { label: "Privasi", value: "private" },
   ] },
 ];
 

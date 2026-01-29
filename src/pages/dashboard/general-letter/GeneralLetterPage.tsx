@@ -1,11 +1,9 @@
 import { useGeneralLetter } from "@/hooks/useGeneralLetter";
 import { 
-  generalLetterColumns, 
-  generalLetterFormFields,  
+  generalLetterColumns,   
 } from "./config";
 import DashboardBreadcrumbs from "@/components/dashboard/Breadcrumbs";
 import DataTable from "@/components/dashboard/DataTable";
-import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
 import { useNavigate } from "react-router";
@@ -21,10 +19,10 @@ const GeneralLetterPage = () => {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
     filterValue, setFilterValue,
     sortDescriptor, setSortDescriptor,
-    isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
+    setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,
-    editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
-    handleConfirmDelete, form, onSubmit, refresh
+    setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
+    handleConfirmDelete, form, refresh
   } = useGeneralLetter();
 
   const navigate = useNavigate();
@@ -46,7 +44,7 @@ const GeneralLetterPage = () => {
   };
 
   const handleSignatureStatus = (item: any) => {
-    setSelectedLetterForSig(item);
+    setSelectedLetterForSig(item.letterSignatures.length > 0 ? item.letterSignatures : null);
     setIsSignatureModalOpen(true);
   };
 
@@ -90,19 +88,6 @@ const GeneralLetterPage = () => {
         onDeleteItem={(item) => { setDeletingItem(item); setIsDeleteModalOpen(true); }}
       />
 
-      <InputModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={editingItem ? "Edit Surat Umum" : "Tambah Surat Umum"}
-        fields={ generalLetterFormFields }
-        register={form.register}
-        onSubmit={form.handleSubmit(onSubmit)}
-        errors={form.formState.errors}
-        setValue={form.setValue}
-        watch={form.watch}
-        isLoading={isSubmitting}
-      />
-
       <ShowModal
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
@@ -125,13 +110,13 @@ const GeneralLetterPage = () => {
         onClose={() => setIsSignatureModalOpen(false)}
         title="Status & Akses Tanda Tangan"
         data={selectedLetterForSig}
-        fields={selectedLetterForSig?.letterSignatures?.map((sig: any) => ({
-          label: `${sig.letterSignatureTemplate.official.name}`,
+        fields={selectedLetterForSig?.map((sig: any) => ({
+          label: `${sig.official.name}`,
           render: () => (
             <>
               <div className="flex items-center justify-between w-full p-2 border rounded-lg border-default-100">
                 <div className="flex flex-col">
-                  <span className="text-sm font-semibold">{sig.letterSignatureTemplate.official.occupation}</span>
+                  <span className="text-sm font-semibold">{sig.official.occupation}</span>
                   <div className="flex items-center gap-2 mt-1">
                     <Chip 
                       size="sm" 

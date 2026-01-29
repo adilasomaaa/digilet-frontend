@@ -14,6 +14,7 @@ import {
   DropdownItem,
   Chip,
   Pagination,
+  Spinner,
 } from "@heroui/react";
 import type { SortDescriptor, Selection } from "@heroui/react";
 import { ChevronDownIcon, PlusIcon, SearchIcon, MoreVerticalIcon, EyeIcon, PencilIcon, Trash2Icon, DownloadIcon, UploadIcon } from "lucide-react"; 
@@ -477,6 +478,7 @@ const DataTable = <T extends { id: React.Key; [key: string]: any }>({
             <TableBody
               items={data}
               isLoading={isLoading}
+              loadingContent={<Spinner label="Memuat data..." />}
               emptyContent={!isLoading && 'No data found'}
             >
               {(item) => (

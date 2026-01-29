@@ -63,7 +63,7 @@ export const studentLetterColumns = (
                           {/* Verify - only if pending */}
                           {item.status === 'pending' && onVerify && (
                             <Tooltip content="Verifikasi">
-                              <Button isIconOnly size="sm" variant="light" color="primary" onPress={() => onVerify(item)}>
+                              <Button isIconOnly size="sm" variant="light" color="warning" onPress={() => onVerify(item)}>
                                   <BadgeCheck className="w-4 h-4" />
                               </Button>
                             </Tooltip>
@@ -72,8 +72,8 @@ export const studentLetterColumns = (
                           {/* Signature - if not pending */}
                           {item.status !== 'pending' && onSignature && (
                             <Tooltip content="Tanda Tangan">
-                              <Button isIconOnly size="sm" variant="light" onPress={() => onSignature(item)}>
-                                  <FileSignature className="w-4 h-4 text-default-500" />
+                              <Button isIconOnly size="sm" variant="light" color="secondary" onPress={() => onSignature(item)}>
+                                  <FileSignature className="w-4 h-4" />
                               </Button>
                             </Tooltip>
                           )}
@@ -81,8 +81,16 @@ export const studentLetterColumns = (
                           {/* Print - only if approved */}
                           {item.status === 'approved' && onPrint && (
                             <Tooltip content="Cetak">
-                              <Button isIconOnly size="sm" variant="light" onPress={() => onPrint(item)}>
-                                  <PrinterIcon className="w-4 h-4 text-default-500" />
+                              <Button isIconOnly size="sm" variant="light" color="primary" onPress={() => onPrint(item)}>
+                                  <PrinterIcon className="w-4 h-4" />
+                              </Button>
+                            </Tooltip>
+                          )}
+
+                          {onDelete && (
+                            <Tooltip color="danger" content="Hapus">
+                              <Button isIconOnly size="sm" variant="light" color="danger" onPress={() => onDelete(item)}>
+                                  <Trash2Icon className="w-4 h-4" />
                               </Button>
                             </Tooltip>
                           )}
@@ -125,8 +133,47 @@ export const studentLetterColumns = (
   },
 ];
 
-export const studentLetterFormFields: FormFieldConfig[] = [
-  { key: "name", label: "Nama", type: "text", placeholder: "Masukkan nama..." },
+export const studentLetterSignatureFormFields: FormFieldConfig[] = [
+  { key: "officialId", label: "Nama Penanda Tangan", type: "select", placeholder: "Pilih nama penanda tangan...", options: [], isRequired: true },
+  { key: "position", label: "Posisi", type: "select", placeholder: "Masukkan posisi...", isRequired: true, options: [
+    {
+      label: "Kiri Atas",
+      value: "kiri-atas",
+    }, 
+    {
+      label: "Kanan Atas",
+      value: "kanan-atas",
+    }, 
+    {
+      label: "Kiri Bawah",
+      value: "kiri-bawah",
+    }, 
+    {
+      label: "Kanan Bawah",
+      value: "kanan-bawah",
+    },
+    {
+      label: "Tengah Bawah",
+      value: "tengah-bawah",
+    },
+    {
+      label: "Tengah Atas",
+      value: "tengah-atas",
+    }
+  ]},
+  { key: "occupation", label: "Jabatan", type: "text", placeholder: "Masukkan jabatan...", isRequired: true },
+  { key: "uniqueCode", label: "NIP/NBM", type: "text", placeholder: "Masukkan NIP/NBM...", isRequired: true },
+  { key: "isAcknowledged", label: "Tambahkan kata mengetahui?", type: "select", placeholder: "Apakah pejabat ini mengetahui surat ini?", isRequired: true, options: [
+    {
+      label: "Ya",
+      value: true,
+    }, 
+    {
+      label: "Tidak",
+      value: false,
+    }
+  ]},
+  
 ];
 
 export const studentLetterDisplayFields: DisplayFieldConfig<any>[] = [

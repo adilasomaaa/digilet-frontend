@@ -27,7 +27,7 @@ const StudentPage = () => {
     setIsImportModalOpen, isImportModalOpen, isImportLoading, handleImport
   } = useStudent();
 
-  const { allItems } = useInstitution()
+  const { allItems } = useInstitution({ fetchTable: false, fetchDropdown: true });
     
   const dynamicFormFields = useMemo(() => {
     return studentFormFields.map((field) => {

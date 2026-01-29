@@ -114,8 +114,8 @@ const DetailSignaturePage = () => {
                 <div className="grid grid-cols-3 gap-4">
                     <div>
                         <p className="text-sm text-default-400 mb-2">Penanda Tangan</p>
-                        <p className="font-bold text-lg">{data.letterSignatureTemplate.official.name}</p>
-                        <p className="text-default-500">{data.letterSignatureTemplate.official.occupation}</p>
+                        <p className="font-bold text-lg">{data.official.name}</p>
+                        <p className="text-default-500">{data.official.occupation}</p>
                     </div>
                     <div>
                         <p className="text-sm text-default-400 mb-2">Status</p>

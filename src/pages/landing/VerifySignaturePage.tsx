@@ -53,7 +53,6 @@ const VerifySignaturePage = () => {
                 await letterSignatureService.update(data.id, { 
                 signature: barcodeBase64, 
                 verifiedAt: new Date().toISOString(), 
-                letterSignatureTemplateId: data.letterSignatureTemplateId 
                 });
                 window.location.reload();
             }
@@ -107,7 +106,6 @@ const VerifySignaturePage = () => {
         await letterSignatureService.update(data.id, { 
             signature: signatureBase64, 
             verifiedAt: new Date().toISOString(), 
-            letterSignatureTemplateId: data.letterSignatureTemplateId 
         });
         window.location.reload();
         }
@@ -194,8 +192,8 @@ const VerifySignaturePage = () => {
                 <Divider />
                 <div>
                     <p className="text-sm text-default-400 mb-2">Penanda Tangan</p>
-                    <p className="font-bold text-lg">{data.letterSignatureTemplate.official.name}</p>
-                    <p className="text-default-500">{data.letterSignatureTemplate.official.occupation}</p>
+                    <p className="font-bold text-lg">{data.official.name}</p>
+                    <p className="text-default-500">{data.official.occupation}</p>
                 </div>
                 </CardBody>
             </Card>
@@ -208,9 +206,9 @@ const VerifySignaturePage = () => {
               <h2 className="text-2xl font-bold">Dokumen Terverifikasi</h2>
               <p className="text-default-600">Dokumen ini telah ditandatangani secara digital oleh:</p>
               <Chip size="lg" color="primary" variant="flat" className="font-bold uppercase text-lg h-12 px-6">
-                {data.letterSignatureTemplate.official.name}
+                {data.official.name}
               </Chip>
-              <p className="text-xs text-default-400 mt-4 italic">NIP: {data.letterSignatureTemplate.official.nip}</p>
+              <p className="text-xs text-default-400 mt-4 italic">NIP: {data.official.nip}</p>
             </div>
           ) : !isVerified ? (
             <div className="flex flex-col items-center gap-6 py-6">

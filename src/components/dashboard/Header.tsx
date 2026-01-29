@@ -1,7 +1,7 @@
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@heroui/button'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@heroui/react';
-import { LogOut, Mail, Menu } from 'lucide-react';
+import { LogOut, Mail, Menu, User as UserIcon } from 'lucide-react';
 import React from 'react'
 import { Link } from 'react-router';
 import Avatar from '@/assets/avatar.jpg';
@@ -50,6 +50,14 @@ const Header: React.FC<HeaderProps> = ({ setOpenMobile }) => {
                         isReadOnly 
                         className="text-xs flex items-center gap-2">
                         {user?.email}
+                    </DropdownItem>
+                    <DropdownItem
+                        key="profile"
+                        startContent={<UserIcon size={16} />}
+                        className="flex items-center gap-2"
+                        href="/dashboard/profile"
+                    >
+                        Profil Saya
                     </DropdownItem>
                     <DropdownItem 
                         startContent={<LogOut />}

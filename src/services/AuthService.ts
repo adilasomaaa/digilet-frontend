@@ -36,4 +36,20 @@ export const authService = {
       localStorage.removeItem("access_token");
     }
   },
+
+  async updateProfile(payload: any) {
+    return await http<{ data: AuthResponse }>("auth/profile", {
+      method: "POST",
+      auth: true,
+      body: payload,
+    });
+  },
+
+  async changePassword(payload: any) {
+    return await http<void>("auth/change-password", {
+      method: "POST",
+      auth: true,
+      body: payload,
+    });
+  },
 };

@@ -13,15 +13,15 @@ interface navbarItem {
   }
 
 export const letterNavColumn = (letterId: string | undefined): navbarItem[] => [
-    {
-      key: "letter-template-signature",
-      label: "Template Tanda Tangan",
-      to: `/dashboard/${letterId}/letter-signature-template`,
-      description: "Template Tanda Tangan",
-      exact: true,
-      icon: "Signature",
-      roles: ["admin", "user"],
-    },
+    // {
+    //   key: "letter-template-signature",
+    //   label: "Template Tanda Tangan",
+    //   to: `/dashboard/${letterId}/letter-signature-template`,
+    //   description: "Template Tanda Tangan",
+    //   exact: true,
+    //   icon: "Signature",
+    //   roles: ["admin", "user"],
+    // },
     {
       key: "letter-attribute",
       label: "Atribut Surat",

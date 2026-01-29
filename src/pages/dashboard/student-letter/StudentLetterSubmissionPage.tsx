@@ -108,7 +108,7 @@ const StudentLetterSubmissionPage = () => {
     
     try {
       await studentLetterService.create(formData);
-      navigate("/dashboard/student-letter/history");
+      navigate("/dashboard-student");
     } catch (error) {
       console.error(error);
     } finally {

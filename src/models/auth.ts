@@ -11,6 +11,16 @@ export type AuthResponse = {
     name: string;
     rolePermissions: string[];
   };
+  personnel?: {
+    position: string;
+  };
+  student?: {
+    nim: string;
+    fullname : string;
+    institution: {
+      name: string;
+    };
+  };
 };
 
 export type LoginResponse = {

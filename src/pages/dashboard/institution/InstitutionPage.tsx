@@ -20,7 +20,7 @@ const InstitutionPage = () => {
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
     handleConfirmDelete,
     form, onSubmit
-  } = useInstitution();
+  } = useInstitution({ fetchTable: true, fetchDropdown: false });
 
   return (
     <div>

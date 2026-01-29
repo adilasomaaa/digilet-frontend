@@ -85,7 +85,7 @@ const StudentProfileCard = () => {
                     variant="flat"
                     size="sm"
                     className="w-full"
-                    onPress={() => navigate('/dashboard/profile/edit')}
+                    onPress={() => navigate('/dashboard/profile')}
                 >
                     Edit Profil
                 </Button>

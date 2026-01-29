@@ -23,7 +23,7 @@ const LetterPage = () => {
     handleConfirmDelete, form, onSubmit
   } = useLetter();
 
-  const {allItems} = useHeader();
+  const {allItems} = useHeader({ fetchTable: false, fetchDropdown: true });
 
   const dynamicFormFields = useMemo(() => {
     return letterFormFields.map((field) => {

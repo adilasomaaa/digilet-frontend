@@ -267,8 +267,8 @@ const DashboardPage = () => {
                                                     <PenTool size={16} className="text-success" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <h4 className="font-semibold text-sm">{signature.letterSignatureTemplate.official.name}</h4>
-                                                    <p className="text-xs text-default-500">{signature.letterSignatureTemplate.official.occupation}</p>
+                                                    <h4 className="font-semibold text-sm">{signature.official.name}</h4>
+                                                    <p className="text-xs text-default-500">{signature.official.occupation}</p>
                                                     <p className="text-xs text-default-400 mt-1">
                                                         {signature.studentLetterSubmission?.letter.letterName || 
                                                          signature.generalLetterSubmission?.letter.letterName}

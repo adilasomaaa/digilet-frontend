@@ -1,33 +1,36 @@
 import type { GeneralLetter } from "./general_letter";
-import type { LetterSignatureTemplate } from "./letter_signature_template";
+import type { Official } from "./official";
 import type { StudentLetter } from "./student_letter";
 
 export type LetterSignature = {
   id: number;
   studentLetterSubmissionId?: number;
   generalLetterSubmissionId?: number;
-  letterSignatureTemplateId: number;
+  officialId: number;
+  position: string;
+  isAcknowledged: boolean;
   signature?: string;
   verifiedAt?: string;
   token: string;
+  occupation: string;
+  uniqueCode: string;
   code: string;
   studentLetterSubmission?: StudentLetter;
+  official: Official;
   generalLetterSubmission?: GeneralLetter;
-  letterSignatureTemplate: LetterSignatureTemplate;
   createdAt: string;
   updatedAt: string;
 };
 
 export type LetterSignatureCreatePayload = {
-  letterSignatureTemplateId: number;
-  signature: string;
-  verifiedAt?: string;
+  position: string;
+  isAcknowledged: boolean;
+  officialId: number;
   studentLetterSubmissionId?: number;
   generalLetterSubmissionId?: number;
 };
 
 export type LetterSignatureUpdatePayload = {
-  letterSignatureTemplateId: number;
   signature: any;
   verifiedAt?: string;
   studentLetterSubmissionId?: number;

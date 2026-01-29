@@ -6,12 +6,16 @@ import type { Institution } from "@/models";
 import { institutionSchema } from "@/schemas/InstitutionSchema";
 import { institutionService } from "@/services/InstitutionService";
 
-export const useInstitution = () => {
+export const useInstitution = ({
+  fetchTable = true,
+  fetchDropdown = false,
+} = {}) => {
   const [allItems, setAllItems] = useState<any[]>([]);
   const [items, setItems] = useState<Institution[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // ... (state declarations)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -40,6 +44,7 @@ export const useInstitution = () => {
   });
 
   const fetchItems = useCallback(async () => {
+    if (!fetchTable) return;
     setIsLoading(true);
     try {
       const tipeValue =
@@ -58,9 +63,10 @@ export const useInstitution = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [paginationInfo.page, paginationInfo.limit, filterValue, filterState]);
+  }, [paginationInfo.page, paginationInfo.limit, filterValue, filterState, fetchTable]);
 
   const fetchAllItems = useCallback(async () => {
+    if (!fetchDropdown) return;
     setIsLoading(true);
     try {
       const response = await institutionService.index({
@@ -75,16 +81,20 @@ export const useInstitution = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [fetchDropdown]);
 
   useEffect(() => {
-    const timer = setTimeout(fetchItems, 500);
-    return () => clearTimeout(timer);
-  }, [fetchItems]);
+    if (fetchTable) {
+        const timer = setTimeout(fetchItems, 500);
+        return () => clearTimeout(timer);
+    }
+  }, [fetchItems, fetchTable]);
 
   useEffect(() => {
-    fetchAllItems();
-  }, [fetchAllItems]);
+    if (fetchDropdown) {
+        fetchAllItems();
+    }
+  }, [fetchAllItems, fetchDropdown]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);

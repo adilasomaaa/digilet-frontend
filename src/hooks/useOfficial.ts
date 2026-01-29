@@ -6,12 +6,16 @@ import { officialService } from "@/services/OfficialService";
 import type { SortDescriptor } from "@heroui/react";
 import type { Official } from "@/models";
 
-export const useOfficial = () => {
+export const useOfficial = ({
+  fetchTable = true,
+  fetchDropdown = false,
+} = {}) => {
   const [allItems, setAllItems] = useState<any[]>([]);
   const [items, setItems] = useState<Official[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // ... (state declarations)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -38,6 +42,7 @@ export const useOfficial = () => {
   });
 
   const fetchItems = useCallback(async () => {
+    if (!fetchTable) return;
     setIsLoading(true);
     try {
       const response = await officialService.index({
@@ -50,9 +55,10 @@ export const useOfficial = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [paginationInfo.page, paginationInfo.limit, filterValue]);
+  }, [paginationInfo.page, paginationInfo.limit, filterValue, fetchTable]);
 
   const fetchAllItems = useCallback(async () => {
+    if (!fetchDropdown) return;
     setIsLoading(true);
     try {
       const response = await officialService.index({
@@ -67,16 +73,20 @@ export const useOfficial = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [fetchDropdown]);
 
   useEffect(() => {
-    const timer = setTimeout(fetchItems, 500);
-    return () => clearTimeout(timer);
-  }, [fetchItems]);
+    if (fetchTable) {
+        const timer = setTimeout(fetchItems, 500);
+        return () => clearTimeout(timer);
+    }
+  }, [fetchItems, fetchTable]);
 
   useEffect(() => {
-    fetchAllItems();
-  }, [fetchAllItems]);
+    if (fetchDropdown) {
+        fetchAllItems();
+    }
+  }, [fetchAllItems, fetchDropdown]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);

@@ -23,7 +23,7 @@ const PersonnelPage = () => {
     handleConfirmDelete, form, onSubmit
   } = usePersonnel();
 
-  const { allItems } = useInstitution()
+  const { allItems } = useInstitution({ fetchTable: false, fetchDropdown: true });
   
   const dynamicFormFields = useMemo(() => {
     return personnelFormFields.map((field) => {

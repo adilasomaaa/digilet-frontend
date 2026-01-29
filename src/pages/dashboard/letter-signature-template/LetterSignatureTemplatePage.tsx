@@ -26,7 +26,7 @@ const LetterSignatureTemplatePage = () => {
     handleConfirmDelete, form, onSubmit
   } = useLetterSignatureTemplate(letterId);
 
-  const { allItems } = useOfficial();
+  const { allItems } = useOfficial({ fetchTable: false, fetchDropdown: true });
 
   const dynamicFormFields = useMemo(() => {
     return letterSignatureTemplateFormFields.map((field) => {

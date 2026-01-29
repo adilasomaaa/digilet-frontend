@@ -30,12 +30,10 @@ export interface RecentLetter {
 export interface RecentSignature {
     id: number;
     verifiedAt: string;
-    letterSignatureTemplate: {
-        official: {
-            name: string;
-            occupation: string;
-            nip: string;
-        };
+    official: {
+        name: string;
+        occupation: string;
+        nip: string;
     };
     studentLetterSubmission?: {
         name: string;

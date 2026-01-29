@@ -29,7 +29,7 @@ export const NAV_ITEMS: NavItem[] = [
     icon: <LayoutDashboard className="h-4 w-4" />,
     children: [
     { key: "study_program", label: "Program Studi", to: "/dashboard/study-program", icon: <ClipboardList className="h-4 w-4" /> },
-      { key: "official", label: "Pimpinan", to: "/dashboard/official", icon: <UserRoundCheck className="h-4 w-4" /> },
+      { key: "official", label: "Dosen", to: "/dashboard/official", icon: <UserRoundCheck className="h-4 w-4" /> },
       { key: "personnel", label: "Personil", to: "/dashboard/personnel", icon: <UserPen className="h-4 w-4" /> },
       { key: "student", label: "Mahasiswa", to: "/dashboard/student", icon: <Users className="h-4 w-4" /> },
     ],
@@ -38,7 +38,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "letter",
     label: "Kelola Surat",
-    icon: <LayoutDashboard className="h-4 w-4" />,
+    icon: <Mail className="h-4 w-4" />,
     children: [
       { key: "letter", label: "Jenis Surat", to: "/dashboard/letter", icon: <Mail className="h-4 w-4" /> },
       { key: "header", label: "Kop Surat", to: "/dashboard/header", icon: <TextInitial className="h-4 w-4" /> },
@@ -53,6 +53,7 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Data Master",
     icon: <LayoutDashboard className="h-4 w-4" />,
     children: [
+      { key: "official", label: "Pimpinan", to: "/dashboard/official", icon: <UserRoundCheck className="h-4 w-4" /> },
       { key: "student", label: "Mahasiswa", to: "/dashboard/student", icon: <Users className="h-4 w-4" /> },
       { key: "letter", label: "Jenis Surat", to: "/dashboard/letter", icon: <Mail className="h-4 w-4" /> },
       { key: "header", label: "Kop Surat", to: "/dashboard/header", icon: <TextInitial className="h-4 w-4" /> },
@@ -79,7 +80,7 @@ export const NAV_ITEMS: NavItem[] = [
     roles: ["client"]
   },
   { key: "home",    label: "Overview", to: "/dashboard-student", icon: <Home className="h-4 w-4" />, exact: true, roles: ["student"] },
-  { key: "settings",label: "Settings", to: "/settings",  icon: <Settings className="h-4 w-4" /> },
+  { key: "settings",label: "Pengaturan", to: "/dashboard/profile",  icon: <Settings className="h-4 w-4" /> },
 ];
 
 export function filterByRole(items: NavItem[], role?: Role | null) {

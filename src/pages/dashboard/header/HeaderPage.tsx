@@ -19,7 +19,7 @@ const HeaderPage = () => {
     isDeleteModalOpen, setIsDeleteModalOpen,
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
     handleConfirmDelete, form, onSubmit
-  } = useHeader();
+  } = useHeader({ fetchTable: true, fetchDropdown: false });
 
 
   return (

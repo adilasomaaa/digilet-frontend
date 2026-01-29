@@ -6,7 +6,10 @@ import { headerService } from "@/services/HeaderService";
 import type { SortDescriptor } from "@heroui/react";
 import type { Header } from "@/models";
 
-export const useHeader = () => {
+export const useHeader = ({
+  fetchTable = true,
+  fetchDropdown = false,
+} = {}) => {
   const [allItems, setAllItems] = useState<any[]>([]);
   const [items, setItems] = useState<Header[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +41,7 @@ export const useHeader = () => {
   });
 
   const fetchItems = useCallback(async () => {
+    if (!fetchTable) return;
     setIsLoading(true);
     try {
       const response = await headerService.index({
@@ -50,9 +54,10 @@ export const useHeader = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [paginationInfo.page, paginationInfo.limit, filterValue]);
+  }, [paginationInfo.page, paginationInfo.limit, filterValue, fetchTable]);
 
   const fetchAllItems = useCallback(async () => {
+    if (!fetchDropdown) return;
     setIsLoading(true);
     try {
       const response = await headerService.index({
@@ -67,16 +72,20 @@ export const useHeader = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [fetchDropdown]);
 
   useEffect(() => {
-    fetchAllItems();
-  }, [fetchAllItems]);
+    if (fetchDropdown) {
+        fetchAllItems();
+    }
+  }, [fetchAllItems, fetchDropdown]);
 
   useEffect(() => {
-    const timer = setTimeout(fetchItems, 500);
-    return () => clearTimeout(timer);
-  }, [fetchItems]);
+    if (fetchTable) {
+        const timer = setTimeout(fetchItems, 500);
+        return () => clearTimeout(timer);
+    }
+  }, [fetchItems, fetchTable]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);
