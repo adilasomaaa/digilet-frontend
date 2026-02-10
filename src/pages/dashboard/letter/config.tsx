@@ -57,6 +57,7 @@ export const letterColumns: Column<any>[] = [
 export const letterFormFields: FormFieldConfig[] = [
   { key: "letterName", label: "Nama Surat", type: "text", placeholder: "Masukkan nama surat...", isRequired: true },
   { key: "letterHeadId", label: "Kop Surat", type: "select", placeholder: "Pilih kop surat...", isRequired: true, options:[] },
+  { key: "institutionId", label: "Institution", type: "select", placeholder: "Pilih institution...", isRequired: false, options: [] },
   { key: "category", label: "Kategori", type: "select", placeholder: "Pilih kategori...", isRequired: true, options:[
     { label: "Program Studi", value: "study_program" },
     { label: "Fakultas", value: "faculty" },

@@ -36,11 +36,33 @@ export const studyProgramFormFields: FormFieldConfig[] = [
     label: "Alamat",
     type: "text",
     placeholder: "Masukkan alamat program studi...",
+    isRequired: false,
+  },
+  {
+    key: "type",
+    label: "Tipe Institution",
+    type: "select",
+    placeholder: "Pilih tipe institution...",
     isRequired: true,
+    options: [
+      { value: "university", label: "University" },
+      { value: "faculty", label: "Faculty" },
+      { value: "study_program", label: "Study Program" },
+      { value: "institution", label: "Institution" },
+    ],
+  },
+  {
+    key: "parentId",
+    label: "Parent Institution",
+    type: "select",
+    placeholder: "Pilih parent institution (opsional)...",
+    isRequired: false,
+    options: [], // Will be populated dynamically
   },
 ];
 
 export const studyProgramDisplayFields: DisplayFieldConfig<any>[] = [
   { key: "name", label: "Nama Program Studi" },
   { key: "address", label: "Alamat" },
+  { key: "type", label: "Tipe" },
 ];

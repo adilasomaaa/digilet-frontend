@@ -8,6 +8,7 @@ export const letterSchema = z.object({
   letterNumberingStart: z.any(),
   category: z.string(),
   status: z.string(),
+  institutionId: z.number().optional(),
 });
 
 export type LetterSchema = z.infer<typeof letterSchema>;

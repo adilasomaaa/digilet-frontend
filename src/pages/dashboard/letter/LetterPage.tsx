@@ -10,6 +10,7 @@ import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
 import { useHeader } from "@/hooks/useHeader";
+import { useInstitution } from "@/hooks/useInstitution";
 import { useMemo } from "react";
 
 const LetterPage = () => {
@@ -24,15 +25,23 @@ const LetterPage = () => {
   } = useLetter();
 
   const {allItems} = useHeader({ fetchTable: false, fetchDropdown: true });
+  const { items: institutions } = useInstitution({ fetchTable: true, fetchDropdown: false });
 
   const dynamicFormFields = useMemo(() => {
     return letterFormFields.map((field) => {
       if (field.key === "letterHeadId") {
         return { ...field, options: allItems };
       }
+      if (field.key === "institutionId") {
+        const institutionOptions = institutions.map((inst) => ({
+          label: `${inst.name} (${inst.type})`,
+          value: inst.id,
+        }));
+        return { ...field, options: institutionOptions };
+      }
       return field;
     });
-  }, [allItems]);
+  }, [allItems, institutions]);
 
   return (
     <div>

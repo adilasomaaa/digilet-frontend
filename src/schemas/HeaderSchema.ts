@@ -6,6 +6,7 @@ export const headerSchema = z.object({
   subheader: z.string(),
   address: z.string(),
   logo: z.any(),
+  institutionId: z.number().optional(),
 });
 
 export type HeaderSchema = z.infer<typeof headerSchema>;

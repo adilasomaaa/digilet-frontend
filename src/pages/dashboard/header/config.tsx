@@ -15,6 +15,7 @@ export const headerFormFields: FormFieldConfig[] = [
   { key: "header", label: "Judul Kop Utama", type: "text", placeholder: "Masukkan judul utama...", isRequired:true },
   { key: "subheader", label: "Judul Kop Sekunder", type: "text", placeholder: "Masukkan sekunder...", isRequired:true },
   { key: "address", label: "Alamat Kop", type: "text", placeholder: "Masukkan alamat...", isRequired:true },
+  { key: "institutionId", label: "Institution", type: "select", placeholder: "Pilih institution...", isRequired: false, options: [] },
   { key: "logo", label: "Logo Kop", type: "upload", placeholder: "Masukkan logo...", isRequired:true, 
     maxSize: 5 * 1024 * 1024,allowedExtensions: ['.png', '.jpg', '.jpeg'], previewUrl: "", },
 

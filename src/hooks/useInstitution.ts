@@ -101,7 +101,7 @@ export const useInstitution = ({
     try {
       const payload = {
         ...formData,
-        type: "study_program",
+        parentId: formData.parentId ? Number(formData.parentId) : undefined,
       };
       if (editingItem) {
         await institutionService.update(Number(editingItem.id), payload);

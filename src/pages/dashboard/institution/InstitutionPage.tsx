@@ -9,6 +9,7 @@ import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
 import { useInstitution } from "@/hooks/useInstitution";
+import { useMemo } from "react";
 
 const InstitutionPage = () => {
   const {
@@ -22,10 +23,26 @@ const InstitutionPage = () => {
     form, onSubmit
   } = useInstitution({ fetchTable: true, fetchDropdown: false });
 
+  // Populate parent institution options dynamically
+  const formFieldsWithOptions = useMemo(() => {
+    return studyProgramFormFields.map(field => {
+      if (field.key === 'parentId') {
+        return {
+          ...field,
+          options: items.map(inst => ({
+            value: inst.id.toString(),
+            label: `${inst.name} (${inst.type})`
+          }))
+        };
+      }
+      return field;
+    });
+  }, [items]);
+
   return (
     <div>
       <DashboardBreadcrumbs />
-      <h1 className="text-2xl font-semibold my-4">Kelola Program Studi</h1>
+      <h1 className="text-2xl font-semibold my-4">Kelola Institusi</h1>
       
       <DataTable
         data={items}
@@ -39,7 +56,7 @@ const InstitutionPage = () => {
         setFilterState={setFilterState}
         sortDescriptor={sortDescriptor}
         setSortDescriptor={setSortDescriptor}
-        onAddNew={() => { form.reset({ name: "", address:"" }); setEditingItem(null); setIsModalOpen(true); }}
+        onAddNew={() => { form.reset({ name: "", address:"", type: undefined, parentId: undefined }); setEditingItem(null); setIsModalOpen(true); }}
         onEditItem={(item) => { setEditingItem(item); form.reset(item); setIsModalOpen(true); }}
         onViewItem={(item) => { setViewingItem(item); setIsViewModalOpen(true); }}
         onDeleteItem={(item) => { setDeletingItem(item); setIsDeleteModalOpen(true); }}
@@ -48,8 +65,8 @@ const InstitutionPage = () => {
       <InputModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingItem ? "Edit Program Studi" : "Tambah Program Studi"}
-        fields={studyProgramFormFields}
+        title={editingItem ? "Edit Institusi" : "Tambah Institusi"}
+        fields={formFieldsWithOptions}
         register={form.register}
         onSubmit={form.handleSubmit(onSubmit)}
         errors={form.formState.errors}
@@ -61,7 +78,7 @@ const InstitutionPage = () => {
       <ShowModal
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
-        title="Detail Program Studi"
+        title="Detail Institusi"
         data={viewingItem}
         fields={studyProgramDisplayFields}
       />
@@ -70,7 +87,7 @@ const InstitutionPage = () => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="Hapus Program Studi"
+        title="Hapus Institusi"
         message={`Apakah Anda yakin ingin menghapus "${deletingItem?.name}"? Aksi ini tidak dapat dibatalkan.`}
         isLoading={isSubmitting}
       />

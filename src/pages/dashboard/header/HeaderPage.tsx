@@ -9,6 +9,8 @@ import DataTable from "@/components/dashboard/DataTable";
 import InputModal from "@/components/dashboard/InputModal";
 import ShowModal from "@/components/dashboard/ShowModal";
 import DeleteModal from "@/components/dashboard/DeleteModal";
+import { useInstitution } from "@/hooks/useInstitution";
+import { useMemo } from "react";
 
 const HeaderPage = () => {
   const {
@@ -21,12 +23,27 @@ const HeaderPage = () => {
     handleConfirmDelete, form, onSubmit
   } = useHeader({ fetchTable: true, fetchDropdown: false });
 
+  const { items: institutions } = useInstitution({ fetchTable: true, fetchDropdown: false });
+
+  const dynamicFormFields = useMemo(() => {
+    return headerFormFields.map((field) => {
+      if (field.key === "institutionId") {
+        const institutionOptions = institutions.map((inst) => ({
+          label: `${inst.name} (${inst.type})`,
+          value: inst.id,
+        }));
+        return { ...field, options: institutionOptions };
+      }
+      return field;
+    });
+  }, [institutions]);
+
 
   return (
     <div>
       <DashboardBreadcrumbs />
       <h1 className="text-2xl font-semibold my-4">Kelola Kop Surat</h1>
-      
+
       <DataTable
         data={items}
         isLoading={isLoading}
@@ -57,7 +74,7 @@ const HeaderPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingItem ? "Edit Kop Surat" : "Tambah Kop Surat"}
-        fields={ headerFormFields }
+        fields={ dynamicFormFields }
         register={form.register}
         onSubmit={form.handleSubmit(onSubmit)}
         errors={form.formState.errors}
