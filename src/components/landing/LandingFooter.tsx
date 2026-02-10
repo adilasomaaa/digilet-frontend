@@ -6,9 +6,6 @@ const LandingFooter = () => {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
                 <div className="flex flex-col gap-2">
                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
-                            <span className="text-white font-bold text-sm">D</span>
-                        </div>
                         <p className="font-bold text-lg">Digilet</p>
                     </div>
                     <p className="text-default-500 text-sm">© 2024 Digilet. All rights reserved.</p>
