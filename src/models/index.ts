@@ -14,4 +14,6 @@ export * from "./letter_attribute_submission";
 export * from "./student_letter";
 export * from "./letter_signature";
 export * from "./letter_attachment";
+export * from "./announcement";
+export * from "./nodes";
 

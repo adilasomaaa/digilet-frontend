@@ -1,6 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { hasAllPerms, hasAnyRole } from "../lib/rbac";
 import { Navigate } from "react-router";
+import Forbidden from "./dashboard/Forbidden";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +14,6 @@ export default function ProtectedRoute({
   children,
   roles,
   permissions,
-  redirectTo = "/landing",
 }: Props) {
   const { user, token, isLoading } = useAuth();
 
@@ -22,11 +22,11 @@ export default function ProtectedRoute({
   if (!token || !user) return <Navigate to="/login" replace />;
 
   if (!hasAnyRole(user, roles)) {
-    return <Navigate to={redirectTo} replace />;
+    return <Forbidden />;
   }
 
   if (!hasAllPerms(user, permissions)) {
-    return <Navigate to={redirectTo} replace />;
+    return <Forbidden />;
   }
 
   return <>{children}</>;

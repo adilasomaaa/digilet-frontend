@@ -1,11 +1,14 @@
 import { Button, Card, CardBody, CardHeader, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
-import { Edit2, Loader2, Redo2Icon } from "lucide-react";
+import { Edit2, Loader2, Redo2Icon, Archive } from "lucide-react";
 import { Link, useOutletContext, useParams } from "react-router"
 import type { StudentLetter, StudentLetterCarbonCopyPayload } from "@/models";
 import InputModal from "@/components/dashboard/InputModal";
 import { useForm } from "react-hook-form";
 import { carbonCopyFormFields } from "./config";
 import { useStudentLetter } from "@/hooks/useStudentLetter";
+import FolderPickerModal from "@/components/archive/FolderPickerModal";
+import { nodesService } from "@/services/NodesService";
+import { useState } from "react";
 
 const StudentLetterDetailPage = () => {
     const { studentLetterId } = useParams<{ studentLetterId: string }>();
@@ -18,6 +21,24 @@ const StudentLetterDetailPage = () => {
             carbonCopy: item?.carbonCopy || ''
         }
     });
+
+    const [folderPickerOpen, setFolderPickerOpen] = useState(false);
+    const [saving, setSaving] = useState(false);
+
+    const handleSaveToArchive = async (folderId: number | null) => {
+        try {
+            setSaving(true);
+            const pdfPath = `api/student-letter-submission/print-pdf/${item?.token}`;
+            const fileName = `Surat_Mahasiswa_${item?.letterNumber}_${new Date().toISOString().split('T')[0]}.pdf`;
+            await nodesService.saveLetterPdf(pdfPath, fileName, folderId || undefined);
+            alert('PDF berhasil disimpan ke arsip');
+            setFolderPickerOpen(false);
+        } catch (error) {
+            alert('Gagal menyimpan PDF ke arsip');
+        } finally {
+            setSaving(false);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -55,6 +76,14 @@ const StudentLetterDetailPage = () => {
                         }}
                     >
                         Tembusan
+                    </Button>
+                    <Button 
+                        color="primary" 
+                        variant="flat"
+                        startContent={<Archive size={18} />}
+                        onPress={() => setFolderPickerOpen(true)}
+                    >
+                        Simpan ke Arsip
                     </Button>
                     <Button 
                         as={Link} 
@@ -142,6 +171,13 @@ const StudentLetterDetailPage = () => {
             setValue={copyForm.setValue}
             watch={copyForm.watch}
             fields={carbonCopyFormFields}
+        />
+
+        <FolderPickerModal
+            isOpen={folderPickerOpen}
+            onClose={() => setFolderPickerOpen(false)}
+            onSelect={handleSaveToArchive}
+            loading={saving}
         />
         </>
     )

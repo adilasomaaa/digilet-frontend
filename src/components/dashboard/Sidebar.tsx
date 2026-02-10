@@ -26,7 +26,7 @@ export default function Sidebar({
     }, [currentUserRole]);
 
     const rootClass = [
-        "h-dvh border-r border-gray-200 bg-background flex flex-col transition-[width] duration-200",
+        "sticky top-0 h-screen border-r border-gray-200 bg-background flex flex-col transition-[width] duration-200",
         mobile
         ? "w-64 md:hidden"
         : collapsed
@@ -45,7 +45,7 @@ return (
             )}
         </div>
 
-        <nav className={collapsed ? "flex-1 space-y-1 px-1 py-3" : "flex-1 space-y-1 px-3 py-3"}>
+        <nav className={collapsed ? "flex-1 space-y-1 px-1 py-3 overflow-y-auto" : "flex-1 space-y-1 px-3 py-3 overflow-y-auto"}>
         {filteredItems.map((item) =>
           item.children && item.children.length > 0 ? (
             mobile || !collapsed ? (

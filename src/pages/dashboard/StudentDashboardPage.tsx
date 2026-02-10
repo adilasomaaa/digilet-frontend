@@ -2,6 +2,8 @@ import { useStudentDashboard } from '@/hooks/useStudentDashboard';
 import SubmitLetterBanner from '@/components/dashboard/SubmitLetterBanner';
 import StudentLetterList from '@/components/dashboard/StudentLetterList';
 import StudentProfileCard from '@/components/dashboard/StudentProfileCard';
+import { useAnnouncement } from '@/hooks/useAnnouncement';
+import AnnouncementCard from '@/components/dashboard/Announcement';
 
 const StudentDashboardPage = () => {
     const {
@@ -24,9 +26,13 @@ const StudentDashboardPage = () => {
         handleConfirmDelete,
     } = useStudentDashboard();
 
+    const { items, isLoading: isLoadingAnnouncement } = useAnnouncement();
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
             <div className="lg:col-span-7 flex flex-col gap-6">
+                <AnnouncementCard announcement={items} isLoading={isLoadingAnnouncement} />
+
                 <SubmitLetterBanner />
                 
                 <StudentLetterList

@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Checkbox, Input } from '@heroui/react'
+import { Button, Checkbox, Input } from '@heroui/react'
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from '@/schemas/AuthSchema';
@@ -39,69 +39,64 @@ const LoginPage = () => {
         }
     };
   return (
-    <div className="">
-        <Card className="w-full md:w-[400px] sm:w-full p-4 shadow-none">
-            <CardHeader className="flex flex-col gap-1">
-            <h1 className="text-2xl font-semibold">Masuk</h1>
+    <div className="w-full">
+        <div className="flex flex-col gap-3 mb-8">
+            <h1 className="text-3xl font-bold">Masuk</h1>
             <p className="text-sm text-foreground-500">
                 Silakan masuk untuk melanjutkan.
             </p>
-            </CardHeader>
+        </div>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-            <CardBody className="flex flex-col gap-4">
-                <Input
-                    label="Email"
-                    type="text"
-                    variant="bordered"
-                    isInvalid={!!errors.email}
-                    errorMessage={errors.email?.message}
-                    {...register("email")}
-                />
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <Input
+                label="Email"
+                type="text"
+                variant="bordered"
+                isInvalid={!!errors.email}
+                errorMessage={errors.email?.message}
+                {...register("email")}
+            />
 
-                <Input
-                    label="Kata Sandi"
-                    endContent={
-                        <button
-                        aria-label="toggle password visibility"
-                        className="focus:outline-solid outline-transparent"
-                        type="button"
-                        onClick={toggleVisibility}
-                        >
-                        {isVisible ? (
-                            <EyeOff className="text-2xl mb-1 text-default-400 pointer-events-none" />
-                        ) : (
-                            <Eye className="text-2xl mb-1 text-default-400 pointer-events-none" />
-                        )}
-                        </button>
-                    }
-                    type={isVisible ? "text" : "password"}
-                    variant="bordered"
-                    isInvalid={!!errors.password}
-                    errorMessage={errors.password?.message}
-                    {...register("password")}
-                />
+            <Input
+                label="Kata Sandi"
+                endContent={
+                    <button
+                    aria-label="toggle password visibility"
+                    className="focus:outline-solid outline-transparent"
+                    type="button"
+                    onClick={toggleVisibility}
+                    >
+                    {isVisible ? (
+                        <EyeOff className="text-2xl mb-1 text-default-400 pointer-events-none" />
+                    ) : (
+                        <Eye className="text-2xl mb-1 text-default-400 pointer-events-none" />
+                    )}
+                    </button>
+                }
+                type={isVisible ? "text" : "password"}
+                variant="bordered"
+                isInvalid={!!errors.password}
+                errorMessage={errors.password?.message}
+                {...register("password")}
+            />
 
-                <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between">
                 <Checkbox {...register("remember")}>Ingat saya</Checkbox>
                 <Link to="/forgot-password" className='text-sm text-primary'>
                     Lupa kata sandi?
                 </Link>
-                </div>
-            </CardBody>
+            </div>
 
-            <CardFooter className="flex flex-col gap-3">
-                <Button
-                    type="submit"
-                    color="primary"
-                    fullWidth
-                    isLoading={isSubmitting}
-                >
+            <Button
+                type="submit"
+                color="primary"
+                fullWidth
+                isLoading={isSubmitting}
+                className="mt-2"
+            >
                 Masuk
-                </Button>
-            </CardFooter>
-            </form>
-        </Card>
+            </Button>
+        </form>
     </div>
   )
 }

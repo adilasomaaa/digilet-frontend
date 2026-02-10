@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { LayoutDashboard, Users, Settings, Home, ClipboardList, UserRoundCheck, UserPen, Mail, TextInitial, Mails, MailOpen } from "lucide-react";
+import { LayoutDashboard, Users, Settings, Home, ClipboardList, UserRoundCheck, UserPen, Mail, TextInitial, Mails, MailOpen, Megaphone, ArchiveIcon } from "lucide-react";
 
 export type Role = "admin" | "client" | string;
 
@@ -53,7 +53,7 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Data Master",
     icon: <LayoutDashboard className="h-4 w-4" />,
     children: [
-      { key: "official", label: "Pimpinan", to: "/dashboard/official", icon: <UserRoundCheck className="h-4 w-4" /> },
+      { key: "official", label: "Dosen", to: "/dashboard/official", icon: <UserRoundCheck className="h-4 w-4" /> },
       { key: "student", label: "Mahasiswa", to: "/dashboard/student", icon: <Users className="h-4 w-4" /> },
       { key: "letter", label: "Jenis Surat", to: "/dashboard/letter", icon: <Mail className="h-4 w-4" /> },
       { key: "header", label: "Kop Surat", to: "/dashboard/header", icon: <TextInitial className="h-4 w-4" /> },
@@ -80,6 +80,8 @@ export const NAV_ITEMS: NavItem[] = [
     roles: ["client"]
   },
   { key: "home",    label: "Overview", to: "/dashboard-student", icon: <Home className="h-4 w-4" />, exact: true, roles: ["student"] },
+  { key: "announcement", label: "Pengumuman", to: "/dashboard/announcement", icon: <Megaphone className="h-4 w-4" />, roles: ["admin","personnel"] },
+  { key: "archive",label: "Arsip", to: "/dashboard/archive",  icon: <ArchiveIcon className="h-4 w-4" />, roles: ["personnel"] },
   { key: "settings",label: "Pengaturan", to: "/dashboard/profile",  icon: <Settings className="h-4 w-4" /> },
 ];
 

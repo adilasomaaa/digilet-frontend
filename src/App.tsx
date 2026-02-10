@@ -38,6 +38,10 @@ import GeneralLetterAttachmentPage from './pages/dashboard/general-letter/Genera
 import StudentLetterSignaturePage from './pages/dashboard/student-letter/StudentLetterSignaturePage'
 import StudentDashboardPage from './pages/dashboard/StudentDashboardPage'
 import StudentLetterAttachment from './pages/dashboard/student-letter/StudentLetterAttachment'
+import AnnouncementPage from './pages/dashboard/announcement/AnnouncementPage'
+import ArchivePage from './pages/dashboard/archive/ArchivePage'
+import TrashPage from './pages/dashboard/archive/TrashPage'
+import NotFound from './components/dashboard/NotFound'
 
 
 function App() {
@@ -55,15 +59,6 @@ function App() {
         </Route>
         <Route
           element={
-            <ProtectedRoute roles={["personnel","admin"]} redirectTo="/">
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="/dashboard" element={<DashboardPage />} />
-        </Route>
-        <Route
-          element={
             <ProtectedRoute roles={["personnel","admin","student"]} redirectTo="/">
               <DashboardLayout />
             </ProtectedRoute>
@@ -78,12 +73,16 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/announcement" element={<AnnouncementPage />} />
           <Route path="/dashboard/official" element={<OfficialPage />} />
           <Route path="/dashboard/student" element={<StudentPage />} />
           <Route path="/dashboard/letter" element={<LetterPage />} />
           <Route path="/dashboard/header" element={<HeaderPage />} />
           <Route path="/dashboard/general-letter" element={<GeneralLetterPage />} />
           <Route path="/dashboard/general-letter/:id" element={<GeneralLetterSubmissionPage />} />
+          <Route path="/dashboard/student-letter" element={<StudentLetterPage />} />
+          <Route path="/dashboard/student-letter/verify/:id" element={<StudentLetterVerifyPage />} />
           <Route
             element={
                 <LetterTemplate />
@@ -132,6 +131,16 @@ function App() {
         </Route>
         <Route
           element={
+            <ProtectedRoute roles={["personnel"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard/archive" element={<ArchivePage />} />
+          <Route path="/dashboard/archive/trash" element={<TrashPage />} />
+        </Route>
+        <Route
+          element={
             <ProtectedRoute roles={['student']} redirectTo="/">
               <DashboardLayout />
             </ProtectedRoute>
@@ -142,16 +151,7 @@ function App() {
           <Route path="/dashboard/student-letter/history" element={<StudentLetterHistoryPage />} />
           <Route path="/dashboard/student-letter/edit/:id" element={<StudentLetterEditPage />} />
         </Route>
-        <Route
-          element={
-            <ProtectedRoute roles={['personnel','admin']} redirectTo="/">
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="/dashboard/student-letter" element={<StudentLetterPage />} />
-          <Route path="/dashboard/student-letter/verify/:id" element={<StudentLetterVerifyPage />} />
-        </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </HeroUIProvider>
   )

@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ setOpenMobile }) => {
                     </DropdownItem>
                     <DropdownItem
                         key="profile"
-                        startContent={<UserIcon size={16} />}
+                        startContent={<UserIcon />}
                         className="flex items-center gap-2"
                         href="/dashboard/profile"
                     >

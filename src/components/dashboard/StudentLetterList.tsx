@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Button, Chip, Divider, Input, Pagination } from "@heroui/react";
-import { Search, Edit, Printer, Trash2, FileText, EyeIcon } from 'lucide-react';
+import { Search, Edit, Printer, Trash2, FileText, EyeIcon, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import type { StudentLetter } from '@/models/student_letter';
 import { env } from '@/lib/env';
@@ -184,6 +184,7 @@ const StudentLetterList = ({
                                                     size="sm"
                                                     variant="flat"
                                                     color="default"
+                                                    startContent={<Eye size={14} />}
                                                     onPress={() => onViewDetail(letter)}
                                                     className="flex-1"
                                                 >
@@ -235,6 +236,7 @@ const StudentLetterList = ({
                             const status = item.status || "pending";
                             return (
                                 <Chip
+                                    variant="flat"
                                     color={statusColorMap[status as keyof typeof statusColorMap]}
                                     className="text-xs font-medium"
                                 >
