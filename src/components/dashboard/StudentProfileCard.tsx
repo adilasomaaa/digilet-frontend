@@ -7,15 +7,14 @@ const StudentProfileCard = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    // Mock student data - should come from API
     const studentData = {
         fullname: user?.name || "Student Name",
-        nim: "2021001",
+        nim: user?.student?.nim || "",
         email: user?.email || "student@example.com",
-        studyProgram: "Teknik Informatika",
-        classYear: "2021",
-        phoneNumber: "081234567890",
-        address: "Jl. Contoh No. 123, Kota",
+        studyProgram: user?.student?.institution.name || "Teknik Informatika",
+        classYear: user?.student?.classYear || "2021",
+        phoneNumber: user?.student?.phoneNumber || "081234567890",
+        address: user?.student?.address || "Jl. Contoh No. 123, Kota",
     };
 
     return (

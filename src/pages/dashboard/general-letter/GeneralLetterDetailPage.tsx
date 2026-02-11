@@ -28,7 +28,7 @@ const GeneralLetterDetailPage = () => {
     const handleSaveToArchive = async (folderId: number | null) => {
         try {
             setSaving(true);
-            const pdfPath = `api/general-letter-submission/${item?.token}/print-pdf`;
+            const pdfPath = `api/general-letter-submission/print-pdf/${item?.token}`;
             const fileName = `Surat_${item?.letterNumber}_${new Date().toISOString().split('T')[0]}.pdf`;
             await nodesService.saveLetterPdf(pdfPath, fileName, folderId || undefined);
             alert('PDF berhasil disimpan ke arsip');

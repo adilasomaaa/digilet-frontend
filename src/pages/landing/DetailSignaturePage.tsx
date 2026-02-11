@@ -44,9 +44,15 @@ const DetailSignaturePage = () => {
         <img src={Logo} width={100} className='my-4'/>
         <Button variant="solid" color="primary" className="flex items-center gap-2" onPress={() => {
           const link = document.createElement('a');
-          link.href = `${env.apiBaseUrl}api/general-letter-submission/${data.generalLetterSubmission?.token}/print-pdf`;
-          link.target = '_blank';
-          link.setAttribute('download', `${data.generalLetterSubmission ? data.generalLetterSubmission.letter.letterName : data.studentLetterSubmission?.letter.letterName}.pdf`);
+          if(data.generalLetterSubmission){
+            link.href = `${env.apiBaseUrl}api/general-letter-submission/print-pdf/${data.generalLetterSubmission.token}`;
+            link.target = '_blank';
+            link.setAttribute('download', `${data.generalLetterSubmission.letter.letterName}.pdf`);
+          }else {
+            link.href = `${env.apiBaseUrl}api/student-letter-submission/print-pdf/${data.studentLetterSubmission?.token}`;
+            link.target = '_blank';
+            link.setAttribute('download', `${data.studentLetterSubmission?.letter.letterName}.pdf`);
+          }
           link.click();
         }}>
           <DownloadIcon className="w-4 h-4 mr-2" />

@@ -20,6 +20,9 @@ export type AuthResponse = {
     institution: {
       name: string;
     };
+    classYear: string;
+    address: string;
+    phoneNumber: string;
   };
 };
 
