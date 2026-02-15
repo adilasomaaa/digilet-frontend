@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { generatePDF, printPDF } from "@/utils/pdfGenerator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { generalLetterSchema } from "@/schemas/GeneralLetterSchema";
@@ -6,7 +7,10 @@ import { generalLetterService } from "@/services/GeneralLetterService";
 import type { SortDescriptor } from "@heroui/react";
 import type { GeneralLetter } from "@/models";
 
-export const useGeneralLetter = (generalLetterId?: number) => {
+export const useGeneralLetter = (
+  generalLetterId?: number,
+  options: { fetchOnMount?: boolean } = { fetchOnMount: true }
+) => {
   const [item, setItem] = useState<GeneralLetter | null>(null);
   const [items, setItems] = useState<GeneralLetter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,10 +57,10 @@ export const useGeneralLetter = (generalLetterId?: number) => {
   }, [paginationInfo.page, paginationInfo.limit, filterValue]);
 
   useEffect(() => {
-    if (generalLetterId) return;
+    if (generalLetterId || options.fetchOnMount === false) return;
     const timer = setTimeout(fetchItems, 500);
     return () => clearTimeout(timer);
-  }, [fetchItems, generalLetterId]);
+  }, [fetchItems, generalLetterId, options.fetchOnMount]);
 
   const fetchItem = useCallback(async () => {
     if (!generalLetterId) return;
@@ -118,6 +122,49 @@ export const useGeneralLetter = (generalLetterId?: number) => {
     }
   };
 
+  const [letterData, setLetterData] = useState<any>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchLetterData = useCallback(async (token: string) => {
+    setIsLoading(true);
+    try {
+      const response = await generalLetterService.getLetterData(token);
+      setLetterData(response.data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleDownloadPDF = async (element: HTMLElement) => {
+    if (!element || !letterData) return;
+    try {
+      setIsGenerating(true);
+      const filename = `${letterData.letterNumber || 'surat'}.pdf`;
+      await generatePDF(element, filename);
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      alert('Gagal membuat PDF. Silakan coba lagi.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handlePrint = async (element: HTMLElement) => {
+    if (!element) return;
+    try {
+      setIsGenerating(true);
+      await printPDF(element);
+    } catch (err) {
+      console.error('Error printing PDF:', err);
+      alert('Gagal mencetak PDF. Silakan coba lagi.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return {
     items,
     isLoading,
@@ -149,6 +196,13 @@ export const useGeneralLetter = (generalLetterId?: number) => {
     refresh: () => generalLetterId ? fetchItem() : fetchItems(),
     item,
     fetchItem,
-    onSubmitCarbonCopy
+    onSubmitCarbonCopy,
+    
+    letterData,
+    fetchLetterData,
+    handleDownloadPDF,
+    handlePrint,
+    isGenerating,
+    error
   };
 };

@@ -40,7 +40,7 @@ const GeneralLetterPage = () => {
   };
 
   const handlePrint = (item: any) => {
-    window.open(`${env.apiBaseUrl}api/general-letter-submission/print-pdf/${item.token}`, '_blank');
+    navigate(`/dashboard/general-letter/preview/${item.token}`)
   };
 
   const handleSignatureStatus = (item: any) => {

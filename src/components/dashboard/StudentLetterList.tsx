@@ -48,7 +48,7 @@ const StudentLetterList = ({
     const navigate = useNavigate();
 
     const handlePrint = (token: string) => {
-        window.open(`${env.apiBaseUrl}api/student-letter-submission/print-pdf/${token}`, '_blank');
+        navigate(`/dashboard/student-letter/preview/${token}`)
     };
 
     const statusColorMap = {

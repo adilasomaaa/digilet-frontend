@@ -51,8 +51,8 @@ const StudentLetterPage = () => {
   }
 
   const handlePrint = (item: any) => {
-      window.open(`${env.apiBaseUrl}api/student-letter-submission/print-pdf/${item.token}`, '_blank');
-  }
+    navigate(`/dashboard/student-letter/preview/${item.token}`)
+  };
 
   const handleCopyLink = (token: string, code: string) => {
     setActiveToken(`${env.baseUrl}signature/verify/${token}`);

@@ -20,7 +20,7 @@ export const studentService = {
       method: "GET",
       query: params,
       auth: true,
-      responseType: "blob", // ✨ Penting agar file tidak rusak
+      responseType: "blob",
     });
   },
 

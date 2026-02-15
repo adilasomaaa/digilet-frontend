@@ -68,4 +68,14 @@ export const generalLetterService = {
       }
     );
   },
+
+  async getLetterData(token: string) {
+    return await http<{ data: any }>(
+      `general-letter-submission/letter-data/${token}`,
+      {
+        method: "GET",
+        auth: false,
+      }
+    );
+  },
 };

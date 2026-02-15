@@ -1,11 +1,10 @@
 import { Button, Card, CardHeader, Chip, Listbox, ListboxItem } from '@heroui/react'
 import { ArrowLeftCircle } from 'lucide-react';
 import React, { useState } from 'react'
-import { Link, Outlet, useLocation, useParams } from 'react-router'
+import { Link, Outlet, useLocation, useParams, useNavigate } from 'react-router'
 import { studentLetterNavColumn } from './nav';
 import * as LucideIcons from "lucide-react";
 import { useStudentLetter } from '@/hooks/useStudentLetter';
-import { env } from '@/lib/env';
 import ChangeStatusModal from '@/components/dashboard/ChangeStatusModal';
 import { studentLetterService } from '@/services/StudentLetterService';
 
@@ -36,13 +35,14 @@ const StudentLetterTemplate = () => {
     const { studentLetterId } = useParams<{ studentLetterId: string }>();
     const navItems = studentLetterNavColumn(studentLetterId)
     const location = useLocation();
+    const navigate = useNavigate();
     const [isChangeStatusModalOpen, setIsChangeStatusModalOpen] = useState(false);
     const [itemToChangeStatus, setItemToChangeStatus] = useState<any>(null);
 
     const {item, isLoading, refresh} = useStudentLetter(Number(studentLetterId));
 
     const handlePrint = (item: any) => {
-        window.open(`${env.apiBaseUrl}api/student-letter-submission/print-pdf/${item.token}`, '_blank');
+        navigate(`/dashboard/student-letter/preview/${item.token}`);
     };
 
     const handleChangeStatus = (item: any) => {

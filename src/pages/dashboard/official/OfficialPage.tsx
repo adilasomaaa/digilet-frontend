@@ -11,6 +11,8 @@ import DeleteModal from "@/components/dashboard/DeleteModal";
 import DataTable from "@/components/dashboard/DataTable";
 import { useMemo } from "react";
 import { useInstitution } from "@/hooks/useInstitution";
+import ImportModal from "@/components/dashboard/ImportModal";
+import TemplateDosen from "@/assets/templates/import-dosen.xlsx?url";
 
 const OfficialPage = () => {
   const {
@@ -20,7 +22,8 @@ const OfficialPage = () => {
     isModalOpen, setIsModalOpen, isViewModalOpen, setIsViewModalOpen,
     isDeleteModalOpen, setIsDeleteModalOpen,
     editingItem, setEditingItem, viewingItem, setViewingItem, deletingItem, setDeletingItem,
-    handleConfirmDelete, form, onSubmit
+    handleConfirmDelete, form, onSubmit, handleExport,
+    setIsImportModalOpen, isImportModalOpen, isImportLoading, handleImport
   } = useOfficial({ fetchTable: true, fetchDropdown: false });
 
   const { allItems } = useInstitution({ fetchTable: false, fetchDropdown: true });
@@ -47,7 +50,11 @@ const OfficialPage = () => {
         setPaginationInfo={setPaginationInfo}
         filterValue={filterValue}
         setFilterValue={setFilterValue}
+        onExport={() => handleExport()}
+        onImport={() => setIsImportModalOpen(true)}
         sortDescriptor={sortDescriptor}
+        showExport={true}
+        showImport={true}
         setSortDescriptor={setSortDescriptor}
         onAddNew={() => { 
           form.reset({
@@ -62,6 +69,22 @@ const OfficialPage = () => {
         onEditItem={(item) => { setEditingItem(item); form.reset(item); setIsModalOpen(true); }}
         onViewItem={(item) => { setViewingItem(item); setIsViewModalOpen(true); }}
         onDeleteItem={(item) => { setDeletingItem(item); setIsDeleteModalOpen(true); }}
+      />
+
+      <ImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        title="Import Data Dosen"
+        templateUrl={TemplateDosen}
+        isLoading={isImportLoading}
+        extraFields={[
+          {
+            key: "studyProgramId",
+            label: "Program Studi Tujuan",
+            options: allItems
+          }
+        ]}
+        onConfirm={(file, extraData) => handleImport(file, extraData.studyProgramId)}
       />
 
       <InputModal

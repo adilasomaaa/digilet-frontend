@@ -18,6 +18,7 @@ const LoginPage = () => {
         resolver: zodResolver(loginSchema),
     });
 
+
     useEffect(() => {
         if (user && token) {
             if(user.userRoles.name == 'student') {
@@ -38,6 +39,8 @@ const LoginPage = () => {
             console.error(e);
         }
     };
+
+
   return (
     <div className="w-full">
         <div className="flex flex-col gap-3 mb-8">

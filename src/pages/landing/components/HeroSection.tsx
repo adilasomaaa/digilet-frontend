@@ -2,7 +2,7 @@ import { Button } from "@heroui/react";
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden bg-background pt-16 pb-20 lg:pt-[12rem] lg:pb-32">
+    <section className="relative overflow-hidden bg-background pt-[8rem] pb-20 lg:pt-[12rem] lg:pb-32">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 via-background to-background -z-10" />
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">

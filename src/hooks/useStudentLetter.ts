@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { generatePDF, printPDF } from "@/utils/pdfGenerator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { studentLetterSchema } from "@/schemas/StudentLetterSchema";
@@ -7,13 +8,20 @@ import type { SortDescriptor } from "@heroui/react";
 import type { StudentLetter } from "@/models";
 import { useNavigate, useParams } from "react-router";
 
-export const useStudentLetter = (studentLetterId?: number | string) => {
+export const useStudentLetter = (
+  studentLetterId?: number | string,
+  options: { fetchOnMount?: boolean } = { fetchOnMount: true }
+) => {
   const [items, setItems] = useState<StudentLetter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const id = studentLetterId || params.id || params.studentLetterId;
+
+  const [letterData, setLetterData] = useState<any>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const [item, setItem] = useState<StudentLetter | null>(null);
 
@@ -55,10 +63,10 @@ export const useStudentLetter = (studentLetterId?: number | string) => {
   }, [paginationInfo.page, paginationInfo.limit, filterValue]);
 
   useEffect(() => {
-    if (id) return;
+    if (id || options.fetchOnMount === false) return;
     const timer = setTimeout(fetchItems, 500);
     return () => clearTimeout(timer);
-  }, [fetchItems, id]);
+  }, [fetchItems, id, options.fetchOnMount]);
 
   const onSubmit = async (formData: any) => {
     setIsSubmitting(true);
@@ -150,6 +158,45 @@ export const useStudentLetter = (studentLetterId?: number | string) => {
       }
   }
 
+  const fetchLetterData = useCallback(async (token: string) => {
+    setIsLoading(true);
+    try {
+      const response = await studentLetterService.getLetterData(token);
+      setLetterData(response.data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleDownloadPDF = async (element: HTMLElement) => {
+    if (!element || !letterData) return;
+    try {
+      setIsGenerating(true);
+      const filename = `${letterData.letterNumber || 'surat'}.pdf`;
+      await generatePDF(element, filename);
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      alert('Gagal membuat PDF. Silakan coba lagi.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handlePrint = async (element: HTMLElement) => {
+    if (!element) return;
+    try {
+      setIsGenerating(true);
+      await printPDF(element);
+    } catch (err) {
+      console.error('Error printing PDF:', err);
+      alert('Gagal mencetak PDF. Silakan coba lagi.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return {
     items, isLoading, isSubmitting, paginationInfo, setPaginationInfo,
     filterValue, setFilterValue, filterState, setFilterState,
@@ -162,6 +209,14 @@ export const useStudentLetter = (studentLetterId?: number | string) => {
     onVerify,
     refresh: id ? fetchItem : fetchItems,
     fetchItem,
-    onSubmitCarbonCopy
+    onSubmitCarbonCopy,
+    
+    // Preview related
+    letterData,
+    fetchLetterData,
+    handleDownloadPDF,
+    handlePrint,
+    isGenerating,
+    error
   };
 };

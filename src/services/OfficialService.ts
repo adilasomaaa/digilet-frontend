@@ -15,6 +15,28 @@ export const officialService = {
     });
   },
 
+  async export(params?: any) {
+    return await http<Blob>("official/export/excel", {
+      method: "GET",
+      query: params,
+      auth: true,
+      responseType: "blob",
+    });
+  },
+
+  async import(file: File, institutionId: number) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return await http<any>("official/import", {
+      method: "POST",
+      auth: true,
+      contentType: "formData",
+      body: formData,
+      query: { institutionId },
+    });
+  },
+
   async create(payload: OfficialCreatePayload) {
     return await http<{ data: Official }>("official", {
       method: "POST",

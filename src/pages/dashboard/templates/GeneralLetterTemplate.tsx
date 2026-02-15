@@ -1,11 +1,10 @@
 import { Button, Card, CardHeader, Listbox, ListboxItem } from '@heroui/react'
 import { ArrowLeftCircle } from 'lucide-react';
 import React from 'react'
-import { Link, Outlet, useLocation, useParams } from 'react-router'
+import { Link, Outlet, useLocation, useParams, useNavigate } from 'react-router'
 import { generalLetterNavColumn } from './nav';
 import * as LucideIcons from "lucide-react";
 import { useGeneralLetter } from '@/hooks/useGeneralLetter';
-import { env } from '@/lib/env';
 
 export const ListboxWrapper = ({children} : {children: React.ReactNode}) => (
   <div className="w-full  border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
@@ -27,11 +26,12 @@ const GeneralLetterTemplate = () => {
     const { generalLetterId } = useParams<{ generalLetterId: string }>();
     const navItems = generalLetterNavColumn(generalLetterId)
     const location = useLocation();
+    const navigate = useNavigate();
 
     const {item, isLoading, refresh} = useGeneralLetter(Number(generalLetterId));
 
     const handlePrint = (item: any) => {
-        window.open(`${env.apiBaseUrl}api/general-letter-submission/${item.token}/print-pdf`, '_blank');
+        navigate(`/dashboard/general-letter/preview/${item.token}`);
     };
 
   return (

@@ -42,6 +42,8 @@ import AnnouncementPage from './pages/dashboard/announcement/AnnouncementPage'
 import ArchivePage from './pages/dashboard/archive/ArchivePage'
 import TrashPage from './pages/dashboard/archive/TrashPage'
 import NotFound from './components/dashboard/NotFound'
+import StudentLetterPreview from './pages/dashboard/student-letter/StudentLetterPreview'
+import GeneralLetterPreview from './pages/dashboard/general-letter/GeneralLetterPreview'
 
 
 function App() {
@@ -65,6 +67,8 @@ function App() {
           }
         >
           <Route path="/dashboard/profile" element={<ProfilePage />} />
+          <Route path="/dashboard/student-letter/preview/:token" element={<StudentLetterPreview />} />
+          <Route path="/dashboard/general-letter/preview/:token" element={<GeneralLetterPreview />} />
         </Route>
         <Route
           element={

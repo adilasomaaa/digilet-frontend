@@ -79,4 +79,11 @@ export const studentLetterService = {
       auth: true,
     });
   },
+
+  async getLetterData(token: string) {
+    return await http<{ data: any }>(`student-letter-submission/letter-data/${token}`, {
+      method: "GET",
+      auth: false,
+    });
+  },
 };

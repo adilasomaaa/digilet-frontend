@@ -17,6 +17,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "ckeditor5": "^47.3.0",
     "framer-motion": "^12.23.26",
+    "html2pdf.js": "^0.14.0",
     "lucide-react": "^0.562.0",
     "plop": "^4.0.4",
     "qrcode.react": "^4.2.0",

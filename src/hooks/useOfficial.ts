@@ -15,7 +15,6 @@ export const useOfficial = ({
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ... (state declarations)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -35,6 +34,41 @@ export const useOfficial = ({
     totalData: 0,
     totalPages: 1,
   });
+
+  const [isImportLoading, setIsImportLoading] = useState(false);
+  const [isExportLoading] = useState(false);
+
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+
+  const handleExport = async (studyProgramId?: string) => {
+    try {
+      const blob = await officialService.export({ studyProgramId });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `data-pegawai-${new Date().getTime()}.xlsx`
+      );
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Export failed:", error);
+    }
+  };
+
+  const handleImport = async (file: File, institutionId: number) => {
+    setIsImportLoading(true);
+    try {
+      await officialService.import(file, institutionId);
+      setIsImportModalOpen(false);
+      fetchItems();
+    } finally {
+      setIsImportLoading(false);
+    }
+  };
 
   const form = useForm({
     resolver: zodResolver(officialSchema),
@@ -146,5 +180,11 @@ export const useOfficial = ({
     handleConfirmDelete,
     fetchAllItems,
     allItems,
+    handleExport,
+    handleImport,
+    isImportLoading,
+    isImportModalOpen,
+    setIsImportModalOpen,
+    isExportLoading
   };
 };

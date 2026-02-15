@@ -1,7 +1,8 @@
 import { Button, Image } from '@heroui/react'
 import { Link, Outlet } from 'react-router'
 import { ArrowLeft } from 'lucide-react'
-import Logo from '@/assets/logo-invert.png'
+import Logo from '@/assets/logo.png'
+import LogoInstitution from '@/assets/umgo_logo.png'
 import { useEffect, useState } from 'react'
 import AuthCarousel from '@/components/auth/AuthCarousel'
 
@@ -86,7 +87,8 @@ const AuthLayout = () => {
 
         {/* Mobile Logo */}
         <div className='md:hidden flex justify-center pt-20 pb-8'>
-          <Image src={Logo} width={100} className='saturate-50' />
+          <Image src={LogoInstitution} width={40} />
+          <Image src={Logo} width={100} />
         </div>
 
         {/* Form Content */}
