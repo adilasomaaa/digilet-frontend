@@ -37,7 +37,7 @@ const PersonnelPage = () => {
   return (
     <div>
       <DashboardBreadcrumbs />
-      <h1 className="text-2xl font-semibold my-4">Kelola Personnel</h1>
+      <h1 className="text-2xl font-semibold my-4">Kelola Operator</h1>
       
       <DataTable
         data={items}
@@ -72,7 +72,7 @@ const PersonnelPage = () => {
       <InputModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingItem ? "Edit Personnel" : "Tambah Personnel"}
+        title={editingItem ? "Edit Operator" : "Tambah Operator"}
         fields={ dynamicFormFields }
         register={form.register}
         onSubmit={form.handleSubmit(onSubmit)}
@@ -85,7 +85,7 @@ const PersonnelPage = () => {
       <ShowModal
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
-        title="Detail Personnel"
+        title="Detail Operator"
         data={viewingItem}
         fields={ personnelDisplayFields}
       />
@@ -94,7 +94,7 @@ const PersonnelPage = () => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="Hapus Personnel"
+        title="Hapus Operator"
         message={`Apakah Anda yakin ingin menghapus "${deletingItem?.name}"?`}
         isLoading={isSubmitting}
       />

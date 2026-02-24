@@ -84,6 +84,16 @@ export const useLetterSignature = (studentLetterSubmissionId?: string, generalLe
     }
   };
 
+  const handleResetSignature = async (sigId: number) => {
+      try {
+        await letterSignatureService.reset(sigId);
+        await fetchItems();
+        
+      }catch(error) {
+        console.log(error);
+      }
+    };
+
   const handleConfirmDelete = async () => {
     if (!deletingItem) return;
     setIsSubmitting(true);
@@ -126,5 +136,6 @@ export const useLetterSignature = (studentLetterSubmissionId?: string, generalLe
     fetchItems,
     handleConfirmDelete,
     refresh: fetchItems,
+    handleResetSignature
   };
 };

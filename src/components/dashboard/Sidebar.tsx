@@ -26,7 +26,7 @@ export default function Sidebar({
     }, [currentUserRole]);
 
     const rootClass = [
-        "sticky top-0 h-screen border-r border-gray-200 bg-background flex flex-col transition-[width] duration-200",
+        "sticky top-0 h-screen border-r border-gray-200 bg-white flex flex-col transition-[width] duration-200",
         mobile
         ? "w-64 md:hidden"
         : collapsed

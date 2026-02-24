@@ -4,6 +4,12 @@ export const updateProfileSchema = z.object({
   name: z.string().min(1, "Nama tidak boleh kosong"),
   email: z.string().email("Email tidak valid"),
   occupation: z.string().optional(),
+  birthday: z.string().optional(),
+  gender: z.string().optional(),
+  birthplace: z.string().optional(),
+  address: z.string().optional(),
+  classYear: z.string().optional(),
+  phoneNumber: z.string().optional(),
 });
 
 export const changePasswordSchema = z

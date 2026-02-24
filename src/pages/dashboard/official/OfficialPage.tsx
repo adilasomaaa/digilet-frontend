@@ -40,7 +40,7 @@ const OfficialPage = () => {
   return (
     <div>
       <DashboardBreadcrumbs />
-      <h1 className="text-2xl font-semibold my-4">Kelola Dosen</h1>
+      <h1 className="text-2xl font-semibold my-4">Kelola Dosen dan Staf</h1>
       
       <DataTable
         data={items}

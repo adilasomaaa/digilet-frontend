@@ -11,6 +11,7 @@ import InputModal from '@/components/dashboard/InputModal';
 import { useOfficial } from '@/hooks/useOfficial';
 import { generalLetterSignatureFormFields } from './config';
 import DeleteModal from '@/components/dashboard/DeleteModal';
+import ConfirmationModal from '@/components/dashboard/ConfirmationModal';
 
 const GeneralLetterSignaturePage = () => {
     const { generalLetterId } = useParams<{ generalLetterId: string }>();
@@ -22,6 +23,15 @@ const GeneralLetterSignaturePage = () => {
     
     const [selectedSignature, setSelectedSignature] = useState<LetterSignature | null>(null);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    
+    const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+    const [signatureIdToReset, setSignatureIdToReset] = useState<number | null>(null);
+    const [isResetting, setIsResetting] = useState(false);
+
+    const handleResetClick = (id: number) => {
+        setSignatureIdToReset(id);
+        setIsResetModalOpen(true);
+    };
 
     const handleShare = (signature: LetterSignature) => {
         setSelectedSignature(signature);
@@ -47,6 +57,16 @@ const GeneralLetterSignaturePage = () => {
             }
         }catch(error) {
             console.log(error);
+        }
+    };
+
+    const onConfirmReset = async () => {
+        if (signatureIdToReset !== null) {
+            setIsResetting(true);
+            await handleResetSignature(signatureIdToReset);
+            setIsResetting(false);
+            setIsResetModalOpen(false);
+            setSignatureIdToReset(null);
         }
     };
 
@@ -152,7 +172,7 @@ const GeneralLetterSignaturePage = () => {
                         </div>
                         <div>
                             { signature.verifiedAt ? (
-                                <Button size="sm" variant="flat" color="danger" startContent={<RotateCcw size={14} />} onPress={() => handleResetSignature(signature.id)}> Reset Tanda Tangan</Button>
+                                <Button size="sm" variant="flat" color="danger" startContent={<RotateCcw size={14} />} onPress={() => handleResetClick(signature.id)}> Reset Tanda Tangan</Button>
                                 ) : (
                                     <>
                                         <Button 
@@ -217,6 +237,17 @@ const GeneralLetterSignaturePage = () => {
                 setValue={form.setValue}
                 watch={form.watch}
                 isLoading={isSubmitting}
+            />
+
+            <ConfirmationModal
+                isOpen={isResetModalOpen}
+                onClose={() => setIsResetModalOpen(false)}
+                onConfirm={onConfirmReset}
+                title="Reset Tanda Tangan"
+                message="Apakah Anda yakin ingin mereset tanda tangan ini? Tindakan ini tidak dapat dibatalkan."
+                isLoading={isResetting}
+                color="warning"
+                confirmLabel="Ya, Reset"
             />
         </div>
     </div>

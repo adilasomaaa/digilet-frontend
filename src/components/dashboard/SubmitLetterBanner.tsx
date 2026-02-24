@@ -2,11 +2,11 @@ import { Card, CardBody, Button } from "@heroui/react";
 import { FileText, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
-const SubmitLetterBanner = () => {
+const SubmitLetterBanner = ({ className }: { className?: string }) => {
     const navigate = useNavigate();
 
-    return (
-        <Card className="border-none shadow-sm bg-gradient-to-br from-primary-50 to-secondary-50">
+    return ( 
+        <Card className={`border-none shadow-sm bg-gradient-to-br from-primary-50 to-secondary-50 ${className}`}>
             <CardBody className="flex flex-row items-center justify-between p-6">
                 <div className="flex items-center gap-4">
                     <div className="p-4 rounded-full bg-primary/10">

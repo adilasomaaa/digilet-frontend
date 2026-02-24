@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { generatePDF, printPDF } from "@/utils/pdfGenerator";
+import { generatePDF, printPDF } from "@/lib/pdfGenerator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { generalLetterSchema } from "@/schemas/GeneralLetterSchema";

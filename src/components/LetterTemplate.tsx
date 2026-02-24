@@ -199,7 +199,7 @@ const LetterTemplate = React.forwardRef<HTMLDivElement, LetterTemplateProps>(
             <div className="header-wrapper">
               {letterhead.logo && (
                 <div className="header-logo">
-                  <img src={letterhead.logo} alt="Logo" />
+                  <img src={letterhead.logo} alt="Logo" crossOrigin="anonymous" />
                 </div>
               )}
               <div className="header-text">

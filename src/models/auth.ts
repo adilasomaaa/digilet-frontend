@@ -23,6 +23,18 @@ export type AuthResponse = {
     classYear: string;
     address: string;
     phoneNumber: string;
+    gender: string;
+    birthplace: string;
+    birthday: string;
+  };
+  official?: {
+    id: number;
+    name: string;
+    occupation: string;
+    nip: string;
+    institution: {
+      name: string;
+    };
   };
 };
 

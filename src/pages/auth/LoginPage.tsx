@@ -23,7 +23,9 @@ const LoginPage = () => {
         if (user && token) {
             if(user.userRoles.name == 'student') {
                 navigate("/dashboard-student", { replace: true });
-            } else {
+            }else if(user.userRoles.name == 'lecturer') {
+                navigate("/dashboard-lecturer", { replace: true });
+            }else {
                 navigate("/dashboard", { replace: true });
             }
         }

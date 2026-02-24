@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, CardBody, Input, Button, Tabs, Tab, Divider, Spacer } from "@heroui/react";
+import { Card, CardBody, Input, Button, Tabs, Tab, Divider, Spacer, Select, SelectItem } from "@heroui/react";
 import { useAuth } from "@/context/AuthContext";
 import { Eye, EyeOff, Save, Lock, User as UserIcon } from "lucide-react";
 import DashboardBreadcrumbs from "@/components/dashboard/Breadcrumbs";
@@ -23,7 +23,13 @@ const ProfilePage = () => {
         defaultValues: {
             name: "",
             email: "",
-            occupation: ""
+            occupation: "",
+            birthday: "",
+            gender: "",
+            birthplace: "",
+            address: "",
+            classYear: "",
+            phoneNumber: "",
         }
     });
 
@@ -44,6 +50,14 @@ const ProfilePage = () => {
                 name: user.name || "",
                 email: user.email || "",
                 occupation: user.personnel?.position || "",
+                classYear: user.student?.classYear || "",
+                gender: user.student?.gender || "",
+                birthplace: user.student?.birthplace || "",
+                birthday: user.student?.birthday
+                    ? new Date(user.student.birthday).toISOString().split('T')[0]
+                    : "",
+                address: user.student?.address || "",
+                phoneNumber: user.student?.phoneNumber || "",
             });
         }
     }, [user, resetProfile]);
@@ -104,6 +118,91 @@ const ProfilePage = () => {
                                             isReadOnly
                                             isDisabled
                                         />
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <Controller
+                                                name="classYear"
+                                                control={profileControl}
+                                                render={({ field }) => (
+                                                    <Input
+                                                        {...field}
+                                                        label="Angkatan"
+                                                        placeholder="Contoh: 2022"
+                                                        isInvalid={!!profileErrors.classYear}
+                                                        errorMessage={profileErrors.classYear?.message as string}
+                                                    />
+                                                )}
+                                            />
+                                            <Controller
+                                                name="gender"
+                                                control={profileControl}
+                                                render={({ field }) => (
+                                                    <Select
+                                                        label="Jenis Kelamin"
+                                                        selectedKeys={field.value ? [field.value] : []}
+                                                        onSelectionChange={(keys) => field.onChange([...keys][0] ?? "")}
+                                                        isInvalid={!!profileErrors.gender}
+                                                        errorMessage={profileErrors.gender?.message as string}
+                                                    >
+                                                        <SelectItem key="Laki-laki">Laki-laki</SelectItem>
+                                                        <SelectItem key="Perempuan">Perempuan</SelectItem>
+                                                    </Select>
+                                                )}
+                                            />
+                                            <Controller
+                                                name="birthplace"
+                                                control={profileControl}
+                                                render={({ field }) => (
+                                                    <Input
+                                                        {...field}
+                                                        label="Tempat Lahir"
+                                                        placeholder="Masukkan tempat lahir"
+                                                        isInvalid={!!profileErrors.birthplace}
+                                                        errorMessage={profileErrors.birthplace?.message as string}
+                                                    />
+                                                )}
+                                            />
+                                            <Controller
+                                                name="birthday"
+                                                control={profileControl}
+                                                render={({ field }) => (
+                                                    <Input
+                                                        {...field}
+                                                        type="date"
+                                                        label="Tanggal Lahir"
+                                                        isInvalid={!!profileErrors.birthday}
+                                                        errorMessage={profileErrors.birthday?.message as string}
+                                                    />
+                                                )}
+                                            />
+                                            <Controller
+                                                name="address"
+                                                control={profileControl}
+                                                render={({ field }) => (
+                                                    <Input
+                                                        {...field}
+                                                        label="Alamat"
+                                                        placeholder="Masukkan alamat"
+                                                        className="md:col-span-2"
+                                                        isInvalid={!!profileErrors.address}
+                                                        errorMessage={profileErrors.address?.message as string}
+                                                    />
+                                                )}
+                                            />
+                                            <Controller
+                                                name="phoneNumber"
+                                                control={profileControl}
+                                                render={({ field }) => (
+                                                    <Input
+                                                        {...field}
+                                                        label="Nomor Telepon"
+                                                        placeholder="Contoh: 08123456789"
+                                                        className="md:col-span-2"
+                                                        isInvalid={!!profileErrors.phoneNumber}
+                                                        errorMessage={profileErrors.phoneNumber?.message as string}
+                                                    />
+                                                )}
+                                            />
+                                        </div>
                                     </>
                                 )}
 

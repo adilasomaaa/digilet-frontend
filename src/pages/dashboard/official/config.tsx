@@ -5,6 +5,7 @@ import type { DisplayFieldConfig, FormFieldConfig } from "@/types";
 export const officialColumns: Column<any>[] = [
   { name: "Nama", uid: "name", sortable: true, defaultVisible: true },
   { name: "Institusi", uid: "institution.name", sortable: true, defaultVisible: true },
+  { name: "Email", uid: "user.email", sortable: true, defaultVisible: true },
   { name: "Jabatan", uid: "occupation", sortable: true, defaultVisible: true },
   { name: "NIP", uid: "nip", sortable: true, defaultVisible: true },
   { name: "ACTIONS", uid: "actions", defaultVisible: true },
@@ -15,6 +16,7 @@ export const officialFormFields: FormFieldConfig[] = [
   { key: "institutionId", label: "Institusi", type: "select", placeholder: "Masukkan nama..." , options: [], isRequired: false},
   { key: "occupation", label: "Jabatan", type: "text", placeholder: "Masukkan jabatan...", isRequired: true },
   { key: "nip", label: "NIP", type: "text", placeholder: "Masukkan NIP...", isRequired: true },
+  { key: "email", label: "Email", type: "text", placeholder: "Masukkan Email...", isRequired: true },
 
 ];
 
@@ -23,4 +25,5 @@ export const officialDisplayFields: DisplayFieldConfig<any>[] = [
   { key: "institution.name", label: "Institusi" },
   { key: "occupation", label: "Jabatan" },
   { key: "nip", label: "NIP" },
+  { key: "user.email", label: "Email" },
 ];

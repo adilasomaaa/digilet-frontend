@@ -44,6 +44,14 @@ import TrashPage from './pages/dashboard/archive/TrashPage'
 import NotFound from './components/dashboard/NotFound'
 import StudentLetterPreview from './pages/dashboard/student-letter/StudentLetterPreview'
 import GeneralLetterPreview from './pages/dashboard/general-letter/GeneralLetterPreview'
+import ReportingPeriodePage from './pages/dashboard/reporting-periode/ReportingPeriodePage'
+import ReportingStagePage from './pages/dashboard/reporting-stage/ReportingStagePage'
+import ReportingPeriodeTemplate from './pages/dashboard/templates/ReportingPeriodeTemplate'
+import ReportingSubmissionPage from './pages/dashboard/reporting-submission/ReportingSubmissionPage'
+import ReportingSubmissionTemplate from './pages/dashboard/templates/ReportingSubmissionTemplate'
+import LecturerDashboardPage from './pages/dashboard/LecturerDashboardPage'
+import LecturerSignaturePage from './pages/dashboard/lecturer-signature/LecturerSignaturePage'
+import LecturerVerifyReport from './pages/dashboard/lecturer-verify-report/LecturerVerifyReport'
 
 
 function App() {
@@ -61,7 +69,7 @@ function App() {
         </Route>
         <Route
           element={
-            <ProtectedRoute roles={["personnel","admin","student"]} redirectTo="/">
+            <ProtectedRoute roles={["personnel","admin","student","lecturer"]} redirectTo="/">
               <DashboardLayout />
             </ProtectedRoute>
           }
@@ -72,7 +80,7 @@ function App() {
         </Route>
         <Route
           element={
-            <ProtectedRoute roles={["personnel",'admin']} redirectTo="/">
+            <ProtectedRoute roles={["personnel","admin"]} redirectTo="/">
               <DashboardLayout />
             </ProtectedRoute>
           }
@@ -87,6 +95,14 @@ function App() {
           <Route path="/dashboard/general-letter/:id" element={<GeneralLetterSubmissionPage />} />
           <Route path="/dashboard/student-letter" element={<StudentLetterPage />} />
           <Route path="/dashboard/student-letter/verify/:id" element={<StudentLetterVerifyPage />} />
+          <Route path="/dashboard/reporting-periode" element={<ReportingPeriodePage />} />
+          <Route
+            element={
+                <ReportingPeriodeTemplate />
+            }
+          >
+            <Route path="/dashboard/reporting-periode/:reportingPeriodeId/reporting-stage" element={<ReportingStagePage />} />
+          </Route>
           <Route
             element={
                 <LetterTemplate />
@@ -142,6 +158,32 @@ function App() {
         >
           <Route path="/dashboard/archive" element={<ArchivePage />} />
           <Route path="/dashboard/archive/trash" element={<TrashPage />} />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["lecturer"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard-lecturer" element={<LecturerDashboardPage />} />
+          <Route path="/dashboard/signature" element={<LecturerSignaturePage />} />
+          <Route path="/dashboard/reporting-submission" element={<LecturerVerifyReport />} />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["lecturer","admin","personnel"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route
+            element={
+              <ReportingSubmissionTemplate />
+            }
+          >
+            <Route path="/dashboard/reporting-periode/:reportingPeriodeId/reporting-stage/:reportingStageId/reporting-submission" element={<ReportingSubmissionPage />} />
+          </Route>
         </Route>
         <Route
           element={

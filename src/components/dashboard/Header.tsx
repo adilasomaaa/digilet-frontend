@@ -4,7 +4,6 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from '@he
 import { LogOut, Mail, Menu, User as UserIcon } from 'lucide-react';
 import React from 'react'
 import { Link } from 'react-router';
-import Avatar from '@/assets/avatar.jpg';
 
 interface HeaderProps {
     setOpenMobile: React.Dispatch<React.SetStateAction<boolean>>; 
@@ -34,10 +33,6 @@ const Header: React.FC<HeaderProps> = ({ setOpenMobile }) => {
                 <DropdownTrigger>
                     <User
                         as="button"
-                        avatarProps={{
-                        isBordered: true,
-                        src: Avatar,
-                        }}
                         className="transition-transform"
                         description={user?.email}
                         name={user?.name ?? user?.email}

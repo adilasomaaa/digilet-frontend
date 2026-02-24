@@ -1,3 +1,4 @@
+import type { UserResponse } from "./auth";
 import type { Institution } from "./institution";
 
 export type Official = {
@@ -7,6 +8,7 @@ export type Official = {
   occupation: string;
   nip: string;
   institution?: Institution | null;
+  user?: UserResponse | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -15,6 +17,7 @@ export type OfficialCreatePayload = {
   name: string;
   institutionId?: number;
   occupation: string;
+  email: string;
   nip: string;
 };
 
@@ -22,6 +25,7 @@ export type OfficialUpdatePayload = {
   name: string;
   institutionId?: number;
   occupation: string;
+  email: string;
   nip: string;
 };
 
