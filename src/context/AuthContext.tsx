@@ -1,0 +1,70 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import { authService } from "../services/AuthService";
+import type { AuthResponse } from "../models";
+
+type AuthContextType = {
+  user: AuthResponse | null;
+  token: string | null;
+  isLoading: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+  refetchUser: () => Promise<void>;
+};
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<AuthResponse | null>(null);
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token")
+  );
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchUser = async () => {
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+      try {
+        const me = await authService.me();
+        setUser(me.data);
+      } catch (e) {
+        localStorage.removeItem("token");
+        setUser(null);
+        setToken(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+  useEffect(() => {
+    fetchUser();
+  }, [token]);
+
+  const login = (token: string) => {
+    localStorage.setItem("token", token);
+    setToken(token);
+  };
+
+  const logout = async () => {
+    try {
+      await authService.logout(); // panggil dulu endpoint (kalau ada)
+    } finally {
+      localStorage.removeItem("access_token");
+      setUser(null);
+      setToken(null);
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, token, isLoading, login, logout, refetchUser: fetchUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
+}

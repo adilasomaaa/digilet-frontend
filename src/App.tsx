@@ -1,0 +1,216 @@
+import { Route, Routes, useHref, useNavigate } from 'react-router'
+import LoginPage from './pages/auth/LoginPage'
+import ActivityAttendancePage from './pages/landing/activity/ActivityAttendancePage'
+import AuthLayout from './layouts/AuthLayout'
+import DashboardPage from './pages/dashboard/DashboardPage'
+import ProtectedRoute from './components/ProtectedRoute'
+import DashboardLayout from './layouts/DashboardLayout'
+import OfficialPage from './pages/dashboard/official/OfficialPage'
+import ProfilePage from './pages/dashboard/profile/ProfilePage';
+import PersonnelPage from './pages/dashboard/personnel/PersonnelPage';
+import StudentPage from './pages/dashboard/student/StudentPage'
+import LetterPage from './pages/dashboard/letter/LetterPage'
+import HeaderPage from './pages/dashboard/header/HeaderPage'
+import LetterTemplate from './pages/dashboard/templates/LetterTemplate'
+import LetterSignatureTemplatePage from './pages/dashboard/letter-signature-template/LetterSignatureTemplatePage'
+import LetterAttributePage from './pages/dashboard/letter-attribute/LetterAttributePage'
+import LetterDocumentPage from './pages/dashboard/letter-document/LetterDocumentPage'
+import LetterTemplatePage from './pages/dashboard/letter-template/LetterTemplatePage'
+import { HeroUIProvider } from '@heroui/react'
+import InstitutionPage from './pages/dashboard/institution/InstitutionPage'
+import GeneralLetterPage from './pages/dashboard/general-letter/GeneralLetterPage'
+import GeneralLetterSubmissionPage from './pages/dashboard/general-letter/GeneralLetterSubmissionPage'
+import GeneralLetterEditPage from './pages/dashboard/general-letter/GeneralLetterEditPage'
+import LandingLayout from './layouts/LandingLayout'
+import VerifySignaturePage from './pages/landing/VerifySignaturePage'
+import DetailSignaturePage from './pages/landing/DetailSignaturePage'
+import StudentLetterPage from './pages/dashboard/student-letter/StudentLetterPage'
+import StudentLetterSubmissionPage from './pages/dashboard/student-letter/StudentLetterSubmissionPage'
+import StudentLetterHistoryPage from './pages/dashboard/student-letter/StudentLetterHistoryPage'
+import StudentLetterEditPage from './pages/dashboard/student-letter/StudentLetterEditPage'
+import LandingPage from './pages/landing/LandingPage'
+import StudentLetterVerifyPage from './pages/dashboard/student-letter/StudentLetterVerifyPage'
+import GeneralLetterTemplate from './pages/dashboard/templates/GeneralLetterTemplate'
+import GeneralLetterDetailPage from './pages/dashboard/general-letter/GeneralLetterDetailPage'
+import GeneralLetterSignaturePage from './pages/dashboard/general-letter/GeneralLetterSignaturePage'
+import StudentLetterTemplate from './pages/dashboard/templates/StudentLetterTemplate'
+import StudentLetterDetailPage from './pages/dashboard/student-letter/StudentLetterDetailPage'
+import GeneralLetterAttachmentPage from './pages/dashboard/general-letter/GeneralLetterAttachmentPage'
+import StudentLetterSignaturePage from './pages/dashboard/student-letter/StudentLetterSignaturePage'
+import StudentDashboardPage from './pages/dashboard/StudentDashboardPage'
+import StudentLetterAttachment from './pages/dashboard/student-letter/StudentLetterAttachment'
+import AnnouncementPage from './pages/dashboard/announcement/AnnouncementPage'
+import ArchivePage from './pages/dashboard/archive/ArchivePage'
+import TrashPage from './pages/dashboard/archive/TrashPage'
+import NotFound from './components/dashboard/NotFound'
+import StudentLetterPreview from './pages/dashboard/student-letter/StudentLetterPreview'
+import GeneralLetterPreview from './pages/dashboard/general-letter/GeneralLetterPreview'
+import ReportingPeriodePage from './pages/dashboard/reporting-periode/ReportingPeriodePage'
+import ReportingStagePage from './pages/dashboard/reporting-stage/ReportingStagePage'
+import ReportingPeriodeTemplate from './pages/dashboard/templates/ReportingPeriodeTemplate'
+import ReportingSubmissionPage from './pages/dashboard/reporting-submission/ReportingSubmissionPage'
+import ReportingSubmissionTemplate from './pages/dashboard/templates/ReportingSubmissionTemplate'
+import LecturerDashboardPage from './pages/dashboard/LecturerDashboardPage'
+import LecturerSignaturePage from './pages/dashboard/lecturer-signature/LecturerSignaturePage'
+import LecturerVerifyReport from './pages/dashboard/lecturer-verify-report/LecturerVerifyReport'
+import ActivityPage from './pages/dashboard/activity/ActivityPage'
+import ActivityParticipantPage from './pages/dashboard/activity-participant/ActivityParticipantPage'
+import StudentActivityPage from './pages/dashboard/student-activity/StudentActivityPage';
+import LecturerActivityPage from './pages/dashboard/lecturer-activity/LecturerActivityPage';
+
+
+function App() {
+  const navigate = useNavigate();
+  return (
+    <HeroUIProvider navigate={navigate} useHref={useHref}>
+      <Routes>
+        <Route element={<LandingLayout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signature/verify/:token" element={<VerifySignaturePage />} />
+          <Route path="/signature/detail/:token" element={<DetailSignaturePage />} />
+          <Route path="/activity/attend/:uniqueCode" element={<ActivityAttendancePage />} />
+        </Route>
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["personnel", "admin", "student", "lecturer"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard/profile" element={<ProfilePage />} />
+          <Route path="/dashboard/student-letter/preview/:token" element={<StudentLetterPreview />} />
+          <Route path="/dashboard/general-letter/preview/:token" element={<GeneralLetterPreview />} />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["personnel", "admin"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/activity" element={<ActivityPage />} />
+          <Route path="/dashboard/activity/:id" element={<ActivityParticipantPage />} />
+          <Route path="/dashboard/announcement" element={<AnnouncementPage />} />
+          <Route path="/dashboard/official" element={<OfficialPage />} />
+          <Route path="/dashboard/student" element={<StudentPage />} />
+          <Route path="/dashboard/letter" element={<LetterPage />} />
+          <Route path="/dashboard/header" element={<HeaderPage />} />
+          <Route path="/dashboard/general-letter" element={<GeneralLetterPage />} />
+          <Route path="/dashboard/general-letter/:id" element={<GeneralLetterSubmissionPage />} />
+          <Route path="/dashboard/student-letter" element={<StudentLetterPage />} />
+          <Route path="/dashboard/student-letter/verify/:id" element={<StudentLetterVerifyPage />} />
+          <Route path="/dashboard/reporting-periode" element={<ReportingPeriodePage />} />
+          <Route
+            element={
+              <ReportingPeriodeTemplate />
+            }
+          >
+            <Route path="/dashboard/reporting-periode/:reportingPeriodeId/reporting-stage" element={<ReportingStagePage />} />
+          </Route>
+          <Route
+            element={
+              <LetterTemplate />
+            }
+          >
+            <Route path="/dashboard/:letterId/letter-signature-template" element={<LetterSignatureTemplatePage />} />
+            <Route path="/dashboard/:letterId/letter-attribute" element={<LetterAttributePage />} />
+            <Route path="/dashboard/:letterId/letter-document" element={<LetterDocumentPage />} />
+            <Route path="/dashboard/:letterId/letter-template" element={<LetterTemplatePage />} />
+          </Route>
+          <Route
+            element={
+              <GeneralLetterTemplate />
+            }
+          >
+            <Route path="/dashboard/general-letter/:generalLetterId/detail" element={<GeneralLetterDetailPage />} />
+            <Route path="/dashboard/general-letter/:generalLetterId/edit" element={<GeneralLetterEditPage />} />
+            <Route path="/dashboard/general-letter/:generalLetterId/signature" element={<GeneralLetterSignaturePage />} />
+            <Route path="/dashboard/general-letter/:generalLetterId/attachment" element={<GeneralLetterAttachmentPage />} />
+
+          </Route>
+          <Route
+            element={
+              <StudentLetterTemplate />
+            }
+          >
+            <Route path="/dashboard/student-letter/:studentLetterId/detail" element={<StudentLetterDetailPage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/edit" element={<StudentLetterVerifyPage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/signature" element={<StudentLetterSignaturePage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/edit" element={<StudentLetterVerifyPage />} />
+            <Route path="/dashboard/student-letter/:studentLetterId/attachment" element={<StudentLetterAttachment />} />
+
+          </Route>
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["admin"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/study-program" element={<InstitutionPage />} />
+          <Route path="/dashboard/personnel" element={<PersonnelPage />} />
+          <Route path="/dashboard/student" element={<StudentPage />} />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["personnel"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard/archive" element={<ArchivePage />} />
+          <Route path="/dashboard/archive/trash" element={<TrashPage />} />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["lecturer"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard-lecturer" element={<LecturerDashboardPage />} />
+          <Route path="/dashboard/signature" element={<LecturerSignaturePage />} />
+          <Route path="/dashboard/reporting-submission" element={<LecturerVerifyReport />} />
+          <Route path="/dashboard/lecturer-activity" element={<LecturerActivityPage />} />
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={["lecturer", "admin", "personnel"]} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route
+            element={
+              <ReportingSubmissionTemplate />
+            }
+          >
+            <Route path="/dashboard/reporting-periode/:reportingPeriodeId/reporting-stage/:reportingStageId/reporting-submission" element={<ReportingSubmissionPage />} />
+          </Route>
+        </Route>
+        <Route
+          element={
+            <ProtectedRoute roles={['student']} redirectTo="/">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard-student" element={<StudentDashboardPage />} />
+          <Route path="/dashboard/student-letter/submission" element={<StudentLetterSubmissionPage />} />
+          <Route path="/dashboard/student-letter/history" element={<StudentLetterHistoryPage />} />
+          <Route path="/dashboard/student-letter/edit/:id" element={<StudentLetterEditPage />} />
+          <Route path="/dashboard/student-activity" element={<StudentActivityPage />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </HeroUIProvider>
+  )
+}
+
+export default App

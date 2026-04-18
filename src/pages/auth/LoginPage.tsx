@@ -1,0 +1,109 @@
+import { Button, Checkbox, Input } from '@heroui/react'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginSchema } from '@/schemas/AuthSchema';
+import { authService } from '@/services/AuthService';
+import { useAuth } from '@/context/AuthContext';
+import { Link, useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+
+
+const LoginPage = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const toggleVisibility = () => setIsVisible(!isVisible);
+    const { user, token, login } = useAuth();
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginSchema>({
+        resolver: zodResolver(loginSchema),
+    });
+
+
+    useEffect(() => {
+        if (user && token) {
+            if(user.userRoles.name == 'student') {
+                navigate("/dashboard-student", { replace: true });
+            }else if(user.userRoles.name == 'lecturer') {
+                navigate("/dashboard-lecturer", { replace: true });
+            }else {
+                navigate("/dashboard", { replace: true });
+            }
+        }
+    }, [user, token, navigate]);
+
+    const onSubmit = async (values: LoginSchema) => {
+        try {
+            const res = await authService.login(values);
+            if (res.token) {
+                login(res.token);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+
+  return (
+    <div className="w-full">
+        <div className="flex flex-col gap-3 mb-8">
+            <h1 className="text-3xl font-bold">Masuk</h1>
+            <p className="text-sm text-foreground-500">
+                Silakan masuk untuk melanjutkan.
+            </p>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <Input
+                label="Email"
+                type="text"
+                variant="bordered"
+                isInvalid={!!errors.email}
+                errorMessage={errors.email?.message}
+                {...register("email")}
+            />
+
+            <Input
+                label="Kata Sandi"
+                endContent={
+                    <button
+                    aria-label="toggle password visibility"
+                    className="focus:outline-solid outline-transparent"
+                    type="button"
+                    onClick={toggleVisibility}
+                    >
+                    {isVisible ? (
+                        <EyeOff className="text-2xl mb-1 text-default-400 pointer-events-none" />
+                    ) : (
+                        <Eye className="text-2xl mb-1 text-default-400 pointer-events-none" />
+                    )}
+                    </button>
+                }
+                type={isVisible ? "text" : "password"}
+                variant="bordered"
+                isInvalid={!!errors.password}
+                errorMessage={errors.password?.message}
+                {...register("password")}
+            />
+
+            <div className="flex items-center justify-between">
+                <Checkbox {...register("remember")}>Ingat saya</Checkbox>
+                <Link to="/forgot-password" className='text-sm text-primary'>
+                    Lupa kata sandi?
+                </Link>
+            </div>
+
+            <Button
+                type="submit"
+                color="primary"
+                fullWidth
+                isLoading={isSubmitting}
+                className="mt-2"
+            >
+                Masuk
+            </Button>
+        </form>
+    </div>
+  )
+}
+
+export default LoginPage
