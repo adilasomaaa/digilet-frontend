@@ -59,7 +59,9 @@ const StudentReportContainer = ({ reportingStageId }: { reportingStageId?: strin
             reportingStageId: stage?.id || (reportingStageId ? Number(reportingStageId) : undefined),
             officialId: undefined,
             content: '',
-            documentProved: undefined
+            documentProved: undefined,
+            isCustomDate: false,
+            createdAt: undefined
         });
         setIsModalOpen(true);
     };
@@ -70,7 +72,9 @@ const StudentReportContainer = ({ reportingStageId }: { reportingStageId?: strin
             reportingStageId: reportingStageId ? Number(reportingStageId) : undefined,
             officialId: undefined,
             content: '',
-            documentProved: undefined
+            documentProved: undefined,
+            isCustomDate: false,
+            createdAt: undefined
         });
         setIsModalOpen(true);
     }
@@ -88,6 +92,8 @@ const StudentReportContainer = ({ reportingStageId }: { reportingStageId?: strin
                 reportingStageId: viewingItem.reportingStageId,
                 officialId: viewingItem.officialId,
                 content: viewingItem.content,
+                isCustomDate: false,
+                createdAt: undefined
             });
             setIsModalOpen(true);
         }
@@ -103,11 +109,23 @@ const StudentReportContainer = ({ reportingStageId }: { reportingStageId?: strin
 
     const officialOptions = officials.map(o => ({ value: o.id, label: o.name }));
 
+    const isCustomDate = form.watch("isCustomDate");
+
     const formFields: FormFieldConfig[] = [
         { key: "content", label: "Isi Laporan", type: "textarea", isRequired: true, placeholder: "Tuliskan isi laporan anda..." },
         { key: "documentProved", label: "Bukti Dokumen", type: "upload", isRequired: false },
         { key: "officialId", label: "Dosen Pembimbing/Penguji", type: "select", options: officialOptions, isRequired: true, placeholder: "Pilih Dosen" },
+        { key: "isCustomDate", label: "Lupa / terlambat membuat laporan pada hari tertentu?", type: "checkbox" },
     ];
+
+    if (isCustomDate) {
+        formFields.push({
+            key: "createdAt",
+            label: "Tanggal Laporan",
+            type: "date",
+            isRequired: true
+        });
+    }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">

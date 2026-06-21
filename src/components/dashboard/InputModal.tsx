@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem, Textarea, Autocomplete, AutocompleteItem, DatePicker } from '@heroui/react';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem, Textarea, Autocomplete, AutocompleteItem, DatePicker, Checkbox } from '@heroui/react';
 import ImageUploadField from './ImageUploadField'
 import type { UploadFieldProps } from './ImageUploadField';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -295,6 +295,20 @@ const InputModal = ({ isOpen,
                         >
                           Dapatkan Koordinat Saat Ini
                         </Button>
+                      </div>
+                    );
+                  case 'checkbox':
+                    return (
+                      <div key={field.key}>
+                        <Checkbox
+                          isSelected={watch(field.key) || false}
+                          onValueChange={(isSelected) => setValue(field.key, isSelected, { shouldValidate: true })}
+                        >
+                          {field.label}
+                        </Checkbox>
+                        {errors[field.key] && (
+                          <p className="text-tiny text-danger mt-1">{errors[field.key]?.message as string}</p>
+                        )}
                       </div>
                     );
                   default:

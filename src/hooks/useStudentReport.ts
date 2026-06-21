@@ -11,9 +11,11 @@ const studentReportSchema = z.object({
   officialId: z.number(),
   content: z.string().min(1, "Konten laporan tidak boleh kosong"),
   documentProved: z.any().optional(),
+  createdAt: z.any().optional(),
+  isCustomDate: z.boolean().optional(),
 });
 
-export const useStudentReport = (reportingStageId?: string) => {
+export const useStudentReport = (reportingStageId?: string, officialId?: string | number, initialLimit: number = 10) => {
     const [items, setItems] = useState<StudentReport[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,7 +31,7 @@ export const useStudentReport = (reportingStageId?: string) => {
     const [filterValue, setFilterValue] = useState("");
     const [isVerifiedFilter, setIsVerifiedFilter] = useState<boolean | null>(null);
     const [paginationInfo, setPaginationInfo] = useState({
-        page: 1, limit: 10, totalData: 0, totalPages: 1,
+        page: 1, limit: initialLimit, totalData: 0, totalPages: 1,
     });
      const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
         column: "createdAt",
@@ -49,9 +51,10 @@ export const useStudentReport = (reportingStageId?: string) => {
             search: filterValue,
         };
         if (reportingStageId) params.reportingStageId = reportingStageId;
+        if (officialId) params.officialId = officialId;
         if (isVerifiedFilter !== null) params.isVerified = isVerifiedFilter;
         return params;
-    }, [paginationInfo.page, paginationInfo.limit, filterValue, reportingStageId, isVerifiedFilter]);
+    }, [paginationInfo.page, paginationInfo.limit, filterValue, reportingStageId, officialId, isVerifiedFilter]);
 
     const fetchItems = useCallback(async () => {
         setIsLoading(true);
@@ -75,10 +78,20 @@ export const useStudentReport = (reportingStageId?: string) => {
     const onSubmit = async (formData: any) => {
         setIsSubmitting(true);
         try {
-            if (editingItem) {
-                await studentReportService.update(editingItem.id, formData as StudentReportCreatePayload);
+            const payload = { ...formData };
+            if (payload.isCustomDate && payload.createdAt) {
+                if (typeof payload.createdAt.toString === 'function') {
+                    payload.createdAt = payload.createdAt.toString();
+                }
             } else {
-                await studentReportService.create(formData as StudentReportCreatePayload);
+                delete payload.createdAt;
+            }
+            delete payload.isCustomDate;
+
+            if (editingItem) {
+                await studentReportService.update(editingItem.id, payload as StudentReportCreatePayload);
+            } else {
+                await studentReportService.create(payload as StudentReportCreatePayload);
             }
             setIsModalOpen(false);
             fetchItems();

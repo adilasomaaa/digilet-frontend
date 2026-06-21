@@ -55,6 +55,10 @@ interface UploadField extends BaseField {
   previewUrl?: string;
 }
 
+interface CheckboxField extends BaseField {
+  type: "checkbox";
+}
+
 // Gabungkan semua tipe field menjadi satu
 export type FormFieldConfig =
   | TextField
@@ -65,7 +69,8 @@ export type FormFieldConfig =
   | NumberField
   | AutoCompleteField
   | CoordinatePickerField
-  | DateField;
+  | DateField
+  | CheckboxField;
 
 export type DisplayFieldConfig<T> = {
   key: string;

@@ -51,6 +51,7 @@ export const useReportingStage = (reportingPeriodeId?: string, id?: string) => {
   
   
   const fetchItems = useCallback(async () => {
+    if (!reportingPeriodeId) return;
     setIsLoading(true);
     try {
       const response = await reportingStageService.index({
@@ -64,7 +65,7 @@ export const useReportingStage = (reportingPeriodeId?: string, id?: string) => {
     } finally {
       setIsLoading(false);
     }
-  }, [paginationInfo.page, paginationInfo.limit, filterValue]);
+  }, [paginationInfo.page, paginationInfo.limit, filterValue, reportingPeriodeId]);
 
   useEffect(() => {
     const timer = setTimeout(fetchItems, 500);

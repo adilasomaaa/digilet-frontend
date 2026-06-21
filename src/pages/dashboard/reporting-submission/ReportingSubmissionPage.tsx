@@ -16,13 +16,16 @@ const ReportingSubmissionPage = () => {
   }
 
   const targetUser = item?.reportingPeriode?.targetUser;
+  
+  const isLecturer = auth.user?.userRoles?.name === 'lecturer' || !!auth.user?.official;
+  const officialId = isLecturer ? auth.user?.official?.id : undefined;
 
   return (
     <div>
       <h1 className="text-2xl font-semibold mb-6">Daftar Pengajuan Laporan</h1>
       
       {targetUser === 'student' && reportingStageId && (
-          <StudentReportList reportingStageId={reportingStageId} />
+          <StudentReportList reportingStageId={reportingStageId} officialId={officialId} />
       )}
 
       {targetUser === 'lecturer' && reportingStageId && (
